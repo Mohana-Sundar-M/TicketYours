@@ -13,9 +13,7 @@ const App: React.FC = () => {
           </a>
         </div>
       </nav>
-      <div className='p-6 bg-white'>
-      <a href='#' className='text-teal-400 text-xl'>&#x2190; Back</a>
-      </div>
+    
       
       <Login />
     </div>
