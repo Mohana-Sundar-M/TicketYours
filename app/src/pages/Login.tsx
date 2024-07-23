@@ -3,6 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 
 
+
 const Login: React.FC = () => {
   const [mobileNumber, setMobileNumber] = useState('');
   const [otp, setOtp] = useState('');
@@ -19,7 +20,9 @@ const Login: React.FC = () => {
   };
 
   return (
+    
     <div className="flex justify-center items-start min-h-screen bg-gray-100 pt-8">
+      
       <div className="login-box w-[94%] sm:w-[70%] md:w-[50%] lg:w-[40%] rounded-xl mx-auto mt-0 sm:mt-8 mb-10 py-8 px-3 lg:px-8 border-2 border-teal-100 bg-white shadow-lg ">
         <h2 className="text-3xl font-semibold text-center mb-8">Login</h2>
         <form onSubmit={handleLogin}>

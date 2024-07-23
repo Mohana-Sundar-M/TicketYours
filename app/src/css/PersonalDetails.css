@@ -1,0 +1,10 @@
+.personal-details-container {
+    padding: 24px;
+  }
+  
+  @media (max-width: 972px) {
+    .personal-details-container {
+      display: none;
+    }
+  }
+  
