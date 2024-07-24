@@ -17,7 +17,7 @@ const Profile: React.FC = () => {
     <Router>
       <div className="min-w-full">
         <ProfileHead />
-        <div className=" min-h-svh flex md:flex-row bg-gray-100 cu500:px-10 md-px-20 justify-center pt-3 rounded-lg flex-col gap-4 py-4">
+        <div className=" min-h-svh flex md:flex-row bg-gray-100 cu500:px-10 md-px-20 pt-4 pt-3 rounded-lg flex-col gap-4 py-4">
           <SideMenu />
           <div className="w-full h-fit">
             <Routes>

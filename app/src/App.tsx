@@ -1,9 +1,9 @@
 
 import React from 'react';
-import Login from './pages/Login';
-import Nav from './components/login/NavBar';
+/*import Login from './pages/Login';*/
+/*import Nav from './components/login/NavBar';*/
 import Profile from './pages/Profile';
-import Search from './pages/Search'
+/*import Search from './pages/Search'*/
 
 
 const App: React.FC = () => {
@@ -11,7 +11,7 @@ const App: React.FC = () => {
 
     <div className="">
       
-      <Search/>
+     <Profile/>
     </div>
   );
 };
