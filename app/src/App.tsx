@@ -8,6 +8,7 @@ import Search from './pages/Search'
 
 const App: React.FC = () => {
   return (
+
     <div className="">
       
       <Search/>
