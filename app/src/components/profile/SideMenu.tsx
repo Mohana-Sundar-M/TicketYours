@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import '../../css/SideMenu.css'
+// import '../../css/SideMenu.css'
 import {
   FaUser,
   FaTicketAlt,
@@ -23,7 +23,7 @@ const SideMenu: React.FC = () => {
   ];
 
   return (
-    <nav className="side-menu bg-white p-4 shadow-md rounded-lg">
+    <nav className="side-menu bg-white p-4 shadow-md rounded-lg h-fit">
       <ul className="space-y-4">
         {menuItems.map((item) => (
           <li
@@ -32,8 +32,8 @@ const SideMenu: React.FC = () => {
               location.pathname === item.path ? 'bg-teal-100' : ''
             }`}
           >
-            <span className="mr-2">{item.icon}</span>
-            <Link to={item.path}>{item.label}</Link>
+            <Link to={item.path} className="mr-2">{item.icon}</Link>
+            <Link to={item.path} className='text-center w-full'>{item.label}</Link>
           </li>
         ))}
         <li className="flex items-center p-2 bg-gray-200 rounded">

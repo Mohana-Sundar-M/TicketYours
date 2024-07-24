@@ -8,7 +8,7 @@ import Profile from './pages/Profile';
 
 const App: React.FC = () => {
   return (
-    <div className="flex h-screen">
+    <div className=" ">
       
       <Profile/>
     </div>
