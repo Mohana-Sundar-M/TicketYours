@@ -1,3 +1,4 @@
+//Theater Page
 import React from 'react';
 import '../index.css';
 
