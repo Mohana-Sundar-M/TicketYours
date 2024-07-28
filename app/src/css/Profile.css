@@ -48,3 +48,62 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(14px);
 }
+
+
+.highlight {
+  background-color: transparent;
+}
+
+@media (min-width: 768px) {
+  .highlight {
+    background-color: #e0f7fa; /* teal-100 */
+  }
+}
+
+
+.highlight {
+  background-color: transparent;
+}
+
+@media (min-width: 768px) {
+  .highlight {
+    background-color: #e0f7fa; /* teal-100 */
+  }
+}
+
+.side-menu li:hover {
+  background-color: #e0f2f1; /* teal-50 */
+}
+
+
+
+
+.highlight {
+  background-color: transparent;
+}
+
+@media (min-width: 768px) {
+  .highlight {
+    background-color: #e0f7fa; /* teal-100 */
+  }
+}
+
+.side-menu li:hover {
+  background-color: #e0f2f1; /* teal-50 */
+}
+
+@media (max-width: 767px) {
+  .side-menu li {
+    background-color: #f9fafb; /* light gray */
+    padding: 10px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow */
+    border-radius: 8px;
+  }
+
+  .side-menu li:last-child {
+    background-color: transparent; /* No background for the logout option */
+    box-shadow: none;
+    margin-bottom: 0;
+  }
+}

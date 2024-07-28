@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useState } from 'react';
+import Nav from '../components/login/NavBar';
 
 
 
@@ -20,6 +21,8 @@ const Login: React.FC = () => {
   };
 
   return (
+    <div>
+      <Nav/>
     
     <div className="flex justify-center items-start min-h-screen bg-gray-100 pt-8">
       
@@ -77,6 +80,7 @@ const Login: React.FC = () => {
           </button>
         </form>
       </div>
+    </div>
     </div>
   );
 };

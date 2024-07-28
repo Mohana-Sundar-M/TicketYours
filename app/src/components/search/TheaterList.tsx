@@ -1,13 +1,15 @@
 import React from 'react';
-import { dummyData } from '../../data/dummyData';
-import { TheaterCard } from './TheaterCard';
+import TheaterCard from './TheaterCard';
+import { theaters } from '../../data/dummyData'; // Adjust the path as necessary Dummy Data
 
-export const TheaterList: React.FC = () => {
+const TheaterList: React.FC = () => {
   return (
-    <div className="container mx-auto p-6">
-      {dummyData.map(theater => (
+    <div className="container mx-auto p-4">
+      {theaters.map(theater => (
         <TheaterCard key={theater.id} theater={theater} />
       ))}
     </div>
   );
 };
+
+export default TheaterList;

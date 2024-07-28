@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../css/PersonalDetails.css'; // Import the CSS file
+import '../../css/PersonalDetails.css'; 
 
 const PersonalDetails: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -7,6 +7,7 @@ const PersonalDetails: React.FC = () => {
     FullName: 'Mohana Sundar',
     Email: 'mohanasundar717@gmail.com',
     Phone: '9150201369',
+    DateOfBirth: '1990-01-01', 
   });
 
   const handleEditDetails = () => {
@@ -44,15 +45,27 @@ const PersonalDetails: React.FC = () => {
             <div key={key} className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
               <span className="font-semibold sm:w-1/3">{key.split(/(?=[A-Z])/).join(' ')}</span>
               {isEditing ? (
-                <input
-                  type="text"
-                  name={key}
-                  value={value}
-                  onChange={handleChange}
-                  className="border rounded p-1 sm:w-2/3 mt-2 sm:mt-0"
-                />
+                key === 'DateOfBirth' ? (
+                  <input
+                    type="date"
+                    name={key}
+                    value={value}
+                    onChange={handleChange}
+                    className="border rounded p-1 sm:w-2/3 mt-2 sm:mt-0"
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    name={key}
+                    value={value as string}
+                    onChange={handleChange}
+                    className="border rounded p-1 sm:w-2/3 mt-2 sm:mt-0"
+                  />
+                )
               ) : (
-                <span className="sm:w-2/3 mt-2 sm:mt-0">{value}</span>
+                <span className="sm:w-2/3 mt-2 sm:mt-0">
+                  {key === 'DateOfBirth' ? new Date(value).toLocaleDateString() : value}
+                </span>
               )}
             </div>
           ))}

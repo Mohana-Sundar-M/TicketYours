@@ -1,0 +1,128 @@
+/* To control the TheaterCard.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.theater-card {
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.desktop-view img {
+    width: 100%;
+    height: auto;
+}
+
+.theater-info {
+    padding: 10px;
+}
+
+.theater-name {
+    font-size: 24px;
+    margin: 0;
+}
+
+.theater-address, .theater-distance {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.directions {
+    display: block;
+    margin: 10px 0;
+    color: blue;
+    text-decoration: underline;
+}
+
+.now-showing {
+    padding: 10px;
+}
+
+.now-showing h3 {
+    margin: 0 0 10px 0;
+}
+
+.movie-list {
+    display: flex;
+    overflow-x: auto;
+}
+
+.movie-list img {
+    width: 100px;
+    height: 150px;
+    margin-right: 10px;
+}
+
+.mobile-view {
+    display: none;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.mobile-view img {
+    width: 100%;
+    height: auto;
+}
+
+.theater-name-overlay {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.theater-info-dropdown {
+    padding: 0; /* Remove padding */
+    background-color: #f8f8f8; /* To match the dropdown shade as per your example */
+}
+
+.dropdown-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-content {
+    padding: 0; /* Remove padding */
+    border-top: 1px solid #ccc;
+}
+
+.dropdown-content p, .dropdown-content a {
+    margin: 0; /* Remove margin */
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .desktop-view {
+        display: none;
+    }
+
+    .mobile-view {
+        display: block;
+    }
+}
+
+.now-showing.compact {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+.now-showing.compact img {
+    width: 40px;
+    height: 60px;
+    margin-right: 5px;
+}

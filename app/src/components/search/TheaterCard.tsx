@@ -1,66 +1,66 @@
-import React, { useRef } from 'react';
-import { Theater } from '../../data/dummyData';
-import { MovieCard } from './MovieCard';
+import React, { useState } from 'react';
+import { Theater } from '../../types';
+import NowShowing from './NowShowing';
+import { FaMapMarkerAlt, FaDirections } from 'react-icons/fa';
 
 interface TheaterCardProps {
   theater: Theater;
 }
 
-export const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
 
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -150, behavior: 'smooth' });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 150, behavior: 'smooth' });
-    }
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
   };
 
   return (
-    <div className="flex border rounded-xl shadow-md mb-6 mx-auto p-4" style={{ width: '95%', height: '170px' }}>
-      <img src={theater.image} alt={theater.name} className="w-1/6 rounded-lg object-cover" style={{ height: '100%' }} />
-      <div className="flex-grow ml-4 flex flex-col justify-between">
-        <div>
-          <h2 className="text-lg font-semibold">{theater.name}</h2>
-          <p className="text-xs text-gray-600 mt-1">{theater.address}</p>
-          <p className="text-xs text-gray-600 mt-1">{theater.distance}</p>
+    <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-4 w-full mx-auto">
+      <div className="relative w-full md:w-1/3">
+        <img src={theater.image} alt={theater.name} className="object-cover w-full h-32 md:h-full" />
+        <div className="absolute bottom-0 w-full bg-black bg-opacity-50 text-white text-center py-2 text-lg font-bold md:hidden">
+          {theater.name}
         </div>
       </div>
-      <div className="w-2/5 ml-4 flex flex-col justify-between">
-        <div className="flex justify-between items-center">
-          <span className="text-sm font-semibold">Now Showing</span>
-          <div className="relative">
-            <button
-              onClick={scrollLeft}
-              className="absolute left-0 p-1 rounded-full bg-gray-200 hover:bg-gray-300 z-10"
-              style={{ top: '50%', transform: 'translateY(-50%)' }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M5.47 9.53a.75.75 0 011.06 0l4 4a.75.75 0 11-1.06 1.06l-4-4a.75.75 0 010-1.06z" clipRule="evenodd" />
-              </svg>
+      <div className="flex flex-col justify-between p-4 w-full md:w-2/3">
+        <div className="flex flex-col md:flex-row justify-between">
+          <div className="hidden md:block">
+            <h2 className="text-lg font-bold">{theater.name}</h2>
+            <p className="text-gray-600 mt-2 text-xs">{theater.address}</p>
+            <div className="flex items-center mt-2 pt-7">
+              <FaMapMarkerAlt className="text-gray-600 h-4 w-4 mr-1" />
+              <p className="text-gray-600 text-xs">{theater.distance} km away</p>
+            </div>
+            <button className="flex items-center text-blue-500 hover:text-blue-700 mt-2 text-xs pt-2">
+              <FaDirections className="h-4 w-4 mr-1" />
+              Directions
             </button>
-            <button
-              onClick={scrollRight}
-              className="absolute right-0 p-1 rounded-full bg-gray-200 hover:bg-gray-300 z-10"
-              style={{ top: '50%', transform: 'translateY(-50%)' }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 14a.75.75 0 01-.53-1.28l3.47-3.47-3.47-3.47a.75.75 0 111.06-1.06l4 4a.75.75 0 010 1.06l-4 4a.75.75 0 01-.53.22z" clipRule="evenodd" />
+          </div>
+          <div className="hidden md:block mt-4 md:mt-0 md:ml-4 w-full md:w-1/2">
+            <NowShowing movies={theater.movies} />
+          </div>
+        </div>
+        <div className="block md:hidden">
+          <div className="flex items-center justify-between">
+            <p className="flex items-center text-gray-600 text-xs">
+              <FaMapMarkerAlt className="h-4 w-4 mr-1" />
+              {theater.distance} km away
+            </p>
+            <button className="flex items-center text-gray-600 text-xs" onClick={toggleDropdown}>
+              <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mr-1 transform ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
           </div>
-        </div>
-        <div className="flex overflow-x-auto space-x-2 pb-1" ref={scrollRef} style={{ height: '100px' }}>
-          {theater.movies.map(movie => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
+          {isDropdownOpen && (
+            <div className="mt-2 p-0 bg-gray-100 rounded-lg h-32 overflow-hidden">
+              <NowShowing movies={theater.movies} compact />
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
+
+export default TheaterCard;

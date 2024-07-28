@@ -1,8 +1,9 @@
 import React from 'react';
+import '../index.css';
+
 import Header from '../components/search/Header';
 import SearchBar from '../components/search/SearchBar';
-import { TheaterList } from '../components/search/TheaterList';
-
+import TheaterList from '../components/search/TheaterList'; 
 
 const App: React.FC = () => {
   return (

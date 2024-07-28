@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-// import '../../css/SideMenu.css'
+import { useLocation } from 'react-router-dom';
 import {
   FaUser,
   FaTicketAlt,
@@ -10,7 +9,11 @@ import {
   FaCommentDots,
 } from 'react-icons/fa';
 
-const SideMenu: React.FC = () => {
+interface SideMenuProps {
+  onMenuClick: (path: string) => void;
+}
+
+const SideMenu: React.FC<SideMenuProps> = ({ onMenuClick }) => {
   const location = useLocation();
 
   const menuItems = [
@@ -28,12 +31,13 @@ const SideMenu: React.FC = () => {
         {menuItems.map((item) => (
           <li
             key={item.path}
-            className={`flex items-center p-2 rounded ${
-              location.pathname === item.path ? 'bg-teal-100' : ''
-            }`}
+            className={`flex items-center p-2 rounded cursor-pointer ${
+              location.pathname === item.path ? 'highlight md:bg-teal-100' : ''
+            } hover:bg-teal-50`}
+            onClick={() => onMenuClick(item.path)}
           >
-            <Link to={item.path} className="mr-2">{item.icon}</Link>
-            <Link to={item.path} className='text-center w-full'>{item.label}</Link>
+            <span className="mr-2">{item.icon}</span>
+            <span className='text-center w-full'>{item.label}</span>
           </li>
         ))}
         <li className="flex items-center p-2 bg-gray-200 rounded">
@@ -46,7 +50,7 @@ const SideMenu: React.FC = () => {
             </label>
           </div>
         </li>
-        <li className="p-2 text-red-600">
+        <li className="p-2 text-red-600 border-none">
           <a href='#'>
             <span className='underline'>Logout</span>
           </a>
