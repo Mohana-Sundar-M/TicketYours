@@ -1,24 +1,23 @@
-
 import React from 'react';
 import { Box, AppBar, Toolbar, IconButton } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Import the back arrow icon
 import logo from '../../assets/logo.png';
 
-const Nav: React.FC = () => {
+const NavBar: React.FC = () => {
   return (
-    <Box>
+    <Box sx={{borderBottomWidth:1}}>
       <AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 3 }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Box component="a" href="/" sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <IconButton edge="start" color="inherit" aria-label="back">
+            <ArrowBackIcon sx={{ fontSize: 32, color: 'black' }} />
+          </IconButton>
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
             <Box component="img" src={logo} alt="TY Logo" sx={{ height: 48, width: 'auto' }} />
           </Box>
-          <IconButton edge="end" color="inherit" aria-label="menu">
-            <MenuIcon sx={{ fontSize: 32, color: 'black' }} />
-          </IconButton>
         </Toolbar>
       </AppBar>
     </Box>
   );
 };
 
-export default Nav;
+export default NavBar;

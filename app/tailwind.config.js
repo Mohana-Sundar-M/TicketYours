@@ -51,6 +51,15 @@ export default {
       aspectRatio: {
         "4/3": "4 / 3",
       },
+      borderRadius: {
+        ticket: '12px',
+      },
+      borderWidth: {
+        '1.5': '1.5px',
+      },
+      scrollbar: {
+        hide: 'overflow: hidden;'
+      },
     },
   },
   plugins: [],

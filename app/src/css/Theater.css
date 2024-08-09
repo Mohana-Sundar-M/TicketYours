@@ -1,0 +1,137 @@
+/* TheaterDetail.css */
+
+.theater-detail {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .header {
+    background-color: #e0f7f9;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .theater-image {
+    flex: 2;
+    text-align: center;
+  }
+  
+  .theater-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .gallery {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .gallery img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .see-all {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .see-all img {
+    width: 50px;
+    margin-right: 10px;
+  }
+  
+  .theater-info {
+    flex: 1;
+    text-align: left;
+    margin-top: 20px;
+  }
+  
+  .theater-info h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+  
+  .theater-info p {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .get-direction {
+    color: #00796b;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .date-navigation {
+    margin-top: 20px;
+    /* Implement your date navigation styling here */
+  }
+  
+  /* MovieList.css */
+  
+  .movie-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .movie-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .movie-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .movie-card h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .timings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .timing-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .timing-group h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .time-button {
+    background-color: #00796b;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  
+  .time-button:hover {
+    background-color: #005a4f;
+  }
+  

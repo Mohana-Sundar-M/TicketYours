@@ -1,87 +1,139 @@
-
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Box, Typography, TextField, Button } from '@mui/material';
 import Nav from '../components/login/NavBar';
-
-
 
 const Login: React.FC = () => {
   const [mobileNumber, setMobileNumber] = useState('');
   const [otp, setOtp] = useState('');
 
   const handleGetOtp = () => {
-    // Your OTP handling logic
     console.log('Get OTP for', mobileNumber);
   };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Your login handling logic
     console.log('Login with', mobileNumber, otp);
   };
 
   return (
-    <div>
-      <Nav/>
-    
-    <div className="flex justify-center items-start min-h-screen bg-gray-100 pt-8">
-      
-      <div className="login-box w-[94%] sm:w-[70%] md:w-[50%] lg:w-[40%] rounded-xl mx-auto mt-0 sm:mt-8 mb-10 py-8 px-3 lg:px-8 border-2 border-teal-100 bg-white shadow-lg ">
-        <h2 className="text-3xl font-semibold text-center mb-8">Login</h2>
-        <form onSubmit={handleLogin}>
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-2" htmlFor="mobileNumber">
-              Mobile Number
-            </label>
-            <div className="relative">
-              <input
-                id="mobileNumber"
-                type="text"
-                value={mobileNumber}
-                onChange={(e) => setMobileNumber(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-200"
-              />
-              <button
-                type="button"
-                onClick={handleGetOtp}
-                disabled={mobileNumber.length !== 10}
-                className={`absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 ${
-                  mobileNumber.length === 10
-                    ? 'bg-teal-400 text-white hover:bg-teal-500'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                }`}
-              >
-                Get OTP
-              </button>
-            </div>
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-2" htmlFor="otp">
-              Enter OTP
-            </label>
-            <input
-              id="otp"
-              type="text"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-200"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={mobileNumber.length !== 10 || otp === ''}
-            className={`w-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 ${
-              mobileNumber.length === 10 && otp !== ''
-                ? 'bg-teal-400 text-white hover:bg-teal-500'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            }`}
-          >
+    <Box>
+      <Nav />
+      <Box display="flex" justifyContent="center" alignItems="flex-start" minHeight="100vh" bgcolor="gray.100" pt={4}>
+        <Box
+          sx={{
+            width: { xs: '94%', sm: '70%', md: '50%', lg: '40%' },
+            borderRadius: 2,
+            mt: { xs: 4, sm: 6 },
+            mb: 6,
+            py: 4,
+            px: { xs: 2, lg: 6 },
+            border: '2px solid #B2DFDB',
+            backgroundColor: 'white',
+            boxShadow: 3,
+          }}
+        >
+          <Typography variant="h4" align="center" mb={4} fontWeight="fontWeightBold">
             Login
-          </button>
-        </form>
-      </div>
-    </div>
-    </div>
+          </Typography>
+          <form onSubmit={handleLogin}>
+            <Box mb={2}>
+              <Typography component="label" color="textPrimary" mb={0} display="block" htmlFor="mobileNumber">
+                Mobile Number
+              </Typography>
+              <Box position="relative">
+                <TextField
+                  id="mobileNumber"
+                  type="text"
+                  value={mobileNumber}
+                  onChange={(e) => setMobileNumber(e.target.value)}
+                  fullWidth
+                  variant="outlined"
+                  margin="normal"
+                  
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      height: 40,
+                    },
+                  }}
+                />
+                <Button
+                  onClick={handleGetOtp}
+                  disabled={mobileNumber.length !== 10}
+                  sx={{
+                    position: 'absolute',
+                    right: 8,
+                    top: '56%',
+                    transform: 'translateY(-50%)',
+                    padding: '4px 8px', // Reduced padding
+                    borderRadius: 2,
+                    textTransform: 'none',
+                    ...(mobileNumber.length === 10
+                      ? {
+                          bgcolor: '#26a69a',
+                          color: 'white',
+                          '&:hover': { bgcolor: '#1e857b' },
+                        }
+                      : {
+                          bgcolor: '#e0e0e0',
+                          color: '#9e9e9e',
+                          cursor: 'not-allowed',
+                        }),
+                  }}
+                >
+                  Get OTP
+                </Button>
+              </Box>
+            </Box>
+            <Box mb={4}>
+              <Typography component="label" color="textPrimary" mb={0} display="block" htmlFor="otp">
+                Enter OTP
+              </Typography>
+              <TextField
+                id="otp"
+                type="text"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 2,
+                    height: 40,
+                  },
+                 
+                }}
+              />
+            </Box>
+            <Button
+              type="submit"
+              disabled={mobileNumber.length !== 10 || otp === ''}
+              fullWidth
+              sx={{
+                padding: '8px 12px', // Reduced padding
+                borderRadius: 1,
+                textTransform: 'none',
+                ...(mobileNumber.length === 10 && otp !== ''
+                  ? {
+                      bgcolor: '#26a69a',
+                      color: 'white',
+                      '&:hover': { bgcolor: '#1e857b' },
+                    }
+                  : {
+                      bgcolor: '#e0e0e0',
+                      color: '#9e9e9e',
+                      cursor: 'not-allowed',
+                    }),
+              }}
+            >
+              Login
+            </Button>
+          </form>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

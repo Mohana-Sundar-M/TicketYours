@@ -14,3 +14,57 @@
     scrollbar-width: none;  /* Firefox */
   }
   
+  .ticket-border-left::before,
+.ticket-border-right::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.ticket-border-left {
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+}
+
+.ticket-border-right {
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+}
+
+.ticket-border-left::before,
+.ticket-border-right::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 20px;
+  background: white;
+  border-radius: 0 50% 50% 0;
+}
+
+.ticket-border-left::before {
+  left: -10px;
+}
+
+.ticket-border-right::before {
+  right: -10px;
+}
