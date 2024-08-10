@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import '../../css/PersonalDetails.css'; 
+import '../../css/PersonalDetails.css'; // Import custom styles
 
 const PersonalDetails: React.FC = () => {
+  // State to manage whether the form is in editing mode
   const [isEditing, setIsEditing] = useState(false);
+
+  // State to manage form data
   const [formData, setFormData] = useState({
     FullName: 'Mohana Sundar',
     Email: 'mohanasundar717@gmail.com',
@@ -10,15 +13,18 @@ const PersonalDetails: React.FC = () => {
     DateOfBirth: '1990-01-01', 
   });
 
+  // Function to enter editing mode
   const handleEditDetails = () => {
     setIsEditing(true);
   };
 
+  // Function to save changes and exit editing mode
   const handleSaveDetails = () => {
     setIsEditing(false);
     // Here, you would typically also save the data to a server
   };
 
+  // Function to handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -43,7 +49,9 @@ const PersonalDetails: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-rows-3 gap-4">
           {Object.entries(formData).map(([key, value]) => (
             <div key={key} className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+              {/* Display label */}
               <span className="font-semibold sm:w-1/3">{key.split(/(?=[A-Z])/).join(' ')}</span>
+              {/* Display input or text based on editing mode */}
               {isEditing ? (
                 key === 'DateOfBirth' ? (
                   <input

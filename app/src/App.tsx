@@ -1,28 +1,14 @@
-//Here you can Place Any Component and See that How It looks 
 import React from 'react';
-import Login from './pages/Login';
-
-import Profile from './pages/Profile';
-import Search from './pages/TheaterSearch'
-
-import Theater from './pages/Theater';
-
-import TheaterSearch from './pages/TheaterSearch';
-import Movie from './pages/Movie';
-import PaymentPage from './pages/PaymentPage';
-import ContactPage from './pages/ContactPage';
-import MoviesPage from './pages/MoviesPage';
-
-
+import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from './routes'; // Import your routes configuration
 
 const App: React.FC = () => {
- 
   return (
-
-    <div className="">
-      
-     <Movie />
-    </div>
+    <BrowserRouter>
+      <div className=""> {/* Optional: Add a background color and ensure full height */}
+        <AppRoutes /> {/* Render the routes defined in your AppRoutes component */}
+      </div>
+    </BrowserRouter>
   );
 };
 

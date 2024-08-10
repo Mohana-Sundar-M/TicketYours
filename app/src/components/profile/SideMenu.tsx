@@ -10,12 +10,13 @@ import {
 } from 'react-icons/fa';
 
 interface SideMenuProps {
-  onMenuClick: (path: string) => void;
+  onMenuClick: (path: string) => void; // Function to handle menu item clicks
 }
 
 const SideMenu: React.FC<SideMenuProps> = ({ onMenuClick }) => {
-  const location = useLocation();
+  const location = useLocation(); // Hook to get the current route location
 
+  // Array of menu items with paths, labels, and icons
   const menuItems = [
     { path: '/', label: 'Personal Details', icon: <FaUser /> },
     { path: '/bookings', label: 'My Bookings', icon: <FaTicketAlt /> },

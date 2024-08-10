@@ -1,4 +1,4 @@
-import { Theater } from '../types';
+import { Theater } from './types';
 
 export const theaters: Theater[] = [
   // Your existing dummy data here
@@ -26,7 +26,7 @@ export const theaters: Theater[] = [
         duration: '2h 25m',
         image: 'https://originserver-static1-uat.pvrcinemas.com/pvrcms/movie_v/29978_GonitFQZ.jpg',
         timings: {
-          Tamil: ['11:40 AM', '12:00 PM', '01:00 PM', '02:50 PM', '03:40 PM', '06:50 PM'],
+          Tamil: ['11:40 AM', '12:00 PM'],
           Telugu: ['11:40 AM', '12:00 PM', '01:00 PM']
         },
       },
@@ -39,7 +39,7 @@ export const theaters: Theater[] = [
         duration: '2h 45m',
         image: 'https://originserver-static1-uat.pvrcinemas.com/pvrcms/movie_v/28547_Z3BL5IlB.jpg',
         timings: {
-          Tamil: ['10:00 AM', '11:45 AM', '02:30 PM', '03:15 PM', '04:30 PM', '05:50 PM'],
+          Tamil: ['10:00 AM', '11:45 AM', '02:30 PM', '03:15 PM'],
           Telugu: ['10:00 AM', '11:45 AM']
         },
       },
@@ -65,9 +65,9 @@ export const theaters: Theater[] = [
     distance: 16.5,
     images: [
       "https://originserver-static1-uat.pvrcinemas.com/pvrcms/cinema_v/232_rOczXQli.jpg",
-      "https://example.com/image2.jpg",
-      "https://example.com/image3.jpg",
-      "https://example.com/image4.jpg"
+      "https://originserver-static1-uat.pvrcinemas.com/pvrcms/cinema_v/232_rOczXQli.jpg",
+      "https://originserver-static1-uat.pvrcinemas.com/pvrcms/cinema_v/232_rOczXQli.jpg",
+      "https://originserver-static1-uat.pvrcinemas.com/pvrcms/cinema_v/232_rOczXQli.jpg"
     ],
     directionsLink: "https://maps.google.com/?q=INOX+The+Marina+Mall+OMR+Chennai",
     movies: [
@@ -80,8 +80,8 @@ export const theaters: Theater[] = [
         duration: '2h 25m',
         image: 'https://originserver-static1-uat.pvrcinemas.com/pvrcms/movie_v/29978_GonitFQZ.jpg',
         timings: {
-          Tamil: ['11:40 AM', '12:00 PM', '01:00 PM', '02:50 PM', '03:40 PM', '04:10 PM', '06:00 PM', '06:20 PM'],
-          Telugu: []
+          Tamil: ['11:40 AM', '12:00 PM', '01:00 PM', '02:50 PM'],
+         
         },
       },
       {
@@ -93,8 +93,8 @@ export const theaters: Theater[] = [
         duration: '2h 45m',
         image: 'https://originserver-static1-uat.pvrcinemas.com/pvrcms/movie_v/28547_Z3BL5IlB.jpg',
         timings: {
-          Tamil: ['10:00 AM', '11:45 AM', '02:30 PM', '03:15 PM', '04:30 PM'],
-          Telugu: []
+          Tamil: ['10:00 AM', '11:45 AM'],
+          
         },
       },
     ],

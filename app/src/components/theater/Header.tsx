@@ -1,28 +1,35 @@
 import React, { useState } from 'react';
 
+// Define the props that the Header component will accept
 interface HeaderProps {
-  name: string;
-  images: string[];
-  address: string;
-  directionsLink: string;
+  name: string;             // Name of the theater
+  images: string[];         // Array of image URLs
+  address: string;          // Address of the theater
+  directionsLink: string;   // URL for directions to the theater
 }
 
 const Header: React.FC<HeaderProps> = ({ name, images, address, directionsLink }) => {
+  // State to toggle the display of all images in a modal
   const [showAllImages, setShowAllImages] = useState(false);
+  // State to manage the currently displayed image in a popup
   const [popupImage, setPopupImage] = useState<string | null>(null);
 
   return (
     <div className="bg-teal-100 bg-opacity-30 p-4 md:p-8 rounded-lg shadow-lg">
+      {/* Container for the header section */}
       <div className="flex flex-col md:flex-row">
+        {/* Main image */}
         <div className="flex-shrink-0">
           <img
             src={images[0]}
             alt={name}
             className="w-full md:w-96 h-48 md:h-64 object-cover rounded-lg cursor-pointer"
-            onClick={() => setPopupImage(images[0])}
+            onClick={() => setPopupImage(images[0])} // Open the main image in a popup on click
           />
         </div>
+        {/* Additional images */}
         <div className="flex flex-col mt-4 md:mt-0 md:ml-6 space-y-2">
+          {/* Images displayed in larger view (desktop) */}
           <div className="hidden md:flex flex-col space-y-2">
             {images.slice(1, 3).map((image, index) => (
               <div className="relative" key={index}>
@@ -30,11 +37,12 @@ const Header: React.FC<HeaderProps> = ({ name, images, address, directionsLink }
                   src={image}
                   alt={`Theater image ${index + 1}`}
                   className="w-32 h-32 object-cover rounded-lg cursor-pointer"
-                  onClick={() => setPopupImage(image)}
+                  onClick={() => setPopupImage(image)} // Open the clicked image in a popup on click
                 />
+                {/* Show "See all" button if there are more than 3 images */}
                 {index === 1 && images.length > 3 && (
                   <button
-                    onClick={() => setShowAllImages(!showAllImages)}
+                    onClick={() => setShowAllImages(!showAllImages)} // Toggle the modal to show all images
                     className="absolute inset-0 bg-gray-800 bg-opacity-50 text-white text-sm flex items-center justify-center rounded-lg"
                   >
                     See all
@@ -43,6 +51,7 @@ const Header: React.FC<HeaderProps> = ({ name, images, address, directionsLink }
               </div>
             ))}
           </div>
+          {/* Images displayed in smaller view (mobile) */}
           <div className="flex flex-row md:hidden space-x-2">
             {images.slice(1, 3).map((image, index) => (
               <div className="relative" key={index}>
@@ -50,11 +59,12 @@ const Header: React.FC<HeaderProps> = ({ name, images, address, directionsLink }
                   src={image}
                   alt={`Theater image ${index + 1}`}
                   className="w-24 h-24 object-cover rounded-lg cursor-pointer"
-                  onClick={() => setPopupImage(image)}
+                  onClick={() => setPopupImage(image)} // Open the clicked image in a popup on click
                 />
+                {/* Show "See all" button if there are more than 3 images */}
                 {index === 1 && images.length > 3 && (
                   <button
-                    onClick={() => setShowAllImages(!showAllImages)}
+                    onClick={() => setShowAllImages(!showAllImages)} // Toggle the modal to show all images
                     className="absolute inset-0 bg-gray-800 bg-opacity-50 text-white text-sm flex items-center justify-center rounded-lg"
                   >
                     See all
@@ -65,8 +75,11 @@ const Header: React.FC<HeaderProps> = ({ name, images, address, directionsLink }
           </div>
         </div>
       </div>
+      {/* Theater name */}
       <h2 className="text-lg md:text-xl font-semibold mt-4">{name}</h2>
+      {/* Theater address */}
       <p className="text-sm md:text-base text-gray-600">{address}</p>
+      {/* Link to get directions */}
       <a
         href={directionsLink}
         target="_blank"
@@ -88,11 +101,12 @@ const Header: React.FC<HeaderProps> = ({ name, images, address, directionsLink }
         Get direction
       </a>
 
+      {/* Modal for showing all images */}
       {showAllImages && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="relative bg-white p-4 rounded-lg max-w-screen-lg w-full">
             <button
-              onClick={() => setShowAllImages(false)}
+              onClick={() => setShowAllImages(false)} // Close the modal
               className="absolute top-2 right-2 text-black p-1 rounded-full bg-white shadow-lg"
             >
               <svg
@@ -115,7 +129,7 @@ const Header: React.FC<HeaderProps> = ({ name, images, address, directionsLink }
                   src={image}
                   alt={`Additional image ${index + 1}`}
                   className="w-full h-32 object-cover rounded-lg cursor-pointer"
-                  onClick={() => setPopupImage(image)}
+                  onClick={() => setPopupImage(image)} // Open the clicked image in a popup on click
                 />
               ))}
             </div>
@@ -123,11 +137,12 @@ const Header: React.FC<HeaderProps> = ({ name, images, address, directionsLink }
         </div>
       )}
 
+      {/* Modal for displaying a single image */}
       {popupImage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="relative bg-white p-4 rounded-lg">
             <button
-              onClick={() => setPopupImage(null)}
+              onClick={() => setPopupImage(null)} // Close the popup
               className="absolute top-2 right-2 text-black p-1 rounded-full bg-white shadow-lg"
             >
               <svg

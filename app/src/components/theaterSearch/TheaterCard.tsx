@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
-import { Theater } from '../../types';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { Theater } from '../../data/types';
 import NowShowing from './NowShowing';
 import { FaMapMarkerAlt, FaDirections } from 'react-icons/fa';
 
 interface TheaterCardProps {
-  theater: Theater;
+  theater: Theater; // Prop type for the theater data
 }
 
 const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isDropdownOpen, setDropdownOpen] = useState(false); // State to manage dropdown visibility
+  const navigate = useNavigate(); // Hook to programmatically navigate
 
+  // Toggle the dropdown open/close state
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
+  // Navigate to the theater details page on card click
+  const handleCardClick = () => {
+    navigate(`/theater/${theater.id}`);
+  };
+
   return (
-    <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-4 w-full mx-auto">
+    <div
+      className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-4 w-full mx-auto cursor-pointer"
+      onClick={handleCardClick} // Navigate to theater details on click
+    >
       <div className="relative w-full md:w-1/3">
         <img src={theater.image} alt={theater.name} className="object-cover w-full h-32 md:h-full" />
         <div className="absolute bottom-0 w-full bg-black bg-opacity-50 text-white text-center py-2 text-lg font-bold md:hidden">
@@ -37,7 +48,7 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
             </button>
           </div>
           <div className="hidden md:block mt-4 md:mt-0 md:ml-4 w-full md:w-1/2">
-            <NowShowing movies={theater.movies} />
+            <NowShowing movies={theater.movies} /> {/* Show Now Showing component on desktop */}
           </div>
         </div>
         <div className="block md:hidden">
@@ -54,7 +65,7 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
           </div>
           {isDropdownOpen && (
             <div className="mt-2 p-0 bg-gray-100 rounded-lg h-32 overflow-hidden">
-              <NowShowing movies={theater.movies} compact />
+              <NowShowing movies={theater.movies} compact /> {/* Compact view of Now Showing on mobile */}
             </div>
           )}
         </div>

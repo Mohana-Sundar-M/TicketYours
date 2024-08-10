@@ -1,21 +1,25 @@
 import React from 'react';
 
+// Define the props that the TimingCard component will accept
 interface TimingCardProps {
-  timings: string[];
-  language: string;
+  timings: string[];  // Array of timings available for the specified language
+  language: string;   // Language of the movie showings
 }
 
 const TimingCard: React.FC<TimingCardProps> = ({ timings, language }) => {
   return (
     <div className="mb-4">
+      {/* Display the language heading */}
       <h3 className="text-sm font-bold uppercase mb-2">{language}</h3>
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
+      
+      {/* Display timings in a responsive grid */}
+      <div className="grid grid-cols-2 gap-2 md:grid-cols-5 md:gap-4">
         {timings.map((time, index) => (
           <button
-            key={index}
-            className="p-1 sm:p-2 bg-gray-100 border-2 text-green-500 font-bold rounded-lg text-center text-xs sm:text-sm hover:bg-gray-200 transition-colors duration-200 h-8 sm:h-10"
+            key={index}  // Unique key for each button to help React track changes
+            className="px-2 py-1 bg-gray-100 rounded-full text-green-600 text-xs font-medium hover:bg-gray-200 transition-colors duration-200 md:px-3 md:py-2 md:text-sm"
           >
-            {time}
+            {time}  {/* Display the time */}
           </button>
         ))}
       </div>

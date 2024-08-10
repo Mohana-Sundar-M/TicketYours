@@ -1,23 +1,25 @@
-export interface Showtime {
-    time: string;
-  }
+export interface Movie {
+  id: number;
+  title: string;
+  language:string;
+  genre:string;
+  rating:string;
+  duration:string;
+  image: string;
+  timings: {
+    [language: string]: string[];
+  };
   
-  export interface Theater {
-    name: string;
-    address: string;
-    distance: string;
-    showtimes: string[];
-  }
-  
-  export interface Movie {
-    id: number;
-    title: string;
-    duration: string;
-    releaseDate: string;
-    genre: string;
-    language: string;
-    image: string;
-    theaters: Theater[];
-    
-  }
-  
+}
+
+
+export interface Theater {
+  id: number;
+  name: string;
+  address: string;
+  image: string;
+  distance: number;
+  images: string[];
+  directionsLink:string;
+  movies: Movie[];
+}

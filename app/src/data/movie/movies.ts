@@ -27,7 +27,7 @@ export const movies = [
     },
     {
       id: 2,
-      title: 'RAAYAN',
+      title: 'Darbar',
       duration: '2h 25m',
       releaseDate: 'Friday, Jul 26, 2024',
       genre: 'Action',

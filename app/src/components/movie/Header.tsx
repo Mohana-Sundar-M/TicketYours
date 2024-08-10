@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { FiHeart, FiMapPin, FiPlay, FiX, FiThumbsUp } from 'react-icons/fi';
+import { FiHeart, FiMapPin, FiPlay, FiX, FiThumbsUp } from 'react-icons/fi'; // Import icons for like, location, play, close, and thumbs up
 import { FaHeart } from 'react-icons/fa'; // Import filled heart icon
-import YouTube from 'react-youtube';
-import { Theater } from '../../data/types';
+import YouTube from 'react-youtube'; // Import YouTube component for embedded video
+import { Theater } from '../../data/movie/types'; // Import Theater type for movie props
 
+// Define the props interface for the Header component
 interface HeaderProps {
   movie: {
     id: number;
@@ -16,22 +17,37 @@ interface HeaderProps {
   };
 }
 
+// Header component for displaying movie details, a video thumbnail, and filters
 const Header: React.FC<HeaderProps> = ({ movie }) => {
+  // State to manage modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // State to manage whether the movie is liked
   const [isLiked, setIsLiked] = useState(false);
 
+  // Toggle modal open state
   const openModal = () => setIsModalOpen(true);
+  
+  // Toggle modal close state
   const closeModal = () => setIsModalOpen(false);
+  
+  // Toggle like state
   const toggleLike = () => setIsLiked(!isLiked);
 
+  // Hardcoded like percentage for demo
   const likePercentage = 88;
-  const videoId = 'qQJJWhh-XRo'; // Replace with your actual YouTube video ID
+  
+  // Hardcoded YouTube video ID for demo
+  const videoId = 'qQJJWhh-XRo';
+  
+  // Options for location dropdown
   const locationOptions = ['Chennai', 'Bangalore'];
 
   return (
     <div className="w-full bg-white text-gray-900 p-4 flex flex-col justify-between items-center space-y-6 md:space-y-0">
       {/* Desktop Layout */}
       <div className="hidden md:flex w-full justify-between items-center space-y-6 md:space-y-0">
+        {/* Movie details section */}
         <div className="flex flex-col w-full md:w-1/2 space-y-2 md:ml-12">
           <h1 className="text-4xl font-bold">{movie.title}</h1>
           <div className="text-gray-700 mt-1">
@@ -40,6 +56,8 @@ const Header: React.FC<HeaderProps> = ({ movie }) => {
             <span className="block">{movie.language}</span>
           </div>
         </div>
+
+        {/* Video thumbnail section */}
         <div className="flex flex-col w-full md:w-1/2 space-y-4 items-center">
           <div className="relative w-full md:h-48 flex justify-center items-center">
             <button
@@ -64,11 +82,13 @@ const Header: React.FC<HeaderProps> = ({ movie }) => {
         <div className="flex flex-col w-full md:w-1/2 space-y-2 md:ml-12"></div>
         <div className="flex flex-col w-full md:w-1/2 space-y-4 items-center">
           <div className="flex items-center space-x-8 mt-2"> {/* Adjusted spacing */}
+            {/* Like percentage */}
             <div className="flex items-center">
               <FaHeart className="text-red-500" /> {/* Filled heart icon */}
               <span className='pl-2'>{likePercentage}%</span>
             </div>
             <div className="flex items-center space-x-4">
+              {/* Like button */}
               <button
                 onClick={toggleLike}
                 className="flex items-center space-x-1 p-2 bg-gray-100 rounded text-gray-500"
@@ -76,6 +96,7 @@ const Header: React.FC<HeaderProps> = ({ movie }) => {
                 <FiThumbsUp className={isLiked ? 'text-red-500' : ''} />
                 <span>Like</span>
               </button>
+              {/* Location dropdown */}
               <div className="relative flex items-center">
                 <FiMapPin className="absolute left-3 text-gray-500" />
                 <select className="pl-10 pr-4 py-2 bg-gray-100 rounded text-gray-700">
@@ -110,6 +131,7 @@ const Header: React.FC<HeaderProps> = ({ movie }) => {
         </div>
       </div>
 
+      {/* Modal for playing the video */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
           <div className="relative w-full max-w-4xl max-h-[90vh] bg-white p-4 rounded-lg flex flex-col">
@@ -126,7 +148,7 @@ const Header: React.FC<HeaderProps> = ({ movie }) => {
                   height: '100%',
                   width: '100%',
                   playerVars: {
-                    autoplay: 1,
+                    autoplay: 1, // Automatically play the video
                   },
                 }}
                 className="absolute inset-0"

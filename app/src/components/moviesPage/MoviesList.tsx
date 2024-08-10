@@ -1,5 +1,7 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
+// Define the Movie type
 type Movie = {
   title: string;
   rating: number;
@@ -8,34 +10,48 @@ type Movie = {
   genre: string;
   format: string[];
   image: string;
+  id: string; // Add an ID field for unique identification
 };
 
+// Define the properties for the MoviesList component
 type MoviesListProps = {
   movies: Movie[];
   onMovieClick: (movie: Movie) => void;
 };
 
+// Functional component for displaying a list of movies with filtering options
 const MoviesList: React.FC<MoviesListProps> = ({ movies, onMovieClick }) => {
+  const navigate = useNavigate();
   const [selectedLanguages, setSelectedLanguages] = React.useState<string[]>([]);
 
+  // Define available languages for filtering
   const languages = ['Hindi', 'English', 'Gujarati', 'Korean', 'Marathi', 'Tamil', 'Telugu', 'Kannada', 'Malayalam'];
 
+  // Toggle the selected language filter
   const handleLanguageClick = (language: string) => {
     setSelectedLanguages(prev => 
       prev.includes(language) 
-        ? prev.filter(item => item !== language) 
-        : [...prev, language]
+        ? prev.filter(item => item !== language) // Remove language if already selected
+        : [...prev, language] // Add language if not selected
     );
   };
 
+  // Filter movies based on selected languages
   const filteredMovies = movies.filter(movie => 
     selectedLanguages.length === 0 || movie.languages.some(lang => selectedLanguages.includes(lang))
   );
+
+  // Handle movie click event
+  const handleMovieClick = (movie: Movie) => {
+    navigate(`/movie/${movie.id}`); // Navigate to the movie route with the movie ID
+    onMovieClick(movie); // Optionally call the onMovieClick prop
+  };
 
   return (
     <div className="p-4 md:ml-32">
       <h2 className="text-2xl font-bold mb-4">Movies in Mumbai</h2>
       
+      {/* Language filter buttons */}
       <div className="overflow-x-auto scrollbar-hide mb-4">
         <div className="flex flex-nowrap gap-2">
           {languages.map(lang => (
@@ -50,12 +66,13 @@ const MoviesList: React.FC<MoviesListProps> = ({ movies, onMovieClick }) => {
         </div>
       </div>
 
+      {/* Movie grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        {filteredMovies.map((movie, index) => (
+        {filteredMovies.map(movie => (
           <div
-            key={index}
+            key={movie.id}
             className="bg-white p-2 rounded-lg shadow-md cursor-pointer"
-            onClick={() => onMovieClick(movie)}
+            onClick={() => handleMovieClick(movie)}
           >
             <div className="relative">
               <img src={movie.image} alt={movie.title} className="w-full h-32 md:h-48 object-cover rounded-t-lg" />
