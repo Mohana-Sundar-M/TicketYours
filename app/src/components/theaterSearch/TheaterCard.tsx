@@ -17,26 +17,43 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  // Navigate to the theater details page on card click
-  const handleCardClick = () => {
+  // Navigate to the theater details page
+  const handleNavigate = () => {
     navigate(`/theater/${theater.id}`);
+  };
+
+  // Prevent navigation when clicking inside non-clickable areas
+  const handlePreventClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent propagation to the parent div
   };
 
   return (
     <div
-      className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-4 w-full mx-auto cursor-pointer"
-      onClick={handleCardClick} // Navigate to theater details on click
+      className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-4 w-full mx-auto"
     >
       <div className="relative w-full md:w-1/3">
-        <img src={theater.image} alt={theater.name} className="object-cover w-full h-32 md:h-full" />
-        <div className="absolute bottom-0 w-full bg-black bg-opacity-50 text-white text-center py-2 text-lg font-bold md:hidden">
+        <img 
+          src={theater.image} 
+          alt={theater.name} 
+          className="object-cover w-full h-32 md:h-full cursor-pointer"
+          onClick={handleNavigate} // Navigate when clicking the image
+        />
+        <div 
+          className="absolute bottom-0 w-full bg-black bg-opacity-50 text-white text-center py-2 text-lg font-bold md:hidden cursor-pointer"
+          onClick={handleNavigate} // Navigate when clicking the overlay
+        >
           {theater.name}
         </div>
       </div>
       <div className="flex flex-col justify-between p-4 w-full md:w-2/3">
         <div className="flex flex-col md:flex-row justify-between">
           <div className="hidden md:block">
-            <h2 className="text-lg font-bold">{theater.name}</h2>
+            <h2 
+              className="text-lg font-bold cursor-pointer"
+              onClick={handleNavigate} // Navigate when clicking the theater name
+            >
+              {theater.name}
+            </h2>
             <p className="text-gray-600 mt-2 text-xs">{theater.address}</p>
             <div className="flex items-center mt-2 pt-7">
               <FaMapMarkerAlt className="text-gray-600 h-4 w-4 mr-1" />
