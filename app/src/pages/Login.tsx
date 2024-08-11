@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, TextField, Button } from '@mui/material';
 import Nav from '../components/public/NavBar';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 /**
  * Login component allows users to enter their mobile number, request an OTP, and log in with the OTP.
@@ -10,6 +11,8 @@ const Login: React.FC = () => {
   // State to manage the mobile number and OTP input values
   const [mobileNumber, setMobileNumber] = useState<string>('');
   const [otp, setOtp] = useState<string>('');
+
+  const navigate = useNavigate(); // Initialize navigate
 
   /**
    * Handles the click event for the 'Get OTP' button.
@@ -27,6 +30,7 @@ const Login: React.FC = () => {
   const handleLogin = (e: React.FormEvent): void => {
     e.preventDefault();
     console.log('Login with', mobileNumber, otp);
+    navigate('/'); // Navigate to the home route upon successful login
   };
 
   return (
@@ -71,11 +75,18 @@ const Login: React.FC = () => {
                   fullWidth
                   variant="outlined"
                   margin="normal"
-                  
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       borderRadius: 2,
                       height: 40,
+                    },
+                    '& .MuiOutlinedInput-root.Mui-focused': {
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#26a69a', // Light teal color for focused border
+                      },
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#26a69a', // Light teal color for focused label
                     },
                   }}
                 />
@@ -121,11 +132,18 @@ const Login: React.FC = () => {
                 fullWidth
                 variant="outlined"
                 margin="normal"
-                
                 sx={{
                   '& .MuiOutlinedInput-root': {
                     borderRadius: 2,
                     height: 40,
+                  },
+                  '& .MuiOutlinedInput-root.Mui-focused': {
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#26a69a', // Light teal color for focused border
+                    },
+                  },
+                  '& .MuiInputLabel-root.Mui-focused': {
+                    color: '#26a69a', // Light teal color for focused label
                   },
                 }}
               />

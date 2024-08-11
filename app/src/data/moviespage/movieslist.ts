@@ -2,6 +2,7 @@ import { Movie } from './types';
 
 export const moviesData: Movie[] = [
   {
+    id:'1',
     title: "Deadpool & Wolverine",
     rating: 8.7,
     votes: "102.7K Votes",
@@ -11,6 +12,7 @@ export const moviesData: Movie[] = [
     image: "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:l-image,i-discovery-catalog@@icons@@star-icon-202203010609.png,lx-24,ly-615,w-29,l-end:l-text,ie-OC43LzEwICAxMDIuN0sgVm90ZXM%3D,fs-29,co-FFFFFF,ly-612,lx-70,pa-8_0_0_0,l-end/et00341295-cnmtpruetp-portrait.jpg",
   },
   {
+    id:'2',
     title: "Auron Mein Kahan Dum Tha",
     rating: 6.4,
     votes: "5.7K Votes",
@@ -20,6 +22,7 @@ export const moviesData: Movie[] = [
     image: "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:l-image,i-discovery-catalog@@icons@@star-icon-202203010609.png,lx-24,ly-615,w-29,l-end:l-text,ie-Ni40LzEwICA1LjdLIFZvdGVz,fs-29,co-FFFFFF,ly-612,lx-70,pa-8_0_0_0,l-end/et00378240-eulgpbpedp-portrait.jpg",
   },
   {
+    id:'3',
     title: "Ulajh",
     rating: 7.2,
     votes: "25.3K Votes",
@@ -29,6 +32,7 @@ export const moviesData: Movie[] = [
     image: "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:l-image,i-discovery-catalog@@icons@@star-icon-202203010609.png,lx-24,ly-615,w-29,l-end:l-text,ie-Ny4yLzEwICAyNS4zSyBWb3Rlcw%3D%3D,fs-29,co-FFFFFF,ly-612,lx-70,pa-8_0_0_0,l-end/et00359267-uzkqteebqx-portrait.jpg",
   },
   {
+    id:'4',
     title: "Gharat Ganpati",
     rating: 2.9,
     votes: "3.6K Votes",
@@ -38,6 +42,7 @@ export const moviesData: Movie[] = [
     image: "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:l-image,i-discovery-catalog@@icons@@star-icon-202203010609.png,lx-24,ly-615,w-29,l-end:l-text,ie-OS4yLzEwICAzLjZLIFZvdGVz,fs-29,co-FFFFFF,ly-612,lx-70,pa-8_0_0_0,l-end/et00399543-dapxjkmqsa-portrait.jpg",
   },
   {
+    id:'5',
     title: "Bad Newz",
     rating: 6.2,
     votes: "62.9K Votes",
@@ -47,6 +52,7 @@ export const moviesData: Movie[] = [
     image: "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:l-image,i-discovery-catalog@@icons@@star-icon-202203010609.png,lx-24,ly-615,w-29,l-end:l-text,ie-Ni4yLzEwICA2M0sgVm90ZXM%3D,fs-29,co-FFFFFF,ly-612,lx-70,pa-8_0_0_0,l-end/et00391805-avuuxnlqzz-portrait.jpg",
   },
   {
+    id:'6',
     title: "Kalki 2898 AD",
     rating: 8.6,
     votes: "711.2K Votes",
@@ -56,6 +62,7 @@ export const moviesData: Movie[] = [
     image: "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:l-image,i-discovery-catalog@@icons@@star-icon-202203010609.png,lx-24,ly-615,w-29,l-end:l-text,ie-OC42LzEwICA3MTEuMksgVm90ZXM%3D,fs-29,co-FFFFFF,ly-612,lx-70,pa-8_0_0_0,l-end/et00352941-pzsgmunagx-portrait.jpg",
   },
   {
+    id:'7',
     title: "Babu",
     rating: 7.8,
     votes: "1.1K Votes",
@@ -65,6 +72,7 @@ export const moviesData: Movie[] = [
     image: "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:l-image,i-discovery-catalog@@icons@@star-icon-202203010609.png,lx-24,ly-615,w-29,l-end:l-text,ie-Ny44LzEwICAxLjFLIFZvdGVz,fs-29,co-FFFFFF,ly-612,lx-70,pa-8_0_0_0,l-end/et00309726-lxjpjwljew-portrait.jpg",
   },
   {
+    id:'8',
     title: "Raayan",
     rating: 8.2,
     votes: "74.9K Votes",

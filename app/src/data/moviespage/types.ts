@@ -1,5 +1,5 @@
 
-export interface Movie {
+export interface  Movie {
   id: string; // Add the ID field
   title: string;
   rating: number;
