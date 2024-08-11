@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FiHeart, FiMapPin, FiPlay, FiX, FiThumbsUp } from 'react-icons/fi'; // Import icons for like, location, play, close, and thumbs up
+import {  FiMapPin, FiPlay, FiX, FiThumbsUp } from 'react-icons/fi'; // Import icons for like, location, play, close, and thumbs up
 import { FaHeart } from 'react-icons/fa'; // Import filled heart icon
 import YouTube from 'react-youtube'; // Import YouTube component for embedded video
 import { Theater } from '../../data/movie/types'; // Import Theater type for movie props

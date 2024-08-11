@@ -67,9 +67,16 @@ const DateNavigation: React.FC = () => {
   };
 
   // Update slider value state
-  const handleSliderChange = (value: [number, number]) => {
-    setSliderValue(value);
-  };
+  // Adjust the function to accept either a number or a number array
+const handleSliderChange = (value: number | number[]) => {
+  if (Array.isArray(value)) {
+    // Handle the case where value is an array of two numbers
+    setSliderValue([value[0], value[1]]);
+  } else {
+    // Handle the case where value is a single number
+    setSliderValue([value, value]); // Example adjustment; modify as needed
+  }
+};
 
   // Format time in 12-hour format with AM/PM
   const formatTime = (hour: number) => {
@@ -86,10 +93,8 @@ const DateNavigation: React.FC = () => {
     return `${formatTime(start)} - ${formatTime(end)}`;
   };
 
-  // Handle click on option inside Showtime popup to close it
-  const handleOptionClick = () => {
-    setIsShowtimeOpen(false);
-  };
+  
+ 
 
   return (
     <div className="date-navigation-and-filters flex flex-col md:flex-row bg-gray-100 p-4 rounded w-full mt-6 md:mt-0">

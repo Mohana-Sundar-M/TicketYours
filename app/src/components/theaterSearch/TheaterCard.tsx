@@ -22,10 +22,8 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
     navigate(`/theater/${theater.id}`);
   };
 
-  // Prevent navigation when clicking inside non-clickable areas
-  const handlePreventClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent propagation to the parent div
-  };
+  
+ 
 
   return (
     <div
