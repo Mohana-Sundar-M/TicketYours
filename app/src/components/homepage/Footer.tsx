@@ -1,67 +1,77 @@
-import React from 'react';  // Importing React library for creating the component
-import { Box, Typography, Grid, IconButton, Link } from '@mui/material';  // Importing MUI components for layout, text, and icons
-import InstagramIcon from '@mui/icons-material/Instagram';  // Importing Instagram icon
-import TwitterIcon from '@mui/icons-material/Twitter';  // Importing Twitter icon
-import FacebookIcon from '@mui/icons-material/Facebook';  // Importing Facebook icon
+import Typography from "@mui/material/Typography";
+import CopyrightIcon from "@mui/icons-material/Copyright";
+import Box from "@mui/material/Box";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import XIcon from "@mui/icons-material/X";
 
-const Footer: React.FC = () => {
+const Footer = () => {
   return (
-    <Box
-      sx={{
-        backgroundColor: '#C5E4E7', // Light teal background color for the footer
-        color: '#000', // Black text color for contrast
-        padding: '20px', // Padding around the content inside the footer
-        marginTop: '30px', // Margin at the top of the footer
-      }}
-    >
-      <Grid container justifyContent="space-around" alignItems="center">
-        {/* About section */}
-        <Grid item xs={12} md={4} textAlign={{ xs: 'center', md: 'left' }}>
-          <Typography variant="h6" sx={{ marginBottom: '8px', fontWeight: 'bold' }}>
-            About
+    <Box className="bg-[#beede4] text-gray-800 p-8 sm:p-12">
+      <Box className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-8 sm:gap-16">
+        <Box className="flex flex-col gap-2">
+          <Typography variant="h6" className="text-[#61c4a9] font-bold">
+            About Us
           </Typography>
-          <Link href="#" color="inherit" underline="hover" display="block">
-            Terms and conditions
-          </Link>
-          <Link href="#" color="inherit" underline="hover" display="block">
-            Privacy policy
-          </Link>
-          <Link href="#" color="inherit" underline="hover" display="block">
-            Purchase policy
-          </Link>
-        </Grid>
-
-        {/* Follow section with social media icons */}
-        <Grid item xs={12} md={4} textAlign="center" sx={{ mt: { xs: '20px', md: '0' } }}>
-          <Typography variant="h6" sx={{ marginBottom: '8px', fontWeight: 'bold' }}>
-            Follow
+          <Typography
+            variant="body2"
+            className="hover:text-[#61c4a9] cursor-pointer"
+          >
+            Terms And Conditions
           </Typography>
-          <IconButton color="inherit" aria-label="instagram" href="#" target="_blank">
-            <InstagramIcon sx={{ fontSize: '40px' }} />  {/* Instagram icon */}
-          </IconButton>
-          <IconButton color="inherit" aria-label="twitter" href="#" target="_blank">
-            <TwitterIcon sx={{ fontSize: '40px' }} />  {/* Twitter icon */}
-          </IconButton>
-          <IconButton color="inherit" aria-label="facebook" href="#" target="_blank">
-            <FacebookIcon sx={{ fontSize: '40px' }} />  {/* Facebook icon */}
-          </IconButton>
-        </Grid>
-
-        {/* Contact us section */}
-        <Grid item xs={12} md={4} textAlign={{ xs: 'center', md: 'right' }} sx={{ mt: { xs: '20px', md: '0' } }}>
-          <Typography variant="h6" sx={{ marginBottom: '8px', fontWeight: 'bold' }}>
-            Contact us
+          <Typography
+            variant="body2"
+            className="hover:text-[#61c4a9] cursor-pointer"
+          >
+            Privacy Policy
           </Typography>
-          <Typography variant="body2">Email id</Typography>  {/* Placeholder for email id */}
-          <Typography variant="body2">Contact number</Typography>  {/* Placeholder for contact number */}
-        </Grid>
-      </Grid>
-      {/* Copyright notice */}
-      <Box sx={{ textAlign: 'center', marginTop: '20px', fontSize: '14px' }}>
-        &copy; All rights are received
+          <Typography
+            variant="body2"
+            className="hover:text-[#61c4a9] cursor-pointer"
+          >
+            Purchase Policy
+          </Typography>
+        </Box>
+        <Box className="flex flex-col gap-2">
+          <Typography variant="h6" className="text-[#61c4a9] font-bold">
+            Follow Us
+          </Typography>
+          <Box className="flex items-center gap-4">
+            <InstagramIcon
+              fontSize="large"
+              className="cursor-pointer hover:text-[#61c4a9]"
+            />
+            <FacebookIcon
+              fontSize="large"
+              className="cursor-pointer hover:text-[#61c4a9]"
+            />
+            <XIcon
+              fontSize="large"
+              className="cursor-pointer hover:text-[#61c4a9]"
+            />
+          </Box>
+        </Box>
+        <Box className="flex flex-col gap-2">
+          <Typography variant="h6" className="text-[#61c4a9] font-bold">
+            Contact Us
+          </Typography>
+          <Typography variant="body2">
+            Email: support@movietickets.com
+          </Typography>
+          <Typography variant="body2">Phone: +123 456 7890</Typography>
+        </Box>
+      </Box>
+      <Box className="mt-8 text-center border-t border-gray-400 pt-4">
+        <Typography
+          variant="body2"
+          className="flex justify-center items-center gap-1"
+        >
+          <CopyrightIcon fontSize="small" />
+          2024 MovieTickets. All rights reserved.
+        </Typography>
       </Box>
     </Box>
   );
 };
 
-export default Footer;  // Exporting Footer component for use in other parts of the application
+export default Footer;

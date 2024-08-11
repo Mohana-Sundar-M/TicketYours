@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';  // Import React for component creation
-import { Box, Typography, Button } from '@mui/material';  // Import MUI components for layout and styling
+import { Box, Typography, Button, Grid } from '@mui/material';  // Import MUI components for layout and styling
 import MovieCard from './MovieCard';  // Import the MovieCard component for displaying individual movie cards
 import { moviesData } from '../../data/moviespage/movieslist';  // Import movie data from your dataset
 import { useNavigate } from 'react-router-dom';  // Import useNavigate hook for routing
@@ -40,8 +40,8 @@ const MoviesList: React.FC = () => {
   };
 
   return (
-    <Box sx={{ padding: '16px' }}>  {/* Container for the movie list with padding */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+    <Box sx={{ padding: '16px'  }}>  {/* Container for the movie list with padding */}
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
         <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
           Movies In Bengaluru  {/* Section title */}
         </Typography>
@@ -54,71 +54,99 @@ const MoviesList: React.FC = () => {
           <ArrowRightIcon sx={{ marginRight: '8px' }} />  {/* Arrow icon for visual cue */}
         </Button>
       </Box>
-      <Box sx={{ position: 'relative' }}>
+
+      {/* Mobile view - grid layout */}
+      <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+        <Grid container spacing={2}>
+          {moviesData.map((movie, index) => (
+            <Grid item xs={6} key={index}> {/* Display two items per row on mobile view */}
+              <MovieCard
+                movie={movie}  // Pass movie data to MovieCard
+                onClick={() => handleMovieClick(movie.id)}  // Pass click handler to MovieCard
+                sx={{ cursor: 'pointer', width: '100%' }}  // Optional: Custom style for cursor
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+
+      {/* Desktop view - horizontal scrolling */}
+      <Box
+        sx={{
+          position: 'relative',
+          display: { xs: 'none', sm: 'flex' },
+          
+          padding: '0 16px',
+          gap: '24px',  // Increased gap between cards
+          '&::-webkit-scrollbar': { display: 'none' },  // Hide scrollbar
+        }}
+      >
         <Box
           ref={scrollContainerRef}
           sx={{
             display: 'flex',
-            overflowX: 'auto',
-            gap: '32px',  // Increased gap between movie cards
-            padding: { xs: '0', md: '0 16px' },  // Add padding for desktop view
-            '&::-webkit-scrollbar': { display: 'none' },  // Hide scrollbar for aesthetics
+            overflowX: 'hidden',
+            gap: '24px',  // Increased gap between cards
+            flexWrap: 'nowrap',  // Ensure no wrapping
           }}
-          className="flex gap-4 overflow-x-auto p-4"
         >
           {moviesData.map((movie, index) => (
             <MovieCard
               key={index}
               movie={movie}  // Pass movie data to MovieCard
               onClick={() => handleMovieClick(movie.id)}  // Pass click handler to MovieCard
-              sx={{ cursor: 'pointer' }}  // Optional: Custom style for cursor
+              sx={{ cursor: 'pointer', flex: '0 0 auto', width: '200px' }}  // Increased card width
             />
           ))}
         </Box>
-        <Button
-          onClick={() => scroll('left')}  // Scroll left on click
+        {/* Centered navigation buttons */}
+        <Box
           sx={{
             position: 'absolute',
-            left: '0',
             top: '50%',
-            transform: 'translateY(-50%)',
-            zIndex: 1,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Semi-transparent background for visibility
-            color: 'white',  // Text color
-            borderRadius: '50%',
-            width: '40px',  // Size of button
-            height: '40px',  // Size of button
-            minWidth: '40px',
+            left: '50%',
+            transform: 'translateX(-50%)',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' },  // Darker background on hover
+            justifyContent: 'space-between',
+            width: '100%',
+            px: 2,
           }}
         >
-          &lt;  {/* Left arrow for scrolling */}
-        </Button>
-        <Button
-          onClick={() => scroll('right')}  // Scroll right on click
-          sx={{
-            position: 'absolute',
-            right: '0',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            zIndex: 1,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Semi-transparent background for visibility
-            color: 'white',  // Text color
-            borderRadius: '50%',
-            width: '40px',  // Size of button
-            height: '40px',  // Size of button
-            minWidth: '40px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' },  // Darker background on hover
-          }}
-        >
-          &gt;  {/* Right arrow for scrolling */}
-        </Button>
+          <Button
+            onClick={() => scroll('left')}  // Scroll left on click
+            sx={{
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Semi-transparent background for visibility
+              color: 'white',  // Text color
+              borderRadius: '50%',
+              width: '40px',  // Size of button
+              height: '40px',  // Size of button
+              minWidth: '40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' },  // Darker background on hover
+            }}
+          >
+            &lt;  {/* Left arrow for scrolling */}
+          </Button>
+          <Button
+            onClick={() => scroll('right')}  // Scroll right on click
+            sx={{
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Semi-transparent background for visibility
+              color: 'white',  // Text color
+              borderRadius: '50%',
+              width: '40px',  // Size of button
+              height: '40px',  // Size of button
+              minWidth: '40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' },  // Darker background on hover
+            }}
+          >
+            &gt;  {/* Right arrow for scrolling */}
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

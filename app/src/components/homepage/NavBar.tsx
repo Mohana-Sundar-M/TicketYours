@@ -1,29 +1,27 @@
-import React, { useState } from 'react';  // Import React for component functionality
-import { Box, AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Button, Modal, useMediaQuery, useTheme } from '@mui/material';  // Import MUI components for layout and styling
-import MenuIcon from '@mui/icons-material/Menu';  // Import menu icon for drawer toggle
-import HomeIcon from '@mui/icons-material/Home';  // Import icons for menu items
+import React, { useState } from 'react';
+import { Box, AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Button, Modal, useMediaQuery, useTheme, InputBase, Paper } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
 import MovieIcon from '@mui/icons-material/Movie';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';  // Import ChevronRight icon for menu items
-import CloseIcon from '@mui/icons-material/Close';  // Import close icon for drawer
-import LocationOnIcon from '@mui/icons-material/LocationOn';  // Import location icon
-import logo from '../../assets/logo.png';  // Import logo image
-import { useNavigate } from 'react-router-dom';  // Import useNavigate hook for routing
-import LocationChanger from './LocationChanger';  // Import LocationChanger component
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import CloseIcon from '@mui/icons-material/Close';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import SearchIcon from '@mui/icons-material/Search';
+import logo from '../../assets/logo.png';
+import { useNavigate } from 'react-router-dom';
+import LocationChanger from './LocationChanger';
 
 const NavBar: React.FC = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);  // State for drawer open/close
-  const [isLocationChangerOpen, setIsLocationChangerOpen] = useState(false);  // State for location changer modal open/close
-  const [selectedLocation, setSelectedLocation] = useState('Bengaluru');  // State for selected location
-  const navigate = useNavigate();  // Hook for navigation
-  const theme = useTheme();  // Hook for theme
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));  // Check if screen size is small
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isLocationChangerOpen, setIsLocationChangerOpen] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState('Bengaluru');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  /**
-   * Toggle drawer open/close based on user action.
-   * @param open - Boolean indicating whether to open or close the drawer.
-   */
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (event.type === 'keydown' && ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')) {
       return;
@@ -31,26 +29,15 @@ const NavBar: React.FC = () => {
     setIsDrawerOpen(open);
   };
 
-  /**
-   * Navigate to a specific path and close the drawer.
-   * @param path - The path to navigate to.
-   */
   const handleNavigation = (path: string) => {
     navigate(path);
     setIsDrawerOpen(false);
   };
 
-  /**
-   * Open the location changer modal.
-   */
   const handleLocationClick = () => {
     setIsLocationChangerOpen(true);
   };
 
-  /**
-   * Handle the location selection or modal close.
-   * @param location - Selected location or empty string to close.
-   */
   const handleLocationClose = (location: string) => {
     if (location) {
       setSelectedLocation(location);
@@ -58,14 +45,18 @@ const NavBar: React.FC = () => {
     setIsLocationChangerOpen(false);
   };
 
-  /**
-   * Navigate to the login page.
-   */
   const handleSignInClick = () => {
     navigate('/login');
   };
 
-  // Menu items for the drawer
+  const handleSearchClick = () => {
+    setSearchOpen(true);
+  };
+
+  const handleSearchClose = () => {
+    setSearchOpen(false);
+  };
+
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'Movies', icon: <MovieIcon />, path: '/movies' },
@@ -75,50 +66,165 @@ const NavBar: React.FC = () => {
 
   return (
     <Box>
-      <AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 3 }}>
-        <Toolbar sx={{ justifyContent: 'space-between', padding: isSmallScreen ? '8px 16px' : '8px 24px' }}>
+      <AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 3, height: '80px', position: 'relative' }}>
+        <Toolbar sx={{ 
+          justifyContent: 'space-between', 
+          padding: isSmallScreen ? '8px 16px' : '8px 24px',
+          display: 'flex', 
+          alignItems: 'center',
+          flexWrap: 'nowrap' // Prevent wrapping of items
+        }}>
           <Box component="a" href="/" sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
             <Box component="img" src={logo} alt="TY Logo" sx={{ height: 48, width: 'auto' }} />
           </Box>
+
+          {!searchOpen && !isSmallScreen && (
+            <Paper
+              component="form"
+              sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                width: '720px', // Increased width of the search bar
+                borderRadius: '24px', 
+                border: '2px solid #ddd', 
+                boxShadow: 'none',
+                height: '55px',
+                ml: 2 // Margin left for spacing
+              }}
+            >
+              <InputBase
+                placeholder="Search for movies and theaters"
+                startAdornment={<SearchIcon sx={{ mx: 1 }} />}
+                sx={{ 
+                  flexGrow: 1, 
+                  ml: 1, 
+                  py: 2, // Increased padding for height
+                  px: 2, 
+                  fontSize: '20px' // Increased font size
+                }}
+              />
+            </Paper>
+          )}
+
+          {isSmallScreen && !searchOpen && (
+            <IconButton onClick={handleSearchClick} sx={{ color: 'black', marginLeft: 'auto', marginRight: 2 }}>
+              <SearchIcon />
+            </IconButton>
+          )}
+
+          {searchOpen && (
+            <Paper
+              component="form"
+              sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                width: '100%', 
+                maxWidth: '720px', // Increased width of the search bar when open
+                borderRadius: '15px', 
+                border: '1px solid #ddd', 
+                boxShadow: 'none',
+                height: '44px',
+                ml: 2 // Margin left for spacing
+              }}
+            >
+              <InputBase
+                placeholder="Search..."
+                startAdornment={<SearchIcon sx={{ mx: 1 }} />}
+                autoFocus
+                sx={{ 
+                  flexGrow: 1, 
+                  ml: 1, 
+                  py: 2, // Increased padding for height
+                  px: 2, 
+                  fontSize: '16px' // Increased font size
+                }}
+              />
+              <IconButton onClick={handleSearchClose} sx={{ color: 'black' }}>
+                <CloseIcon />
+              </IconButton>
+            </Paper>
+          )}
+
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button
-              startIcon={<LocationOnIcon />}
-              onClick={handleLocationClick}
-              sx={{ 
-                color: 'black', 
-                textTransform: 'none', 
-                marginRight: isSmallScreen ? '8px' : '32px',
-                padding: isSmallScreen ? '8px' : '12px 24px',
-                fontSize: isSmallScreen ? '14px' : '16px',
-              }}
-            >
-              {selectedLocation}
-            </Button>
-            <Button
-              variant="contained"
-              onClick={handleSignInClick}
-              sx={{ 
-                backgroundColor: 'aquamarine', 
-                color: 'black', 
-                textTransform: 'none', 
-                marginRight: isSmallScreen ? '8px' : '24px',
-                padding: isSmallScreen ? '8px' : '12px 24px',
-                fontSize: isSmallScreen ? '14px' : '16px',
-                '&:hover': {
-                  backgroundColor: 'darkcyan',
-                }
-              }}
-            >
-              Sign In
-            </Button>
+            {!isSmallScreen && (
+              <Button
+                startIcon={<LocationOnIcon />}
+                onClick={handleLocationClick}
+                sx={{ 
+                  color: 'black', 
+                  textTransform: 'none', 
+                  marginRight: '32px',
+                  padding: '12px 24px',
+                  fontSize: '16px',
+                  border: 'none', // Remove border
+                  background: 'none', // Remove background
+                  
+                  '&:hover': {
+                    backgroundColor: 'transparent', // Ensure hover background is transparent
+                  }
+                }}
+              >
+                {selectedLocation}
+              </Button>
+            )}
+            {!isSmallScreen && (
+              <Button
+                variant="contained"
+                onClick={handleSignInClick}
+                sx={{ 
+                  backgroundColor: '#48cfae', 
+                  color: 'white', 
+                  textTransform: 'none', 
+                  marginRight: '24px',
+                  padding: '12px 24px',
+                  fontSize: '16px',
+                  '&:hover': {
+                    backgroundColor: 'darkcyan',
+                  }
+                }}
+              >
+                Sign In
+              </Button>
+            )}
             <IconButton edge="end" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
               <MenuIcon sx={{ fontSize: 32, color: 'black' }} />
             </IconButton>
           </Box>
         </Toolbar>
+
+        {isSmallScreen && (
+          <Box sx={{ 
+            position: 'absolute', 
+            top: '8px', 
+            left: '0', // Place the button on the left side
+            display: 'flex', 
+            alignItems: 'center',
+            marginTop:'2.4rem',
+            marginLeft:'0.9rem',
+            zIndex: 1200 
+          }}>
+            <Button
+              endIcon={<ChevronRightIcon />} // Right arrow icon
+              onClick={handleLocationClick}
+              sx={{
+                color: 'teal', // Text color
+                textTransform: 'none',
+                padding: '4px 8px',
+                fontSize: '14px',
+                border: 'none', // Remove border
+                background: 'none', // Remove background
+
+                '&:hover': {
+                  backgroundColor: 'transparent', // Ensure hover background is transparent
+                }
+              }}
+            >
+              {selectedLocation}
+            </Button>
+          </Box>
+        )}
       </AppBar>
 
-      {/* Drawer for menu items */}
       <Drawer
         anchor="right"
         open={isDrawerOpen}
@@ -160,20 +266,21 @@ const NavBar: React.FC = () => {
         </Box>
       </Drawer>
 
-      {/* LocationChanger Modal */}
       <Modal
         open={isLocationChangerOpen}
-        onClose={() => handleLocationClose('')}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+        onClose={() => setIsLocationChangerOpen(false)}
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          width: '100vw', 
+          height: '100vh' 
         }}
       >
-        <LocationChanger onSelectLocation={handleLocationClose} onClose={() => setIsLocationChangerOpen(false)} />
+        <LocationChanger onSelectLocation={handleLocationClose} onClose={()=>{setIsLocationChangerOpen(false);}} />
       </Modal>
     </Box>
   );
 };
 
-export default NavBar;  // Exporting NavBar component for use in other parts of the application
+export default NavBar;

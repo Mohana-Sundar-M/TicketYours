@@ -13,7 +13,7 @@ interface MovieCardProps {
 const MovieCard: React.FC<MovieCardProps> = ({ movie, sx, onClick }) => {
   return (
     <div
-      className={`relative flex-none w-[100px] sm:w-[130px] md:w-[150px] lg:w-[180px] m-1 ${sx}`}  // Adjusted widths and applied sx class
+      className={`relative flex-none ${sx}`}  // Apply sx class
       style={sx as React.CSSProperties}  // Apply styles from sx prop
       onClick={onClick}  // Attach click handler
     >
@@ -23,8 +23,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, sx, onClick }) => {
         className="rounded-lg shadow-md w-full h-auto object-cover"  // Styling for image
       />
       <div className="mt-1">  {/* Container for text with reduced margin-top */}
-        <h3 className="text-xs md:text-sm font-semibold truncate">{movie.title}</h3>  {/* Title with responsive font size */}
-        <p className="text-[10px] text-gray-500 truncate">{movie.genre}</p>  {/* Genre with smaller text size */}
+        <h3 className="text-xs md:text-sm lg:text-base font-semibold truncate">{movie.title}</h3>  {/* Title with responsive font size */}
+        <p className="text-[10px] md:text-xs lg:text-sm text-gray-500 truncate">{movie.genre}</p>  {/* Genre with responsive text size */}
       </div>
     </div>
   );

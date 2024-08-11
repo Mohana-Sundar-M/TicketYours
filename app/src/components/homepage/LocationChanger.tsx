@@ -80,7 +80,7 @@ const LocationChanger: React.FC<LocationChangerProps> = ({ onSelectLocation, onC
       <Button
         startIcon={<LocationOnIcon />}  // Start icon for the button
         onClick={handleDetectLocation}  // Handle location detection on click
-        sx={{ color: 'red', textTransform: 'none', marginBottom: '16px', width: '100%' }}  // Button styling
+        sx={{ color: '#48cfae', textTransform: 'none', marginBottom: '16px', width: '100%' }}  // Button styling
       >
         {detectedLocation ? detectedLocation : 'Detect my location'}  {/* Button text based on detected location */}
       </Button>
