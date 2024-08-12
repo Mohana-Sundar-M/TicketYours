@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Button, Modal, useMediaQuery, useTheme } from '@mui/material';
+import { Box, AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Button, Modal,  } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import MovieIcon from '@mui/icons-material/Movie';
@@ -17,8 +17,8 @@ const Nav: React.FC = () => {
   const [isLocationChangerOpen, setIsLocationChangerOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('Bengaluru');
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  
+
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
