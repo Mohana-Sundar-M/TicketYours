@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { Box, AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Button, Modal, useMediaQuery, useTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import MovieIcon from '@mui/icons-material/Movie';
@@ -7,49 +7,86 @@ import TheatersIcon from '@mui/icons-material/Theaters';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import CloseIcon from '@mui/icons-material/Close';
-import logo from '../../assets/logo.png'; // Path to logo image
-import { useNavigate } from 'react-router-dom';  // Hook for navigation
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import logo from '../../assets/logo.png';
+import { useNavigate } from 'react-router-dom';
+import LocationChanger from '../homepage/LocationChanger';
 
 const Nav: React.FC = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State to control drawer visibility
-  const navigate = useNavigate();  // Initialize useNavigate for routing
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isLocationChangerOpen, setIsLocationChangerOpen] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState('Bengaluru');
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  // Toggle the drawer open/close state
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
       event.type === 'keydown' &&
       ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
     ) {
-      return; // Ignore keyboard tab or shift key events
+      return;
     }
     setIsDrawerOpen(open);
   };
 
-  // Array of menu items with their corresponding paths
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setIsDrawerOpen(false);
+  };
+
+  const handleLocationClick = () => {
+    setIsLocationChangerOpen(true);
+  };
+
+  const handleLocationClose = (location: string) => {
+    if (location) {
+      setSelectedLocation(location);
+    }
+    setIsLocationChangerOpen(false);
+  };
+
   const menuItems = [
-    { text: 'Home', icon: <HomeIcon />, path: '/' },  // Navigates to the home route
+    { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'Movies', icon: <MovieIcon />, path: '/movies' },
     { text: 'Theater', icon: <TheatersIcon />, path: '/theater-search' },
     { text: 'Profile', icon: <AccountCircleIcon />, path: '/profile' },
   ];
 
-  // Handle navigation and close the drawer
-  const handleNavigation = (path: string) => {
-    navigate(path);
-    setIsDrawerOpen(false);  // Close the drawer after navigation
-  };
-
   return (
     <Box>
-      {/* AppBar with a logo and menu icon */}
       <AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 3 }}>
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Box component="a" href="/" sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            <Box component="img" src={logo} alt="TY Logo" sx={{ height: 48, width: 'auto' }} />
+            <Box component="img" src={logo} alt="Logo" sx={{ height: 48, width: 'auto' }} />
           </Box>
-          <IconButton edge="end" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
-            <MenuIcon sx={{ fontSize: 32, color: 'black' }} />
-          </IconButton>
+
+          {/* Location button for all screens */}
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Button
+              startIcon={<LocationOnIcon />}
+              onClick={handleLocationClick}
+              sx={{
+                color: 'black',
+                textTransform: 'none',
+                marginRight: '16px', // Adjust margin as needed
+                padding: '8px 16px',
+                fontSize: '14px',
+                border: 'none',
+                background: 'none',
+
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                }
+              }}
+            >
+              {selectedLocation}
+            </Button>
+
+            <IconButton edge="end" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
+              <MenuIcon sx={{ fontSize: 32, color: 'black' }} />
+            </IconButton>
+          </Box>
         </Toolbar>
       </AppBar>
 
@@ -75,7 +112,6 @@ const Nav: React.FC = () => {
           }}
           role="presentation"
         >
-          {/* Close Icon and Menu Heading */}
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
             <Typography variant="h6" sx={{ fontWeight: 'bold', marginRight: 'auto', color: 'black' }}>
               Menu
@@ -84,8 +120,6 @@ const Nav: React.FC = () => {
               <CloseIcon />
             </IconButton>
           </Box>
-          
-          {/* List of Menu Items */}
           <List sx={{ width: '100%' }}>
             {menuItems.map((item, index) => (
               <ListItem button key={index} onClick={() => handleNavigation(item.path)}>
@@ -97,6 +131,21 @@ const Nav: React.FC = () => {
           </List>
         </Box>
       </Drawer>
+
+      {/* LocationChanger Modal */}
+      <Modal
+        open={isLocationChangerOpen}
+        onClose={() => setIsLocationChangerOpen(false)}
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          width: '100vw', 
+          height: '100vh' 
+        }}
+      >
+        <LocationChanger onSelectLocation={handleLocationClose} onClose={() => setIsLocationChangerOpen(false)} />
+      </Modal>
     </Box>
   );
 };

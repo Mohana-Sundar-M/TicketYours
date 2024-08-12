@@ -1,50 +1,67 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Movie } from '../../data/types';
 
 interface CarouselProps {
-  movies: Movie[];  // Array of movie objects to be displayed in the carousel
+  movies: Movie[];
 }
 
 const Carousel: React.FC<CarouselProps> = ({ movies }) => {
-  // Ref to control the scroll position of the carousel
   const scrollRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
-  // Scrolls the carousel to the left by a fixed amount
   const scrollLeft = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollLeft -= 200;
+      scrollRef.current.scrollBy({
+        left: -200,
+        behavior: 'smooth',
+      });
     }
   };
 
-  // Scrolls the carousel to the right by a fixed amount
   const scrollRight = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollLeft += 200;
+      scrollRef.current.scrollBy({
+        left: 200,
+        behavior: 'smooth',
+      });
     }
+  };
+
+  const handleMovieClick = (id: number) => {
+    navigate(`/movie/${id}`);
   };
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center bg-white">
       {/* Left scroll button */}
       <button
         className="absolute left-0 z-10 bg-white rounded-full shadow-md p-2 transform -translate-y-1/2 top-1/2"
         onClick={scrollLeft}
       >
-        <FaChevronLeft /> {/* Icon for the left scroll button */}
+        <FaChevronLeft />
       </button>
 
       {/* Carousel container */}
       <div
-        className="flex overflow-x-scroll scrollbar-hide space-x-4 mx-8"
+        className="flex overflow-x-scroll scrollbar-hide space-x-4 px-4"
         ref={scrollRef}
+        style={{
+          maxWidth: '100%',
+          scrollBehavior: 'smooth',
+        }}
       >
         {movies.map(movie => (
           <img
-            key={movie.id}  // Unique key for each movie image
-            src={movie.image}  // Image source URL
-            alt={movie.title}  // Alt text for accessibility
-            className="w-20 h-28 md:w-28 md:h-36 object-cover"  // Responsive image size and styling
+            key={movie.id}
+            src={movie.image}
+            alt={movie.title}
+            className="w-24 h-36 md:w-32 md:h-48 lg:w-40 lg:h-56 object-cover cursor-pointer transition-transform duration-300"
+            onClick={() => handleMovieClick(movie.id)}
+            style={{
+              flex: '0 0 auto',
+            }}
           />
         ))}
       </div>
@@ -54,7 +71,7 @@ const Carousel: React.FC<CarouselProps> = ({ movies }) => {
         className="absolute right-0 z-10 bg-white rounded-full shadow-md p-2 transform -translate-y-1/2 top-1/2"
         onClick={scrollRight}
       >
-        <FaChevronRight /> {/* Icon for the right scroll button */}
+        <FaChevronRight />
       </button>
     </div>
   );

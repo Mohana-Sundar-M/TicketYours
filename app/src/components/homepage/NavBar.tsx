@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Button, Modal, useMediaQuery, useTheme, InputBase, Paper } from '@mui/material';
+import { Box, AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Button, Modal, useMediaQuery, useTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import MovieIcon from '@mui/icons-material/Movie';
@@ -12,6 +12,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import logo from '../../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 import LocationChanger from './LocationChanger';
+import Search from './Search'; // Import the Search component
 
 const NavBar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -78,74 +79,13 @@ const NavBar: React.FC = () => {
             <Box component="img" src={logo} alt="TY Logo" sx={{ height: 48, width: 'auto' }} />
           </Box>
 
-          {!searchOpen && !isSmallScreen && (
-            <Paper
-              component="form"
-              sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                width: '720px', // Increased width of the search bar
-                borderRadius: '24px', 
-                border: '2px solid #ddd', 
-                boxShadow: 'none',
-                height: '55px',
-                ml: 2 // Margin left for spacing
-              }}
-            >
-              <InputBase
-                placeholder="Search for movies and theaters"
-                startAdornment={<SearchIcon sx={{ mx: 1 }} />}
-                sx={{ 
-                  flexGrow: 1, 
-                  ml: 1, 
-                  py: 2, // Increased padding for height
-                  px: 2, 
-                  fontSize: '20px' // Increased font size
-                }}
-              />
-            </Paper>
-          )}
-
-          {isSmallScreen && !searchOpen && (
-            <IconButton onClick={handleSearchClick} sx={{ color: 'black', marginLeft: 'auto', marginRight: 2 }}>
-              <SearchIcon />
-            </IconButton>
-          )}
-
-          {searchOpen && (
-            <Paper
-              component="form"
-              sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                width: '100%', 
-                maxWidth: '720px', // Increased width of the search bar when open
-                borderRadius: '15px', 
-                border: '1px solid #ddd', 
-                boxShadow: 'none',
-                height: '44px',
-                ml: 2 // Margin left for spacing
-              }}
-            >
-              <InputBase
-                placeholder="Search..."
-                startAdornment={<SearchIcon sx={{ mx: 1 }} />}
-                autoFocus
-                sx={{ 
-                  flexGrow: 1, 
-                  ml: 1, 
-                  py: 2, // Increased padding for height
-                  px: 2, 
-                  fontSize: '16px' // Increased font size
-                }}
-              />
-              <IconButton onClick={handleSearchClose} sx={{ color: 'black' }}>
-                <CloseIcon />
-              </IconButton>
-            </Paper>
-          )}
-
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {!isSmallScreen && (
+              <IconButton onClick={handleSearchClick} sx={{ color: 'black', marginRight: '16px' }}>
+                <SearchIcon />
+              </IconButton>
+            )}
+
             {!isSmallScreen && (
               <Button
                 startIcon={<LocationOnIcon />}
@@ -167,6 +107,7 @@ const NavBar: React.FC = () => {
                 {selectedLocation}
               </Button>
             )}
+
             {!isSmallScreen && (
               <Button
                 variant="contained"
@@ -186,6 +127,7 @@ const NavBar: React.FC = () => {
                 Sign In
               </Button>
             )}
+
             <IconButton edge="end" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
               <MenuIcon sx={{ fontSize: 32, color: 'black' }} />
             </IconButton>
@@ -193,35 +135,49 @@ const NavBar: React.FC = () => {
         </Toolbar>
 
         {isSmallScreen && (
-          <Box sx={{ 
-            position: 'absolute', 
-            top: '8px', 
-            left: '0', // Place the button on the left side
-            display: 'flex', 
-            alignItems: 'center',
-            marginTop:'2.4rem',
-            marginLeft:'0.9rem',
-            zIndex: 1200 
-          }}>
-            <Button
-              endIcon={<ChevronRightIcon />} // Right arrow icon
-              onClick={handleLocationClick}
-              sx={{
-                color: 'teal', // Text color
-                textTransform: 'none',
-                padding: '4px 8px',
-                fontSize: '14px',
-                border: 'none', // Remove border
-                background: 'none', // Remove background
+          <>
+            <Box sx={{ 
+              position: 'absolute', 
+              top: '12.5px', 
+              right: '56px', // Adjust position as needed
+              display: 'flex', 
+              alignItems: 'center',
+              
+              zIndex: 1200 
+            }}>
+              <IconButton onClick={handleSearchClick} sx={{ color: 'black' }}>
+                <SearchIcon />
+              </IconButton>
+            </Box>
 
-                '&:hover': {
-                  backgroundColor: 'transparent', // Ensure hover background is transparent
-                }
-              }}
-            >
-              {selectedLocation}
-            </Button>
-          </Box>
+            <Box sx={{ 
+              position: 'absolute', 
+              bottom: '8px', // Position at the bottom
+              left: '8px', // Adjust position as needed
+              display: 'flex', 
+              alignItems: 'center',
+              zIndex: 1200 
+            }}>
+              <Button
+                endIcon={<ChevronRightIcon />} // Right arrow icon
+                onClick={handleLocationClick}
+                sx={{
+                  color: 'teal', // Text color
+                  textTransform: 'none',
+                  padding: '1px 8px',
+                  fontSize: '14px',
+                  border: 'none', // Remove border
+                  background: 'none', // Remove background
+                  marginLeft:'0.4rem',  
+                  '&:hover': {
+                    backgroundColor: 'transparent', // Ensure hover background is transparent
+                  }
+                }}
+              >
+                {selectedLocation}
+              </Button>
+            </Box>
+          </>
         )}
       </AppBar>
 
@@ -277,8 +233,11 @@ const NavBar: React.FC = () => {
           height: '100vh' 
         }}
       >
-        <LocationChanger onSelectLocation={handleLocationClose} onClose={()=>{setIsLocationChangerOpen(false);}} />
+        <LocationChanger onSelectLocation={handleLocationClose} onClose={() => setIsLocationChangerOpen(false)} />
       </Modal>
+
+      {/* Search Component */}
+      <Search open={searchOpen} handleModal={handleSearchClose} />
     </Box>
   );
 };

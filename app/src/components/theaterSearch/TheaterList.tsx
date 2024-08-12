@@ -17,7 +17,7 @@ const TheaterList: React.FC = () => {
   );
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4  ">
       <SearchBar onSearchChange={handleSearchChange} /> {/* Search bar for filtering theaters */}
       <div className="mt-4">
         {filteredTheaters.length > 0 ? (

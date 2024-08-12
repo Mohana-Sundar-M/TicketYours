@@ -18,4 +18,16 @@ body {
 }
 
 
+/* Theater Search Page Responsivenss */
+@media (min-width: 300px) {
+  .container {
+      min-width: -webkit-fill-available;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+      min-width: auto;
+  }
+}
 

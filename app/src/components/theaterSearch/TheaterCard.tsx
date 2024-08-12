@@ -28,6 +28,7 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
   return (
     <div
       className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-4 w-full mx-auto"
+     
     >
       <div className="relative w-full md:w-1/3">
         <img 
@@ -79,7 +80,7 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
             </button>
           </div>
           {isDropdownOpen && (
-            <div className="mt-2 p-0 bg-gray-100 rounded-lg h-32 overflow-hidden">
+            <div className="mt-2 p-0 bg-gray-100 rounded-lg h-32 overflow-hidden h-auto">
               <NowShowing movies={theater.movies} compact /> {/* Compact view of Now Showing on mobile */}
             </div>
           )}
