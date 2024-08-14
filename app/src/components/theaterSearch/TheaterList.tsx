@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TheaterCard from './TheaterCard';
-import SearchBar from './SearchBar';
+import SearchBar from '../public/SearchBar';
 import { theaters } from '../../data/dummyData'; // Import dummy data for theaters
 
 const TheaterList: React.FC = () => {

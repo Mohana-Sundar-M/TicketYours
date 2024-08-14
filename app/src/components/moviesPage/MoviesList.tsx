@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SearchBar from '../public/SearchBar';
 
 // Define the Movie type
 type Movie = {
@@ -22,23 +23,30 @@ type MoviesListProps = {
 // Functional component for displaying a list of movies with filtering options
 const MoviesList: React.FC<MoviesListProps> = ({ movies, onMovieClick }) => {
   const navigate = useNavigate();
-  const [selectedLanguages, setSelectedLanguages] = React.useState<string[]>([]);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   // Define available languages for filtering
   const languages = ['Hindi', 'English', 'Gujarati', 'Korean', 'Marathi', 'Tamil', 'Telugu', 'Kannada', 'Malayalam'];
 
   // Toggle the selected language filter
   const handleLanguageClick = (language: string) => {
-    setSelectedLanguages(prev => 
-      prev.includes(language) 
+    setSelectedLanguages(prev =>
+      prev.includes(language)
         ? prev.filter(item => item !== language) // Remove language if already selected
         : [...prev, language] // Add language if not selected
     );
   };
 
-  // Filter movies based on selected languages
-  const filteredMovies = movies.filter(movie => 
-    selectedLanguages.length === 0 || movie.languages.some(lang => selectedLanguages.includes(lang))
+  // Handle search input change
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // Filter movies based on selected languages and search term
+  const filteredMovies = movies.filter(movie =>
+    (selectedLanguages.length === 0 || movie.languages.some(lang => selectedLanguages.includes(lang))) &&
+    movie.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Handle movie click event
@@ -50,7 +58,10 @@ const MoviesList: React.FC<MoviesListProps> = ({ movies, onMovieClick }) => {
   return (
     <div className="p-4 md:ml-32">
       <h2 className="text-2xl font-bold mb-4">Movies in Mumbai</h2>
-      
+
+      {/* Integrating the SearchBar component */}
+      <SearchBar onSearchChange={handleSearchChange} />
+
       {/* Language filter buttons */}
       <div className="overflow-x-auto scrollbar-hide mb-4">
         <div className="flex flex-nowrap gap-2">
