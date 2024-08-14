@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import { useMediaQuery } from "@mui/material";
 import { moviesData } from '../../data/moviespage/movieslist';
 import { theaters } from '../../data/dummyData';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 interface ModalProps {
   open: boolean;
@@ -24,6 +25,7 @@ const Search = ({ open, handleModal }: ModalProps) => {
   const [isMovies, setIsMovies] = useState<boolean>(true);
 
   const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -49,6 +51,15 @@ const Search = ({ open, handleModal }: ModalProps) => {
   const filteredTheaters = theaters.filter(theater =>
     theater.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  // Handle click for movie or theater
+  const handleClickMovie = (id: string) => {
+    navigate(`/movie/${id}`); // Navigate to movie/:id
+  };
+
+  const handleClickTheater = (id: number) => {
+    navigate(`/theater/${id.toString()}`); // Convert id to string before navigating
+  };
 
   return (
     <Dialog
@@ -101,18 +112,21 @@ const Search = ({ open, handleModal }: ModalProps) => {
                 <SearchRoundedIcon />
               </InputAdornment>
             ),
-            sx: {
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#48cfad', // Default border color
-                },
-                '&:hover fieldset': {
-                  borderColor: '#48cfad', // Border color on hover
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#48cfad', // Border color when focused
-                },
+          }}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#48cfad !important', // Default border color
               },
+              '&:hover fieldset': {
+                borderColor: '#48cfad !important', // Border color on hover
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#48cfad !important', // Border color when focused
+              },
+            },
+            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#48cfad !important', // Ensure teal border when focused
             },
           }}
         />
@@ -133,6 +147,7 @@ const Search = ({ open, handleModal }: ModalProps) => {
               borderColor: '#48cfad',
               backgroundColor: isMovies ? '#48cfad' : 'transparent',
               '&:hover': {
+                backgroundColor: isMovies ? '#48cfad' : 'transparent', // Maintain color consistency on hover
                 borderColor: '#48cfad',
               },
             }}
@@ -148,7 +163,7 @@ const Search = ({ open, handleModal }: ModalProps) => {
               borderColor: '#48cfad',
               backgroundColor: !isMovies ? '#48cfad' : 'transparent',
               '&:hover': {
-               
+                backgroundColor: !isMovies ? '#48cfad' : 'transparent', // Maintain color consistency on hover
                 borderColor: '#48cfad',
               },
             }}
@@ -169,7 +184,11 @@ const Search = ({ open, handleModal }: ModalProps) => {
         >
           {isMovies
             ? filteredMovies.map((movie) => (
-                <Box key={movie.id} sx={{ display: 'flex', gap: 2, cursor: 'pointer', alignItems: 'center' }}>
+                <Box
+                  key={movie.id}
+                  sx={{ display: 'flex', gap: 2, cursor: 'pointer', alignItems: 'center' }}
+                  onClick={() => handleClickMovie(movie.id)} // Handle movie click
+                >
                   <img
                     src={movie.image}
                     alt={movie.title}
@@ -183,7 +202,11 @@ const Search = ({ open, handleModal }: ModalProps) => {
                 </Box>
               ))
             : filteredTheaters.map((theater) => (
-                <Box key={theater.id} sx={{ display: 'flex', gap: 2, cursor: 'pointer', alignItems: 'center' }}>
+                <Box
+                  key={theater.id}
+                  sx={{ display: 'flex', gap: 2, cursor: 'pointer', alignItems: 'center' }}
+                  onClick={() => handleClickTheater(theater.id)} // Handle theater click
+                >
                   <img
                     src={theater.image}
                     alt={theater.name}
