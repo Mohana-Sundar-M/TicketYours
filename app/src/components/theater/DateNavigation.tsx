@@ -24,9 +24,11 @@ const DateNavigation: React.FC = () => {
       {dates.map(date => (
         <button
           key={date.toString()} // Unique key for each button
-          className={`flex flex-col items-center px-4 py-2 rounded ${
-            isToday(date) ? 'bg-teal-400 text-white' : 'bg-gray-200 text-gray-700'
-          } hover:bg-teal-300 hover:text-white`} // Apply styles based on selected state
+          className={`flex flex-col items-center px-4 py-2 rounded transition-colors duration-300 ${
+            selectedDate.toDateString() === date.toDateString()
+              ? 'bg-teal-400 text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`} // Apply styles based on selected state
           onClick={() => setSelectedDate(date)} // Update the selected date on click
         >
           <span className="text-xs">{format(date, 'EEE')}</span> {/* Day of the week */}
