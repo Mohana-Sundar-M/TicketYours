@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';  // Importing React library and hooks
 import Navbar from '../components/homepage/NavBar';  // Importing Navbar component
-import Banner from '../components/homepage/Banner';  // Importing Banner component
 import MovieList from '../components/homepage/MovieList';  // Importing MovieList component
 import Footer from '../components/homepage/Footer';  // Importing Footer component
 import LocationChanger from '../components/homepage/LocationChanger';  // Importing LocationChanger component
 import { Modal } from '@mui/material';
+import Header from '../components/public/Banner';
 
 const HomePage: React.FC = () => {
   const [showLocationChanger, setShowLocationChanger] = useState(false);
@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <Navbar />
-      <Banner />
+      <Header />
       <MovieList />
       <Footer />
       <Modal

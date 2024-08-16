@@ -1,0 +1,77 @@
+.header-container {
+  position: relative;
+  width: 100%;
+  height: 35vh; /* Increased height for desktop view */
+  overflow: hidden;
+}
+
+.banner-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s ease-in-out; /* Swiping effect */
+}
+
+.banner-image {
+  flex: 1;
+  min-width: 100%; /* Ensures each image takes up full width of the container */
+  height: 100%;
+  object-fit: cover; /* Adjusted for desktop view */
+}
+
+.nav-button {
+  background-color: transparent;
+  color: white;
+  font-size: 2.5rem; /* Increased size for better visibility */
+  padding: 1.5rem; /* Increased padding for larger buttons */
+  border: none; /* Remove border */
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.prev-button {
+  left: 1rem;
+}
+
+.next-button {
+  right: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header-container {
+      height: auto; /* Adjust height for mobile view */
+  }
+
+  .banner-image {
+      object-fit: contain; /* Adjust for mobile view */
+  }
+
+  .nav-button {
+      font-size: 2rem; /* Larger size for better visibility on mobile */
+      padding: 1rem; /* Larger padding for mobile buttons */
+  }
+
+  .prev-button {
+      left: 0.5rem; /* Ensure left button is visible on mobile */
+  }
+
+  .next-button {
+      right: 0.5rem; /* Ensure right button is visible on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .header-container {
+      height: auto; /* Further adjust height for smaller mobile screens */
+  }
+
+  .nav-button {
+      font-size: 1.75rem; /* Adjust size for very small screens */
+      padding: 0.75rem; /* Adjust padding for very small screens */
+  }
+}

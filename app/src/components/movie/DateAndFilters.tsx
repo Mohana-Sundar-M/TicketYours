@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { FiX, FiChevronDown, FiFilter } from 'react-icons/fi'; // Import icons for close, dropdown, and filter
 import Slider from 'rc-slider'; // Import slider component for time range selection
 import 'rc-slider/assets/index.css'; // Import slider's CSS for proper styling
+import { format, addDays } from 'date-fns'; // Import date-fns for date manipulation
 
 // DateNavigation component for filtering and selecting dates and showtimes
 const DateNavigation: React.FC = () => {
   // State to manage selected date
-  const [selectedDate, setSelectedDate] = useState('3');
+  const [selectedDate, setSelectedDate] = useState(format(new Date(), 'd'));
 
   // States to manage visibility of different filter popups
   const [isShowtimeOpen, setIsShowtimeOpen] = useState(false);
@@ -67,16 +68,13 @@ const DateNavigation: React.FC = () => {
   };
 
   // Update slider value state
-  // Adjust the function to accept either a number or a number array
-const handleSliderChange = (value: number | number[]) => {
-  if (Array.isArray(value)) {
-    // Handle the case where value is an array of two numbers
-    setSliderValue([value[0], value[1]]);
-  } else {
-    // Handle the case where value is a single number
-    setSliderValue([value, value]); // Example adjustment; modify as needed
-  }
-};
+  const handleSliderChange = (value: number | number[]) => {
+    if (Array.isArray(value)) {
+      setSliderValue([value[0], value[1]]);
+    } else {
+      setSliderValue([value, value]);
+    }
+  };
 
   // Format time in 12-hour format with AM/PM
   const formatTime = (hour: number) => {
@@ -93,24 +91,41 @@ const handleSliderChange = (value: number | number[]) => {
     return `${formatTime(start)} - ${formatTime(end)}`;
   };
 
-  
- 
+  // Generate the date labels dynamically
+  const generateDateLabels = () => {
+    const today = new Date();
+    const labels = [];
+
+    for (let i = 0; i < 5; i++) {
+      const date = addDays(today, i);
+      labels.push({
+        day: format(date, 'EEE'), // e.g., 'Sat', 'Sun'
+        date: format(date, 'd'),  // e.g., '3', '4'
+        month: format(date, 'MMM').toUpperCase(), // e.g., 'AUG'
+      });
+    }
+
+    return labels;
+  };
+
+  const dateLabels = generateDateLabels();
+   
 
   return (
     <div className="date-navigation-and-filters flex flex-col md:flex-row bg-gray-100 p-4 rounded w-full mt-6 md:mt-0">
       {/* Date selection buttons */}
       <div className="flex items-center space-x-2 justify-start overflow-x-auto md:overflow-visible md:pl-32">
         <div className="flex flex-col items-center">
-          <span className="bg-gray-700 text-white px-2 py-1 rounded text-sm transform rotate-90">AUG</span>
+          <span className="bg-gray-700 text-white px-2 py-1 rounded text-sm transform -rotate-90">{dateLabels[0].month}</span>
         </div>
-        {['3', '4', '5', '6', '7'].map((date, index) => (
+        {dateLabels.map((label, index) => (
           <button
             key={index}
-            onClick={() => setSelectedDate(date)}
-            className={`w-12 p-2 rounded ${date === selectedDate ? 'bg-teal-400 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-gray-300 flex flex-col items-center`}
+            onClick={() => setSelectedDate(label.date)}
+            className={`w-12 p-2 rounded ${label.date === selectedDate ? 'bg-teal-400 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-gray-300 flex flex-col items-center`}
           >
-            <span className="text-xs">{['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu'][index]}</span>
-            <span className="text-sm">{date}</span>
+            <span className="text-xs">{label.day}</span>
+            <span className="text-sm">{label.date}</span>
           </button>
         ))}
       </div>
@@ -124,7 +139,7 @@ const handleSliderChange = (value: number | number[]) => {
           <FiFilter className="text-gray-700 md:hidden mr-2" />
           <span className="hidden md:block text-base">Filter By</span>
         </div>
-        
+
         {/* Language filter button */}
         <div className="relative">
           <button
@@ -183,6 +198,41 @@ const handleSliderChange = (value: number | number[]) => {
           )}
         </div>
 
+        {/* Showtime filter button */}
+        <div className="relative">
+          <button
+            className="filter-button p-3 bg-white rounded text-base md:w-32 w-28 flex items-center justify-between"
+            onClick={toggleShowtime}
+          >
+            Showtime
+            <FiChevronDown className={`transition-transform duration-300 ${isShowtimeOpen ? 'rotate-180' : ''}`} />
+          </button>
+          {isShowtimeOpen && (
+            <div className="filter-popup fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 bg-white p-6 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto md:absolute md:top-full md:left-0 md:transform-none">
+              <div className="flex justify-between items-center mb-4">
+                <span className="font-bold text-lg">Showtime</span>
+                <button onClick={toggleShowtime}>
+                  <FiX />
+                </button>
+              </div>
+              <div className="flex flex-col space-y-3">
+                <Slider
+                  range
+                  min={0}
+                  max={24}
+                  step={1}
+                  value={sliderValue}
+                  onChange={handleSliderChange}
+                  className="w-full"
+                />
+                <div className="text-sm text-gray-600">
+                  Selected Time: <span className="font-semibold">{getTimeRange()}</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Price filter button */}
         <div className="relative">
           <button
@@ -201,51 +251,12 @@ const handleSliderChange = (value: number | number[]) => {
                 </button>
               </div>
               <div className="flex flex-col space-y-3">
-                {['Below $10', '$10 - $20', '$20 - $30', 'Above $30'].map((price, index) => (
+                {['$0 - $50', '$50 - $100', '$100 - $150', '$150 - $200'].map((priceRange, index) => (
                   <label key={index} className="flex items-center space-x-3 text-sm">
                     <input type="checkbox" className="form-checkbox h-4 w-4 text-blue-600" />
-                    <span className="text-gray-700">{price}</span>
+                    <span className="text-gray-700">{priceRange}</span>
                   </label>
                 ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Showtime filter button */}
-        <div className="relative">
-          <button
-            className="filter-button p-3 bg-white rounded text-base md:w-32 w-24 flex items-center justify-between"
-            onClick={toggleShowtime}
-          >
-            Showtime
-            <FiChevronDown className={`transition-transform duration-300 ${isShowtimeOpen ? 'rotate-180' : ''}`} />
-          </button>
-          {isShowtimeOpen && (
-            <div className="filter-popup fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 bg-white p-6 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto md:absolute md:top-full md:left-0 md:transform-none">
-              <div className="flex justify-between items-center mb-4">
-                <span className="font-bold text-lg">Showtime</span>
-                <button onClick={toggleShowtime}>
-                  <FiX />
-                </button>
-              </div>
-              <Slider
-                range
-                min={0}
-                max={24}
-                value={sliderValue}
-                onChange={handleSliderChange}
-                step={0.5}
-                marks={{
-                  0: '12:00 AM',
-                  6: '6:00 AM',
-                  12: '12:00 PM',
-                  18: '6:00 PM',
-                  24: '12:00 AM',
-                }}
-              />
-              <div className="mt-4 text-gray-700 text-sm">
-                {getTimeRange()}
               </div>
             </div>
           )}

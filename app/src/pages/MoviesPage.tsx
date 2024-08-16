@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Header from '../components/moviesPage/Header';
+import Header from '../components/public/Banner';
 import Filters from '../components/moviesPage/Filters';
 import MoviesList from '../components/moviesPage/MoviesList';
 import { moviesData } from '../data/moviespage/movieslist';
