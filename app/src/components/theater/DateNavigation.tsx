@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { format, addDays, isToday } from 'date-fns';
+import { format, addDays } from 'date-fns';
 
 // Generate an array of dates for the next 5 days
 const dates = Array.from({ length: 5 }, (_, i) => addDays(new Date(), i));
