@@ -2,7 +2,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import DialogContent from "@mui/material/DialogContent";
@@ -11,9 +11,10 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useMediaQuery } from "@mui/material";
-import { moviesData } from '../../data/moviespage/movieslist';
+import { useNavigate } from 'react-router-dom';
+import { useGetMoviesQuery } from '../../services/moviesApi';
+import { useActiveCity } from '../../context/ActiveCityContext';
 import { theaters } from '../../data/dummyData';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 interface ModalProps {
   open: boolean;
@@ -23,24 +24,39 @@ interface ModalProps {
 const Search = ({ open, handleModal }: ModalProps) => {
   const [search, setSearch] = useState<string>("");
   const [isMovies, setIsMovies] = useState<boolean>(true);
+  const [noMovies, setNoMovies] = useState<boolean>(false);
 
   const isDesktop = useMediaQuery('(min-width: 1024px)');
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
+  const { activeCityId } = useActiveCity();
+
+  // Fetch movies data using the active city ID
+  const { data: moviesData = [], error, isLoading } = useGetMoviesQuery(activeCityId.toString());
+
+  useEffect(() => {
+    if (error && 'status' in error && error.status === 404) {
+      setNoMovies(true);
+    } else {
+      setNoMovies(false);
+    }
+  }, [error, activeCityId]);
 
   const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
 
   const handleSearch = () => {
-    // dispatch(searchThunk();
+    // dispatch(searchThunk());
   };
 
   const handleMovies = () => {
     setIsMovies(true);
+    setSearch(""); // Reset search text
   };
 
   const handleTheaters = () => {
     setIsMovies(false);
+    setSearch(""); // Reset search text
   };
 
   // Filter the list based on the search query and selected category (movies or theaters)
@@ -54,11 +70,11 @@ const Search = ({ open, handleModal }: ModalProps) => {
 
   // Handle click for movie or theater
   const handleClickMovie = (id: string) => {
-    navigate(`/movie/${id}`); // Navigate to movie/:id
+    navigate(`/movie/${id}`);
   };
 
   const handleClickTheater = (id: number) => {
-    navigate(`/theater/${id.toString()}`); // Convert id to string before navigating
+    navigate(`/theater/${id.toString()}`);
   };
 
   return (
@@ -66,11 +82,11 @@ const Search = ({ open, handleModal }: ModalProps) => {
       onClose={handleModal}
       open={open}
       fullWidth
-      maxWidth={isDesktop ? "lg" : "xs"} // Increase width in desktop view
+      maxWidth={isDesktop ? "lg" : "xs"}
       PaperProps={{
         sx: {
-          width: isDesktop ? '50%' : '100%', // Adjust width for desktop
-          height: isDesktop ? '80%' : '100%', // Adjust height for desktop
+          width: isDesktop ? '50%' : '100%',
+          height: isDesktop ? '80%' : '100%',
           maxWidth: '100%',
           maxHeight: '100%',
           margin: 0,
@@ -116,17 +132,17 @@ const Search = ({ open, handleModal }: ModalProps) => {
           sx={{
             '& .MuiOutlinedInput-root': {
               '& fieldset': {
-                borderColor: '#48cfad !important', // Default border color
+                borderColor: '#48cfad !important',
               },
               '&:hover fieldset': {
-                borderColor: '#48cfad !important', // Border color on hover
+                borderColor: '#48cfad !important',
               },
               '&.Mui-focused fieldset': {
-                borderColor: '#48cfad !important', // Border color when focused
+                borderColor: '#48cfad !important',
               },
             },
             '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#48cfad !important', // Ensure teal border when focused
+              borderColor: '#48cfad !important',
             },
           }}
         />
@@ -147,7 +163,7 @@ const Search = ({ open, handleModal }: ModalProps) => {
               borderColor: '#48cfad',
               backgroundColor: isMovies ? '#48cfad' : 'transparent',
               '&:hover': {
-                backgroundColor: isMovies ? '#48cfad' : 'transparent', // Maintain color consistency on hover
+                backgroundColor: isMovies ? '#48cfad' : 'transparent',
                 borderColor: '#48cfad',
               },
             }}
@@ -163,7 +179,7 @@ const Search = ({ open, handleModal }: ModalProps) => {
               borderColor: '#48cfad',
               backgroundColor: !isMovies ? '#48cfad' : 'transparent',
               '&:hover': {
-                backgroundColor: !isMovies ? '#48cfad' : 'transparent', // Maintain color consistency on hover
+                backgroundColor: !isMovies ? '#48cfad' : 'transparent',
                 borderColor: '#48cfad',
               },
             }}
@@ -182,43 +198,69 @@ const Search = ({ open, handleModal }: ModalProps) => {
             gap: 2,
           }}
         >
-          {isMovies
-            ? filteredMovies.map((movie) => (
-                <Box
-                  key={movie.id}
-                  sx={{ display: 'flex', gap: 2, cursor: 'pointer', alignItems: 'center' }}
-                  onClick={() => handleClickMovie(movie.id)} // Handle movie click
-                >
-                  <img
-                    src={movie.image}
-                    alt={movie.title}
-                    style={{ width: 70, height: 70, objectFit: 'contain' }}
-                  />
-                  <Box>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                      {movie.title}
-                    </Typography>
+          {isLoading && <Typography variant="body1">Loading...</Typography>}
+          
+          {/* Movies Tab Content */}
+          {isMovies && (
+            <>
+              {noMovies ? (
+                <Typography variant="body1">No movies in the list</Typography>
+              ) : (
+                <>
+                  {filteredMovies.length > 0 ? (
+                    filteredMovies.map((movie) => (
+                      <Box
+                        key={movie.id}
+                        sx={{ display: 'flex', gap: 2, cursor: 'pointer', alignItems: 'center' }}
+                        onClick={() => handleClickMovie(movie.id)}
+                      >
+                        <img
+                          src={movie.posterUrl}
+                          alt={movie.title}
+                          style={{ width: 70, height: 70, objectFit: 'contain' }}
+                        />
+                        <Box>
+                          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                            {movie.title}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    ))
+                  ) : (
+                    <Typography variant="body1">No movies match your search</Typography>
+                  )}
+                </>
+              )}
+            </>
+          )}
+
+          {/* Theaters Tab Content */}
+          {!isMovies && (
+            <>
+              {filteredTheaters.length > 0 ? (
+                filteredTheaters.map((theater) => (
+                  <Box
+                    key={theater.id}
+                    sx={{ display: 'flex', gap: 2, cursor: 'pointer', alignItems: 'center' }}
+                    onClick={() => handleClickTheater(theater.id)}
+                  >
+                    <img
+                      src={theater.image}
+                      alt={theater.name}
+                      style={{ width: 70, height: 70, objectFit: 'contain' }}
+                    />
+                    <Box>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                        {theater.name}
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              ))
-            : filteredTheaters.map((theater) => (
-                <Box
-                  key={theater.id}
-                  sx={{ display: 'flex', gap: 2, cursor: 'pointer', alignItems: 'center' }}
-                  onClick={() => handleClickTheater(theater.id)} // Handle theater click
-                >
-                  <img
-                    src={theater.image}
-                    alt={theater.name}
-                    style={{ width: 70, height: 70, objectFit: 'contain' }}
-                  />
-                  <Box>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                      {theater.name}
-                    </Typography>
-                  </Box>
-                </Box>
-              ))}
+                ))
+              ) : (
+                <Typography variant="body1">No theaters match your search</Typography>
+              )}
+            </>
+          )}
         </Box>
       </DialogContent>
     </Dialog>

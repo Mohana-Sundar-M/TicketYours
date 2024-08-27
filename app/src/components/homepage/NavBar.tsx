@@ -13,15 +13,17 @@ import logo from '../../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 import LocationChanger from './LocationChanger';
 import Search from './Search'; // Import the Search component
+import { useActiveCity } from '../../context/ActiveCityContext'; // Import the context hook
 
 const NavBar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLocationChangerOpen, setIsLocationChangerOpen] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState('Bengaluru');
   const [searchOpen, setSearchOpen] = useState(false);
+  const {activeCityId, activeCity } = useActiveCity(); // Get active city state from context
   const navigate = useNavigate();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const cityId = activeCityId ? activeCityId.toString() : '';
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (event.type === 'keydown' && ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')) {
@@ -39,13 +41,6 @@ const NavBar: React.FC = () => {
     setIsLocationChangerOpen(true);
   };
 
-  const handleLocationClose = (location: string) => {
-    if (location) {
-      setSelectedLocation(location);
-    }
-    setIsLocationChangerOpen(false);
-  };
-
   const handleSignInClick = () => {
     navigate('/login');
   };
@@ -60,7 +55,7 @@ const NavBar: React.FC = () => {
 
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
-    { text: 'Movies', icon: <MovieIcon />, path: '/movies' },
+    { text: 'Movies', icon: <MovieIcon />, path:`/v3/movies/city/${cityId}` },
     { text: 'Theater', icon: <TheatersIcon />, path: '/theater-search' },
     { text: 'Profile', icon: <AccountCircleIcon />, path: '/profile' },
   ];
@@ -104,7 +99,7 @@ const NavBar: React.FC = () => {
                   }
                 }}
               >
-                {selectedLocation}
+                {activeCity || 'Select Location'} {/* Use activeCity from context */}
               </Button>
             )}
 
@@ -174,7 +169,7 @@ const NavBar: React.FC = () => {
                   }
                 }}
               >
-                {selectedLocation}
+                {activeCity || 'Select Location'} {/* Use activeCity from context */}
               </Button>
             </Box>
           </>
@@ -233,7 +228,7 @@ const NavBar: React.FC = () => {
           height: '100vh' 
         }}
       >
-        <LocationChanger onSelectLocation={handleLocationClose} onClose={() => setIsLocationChangerOpen(false)} />
+        <LocationChanger onClose={() => setIsLocationChangerOpen(false)} />
       </Modal>
 
       {/* Search Component */}

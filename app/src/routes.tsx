@@ -9,12 +9,14 @@ import Profile from './pages/Profile';
 import Theater from './pages/Theater';
 import TheaterSearch from './pages/TheaterSearch';
 import HomePage from './pages/HomePage';
+import SeatBooking from './pages/SeatBooking';
 
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route index element={<HomePage />} />  {/* Default route */}
-      <Route path="movies" element={<MoviesPage />} />
+      <Route path="/v3/movies/city/:cityId" element={<MoviesPage />} />
+      <Route path="booking" element={<SeatBooking />} />
       <Route path="contact" element={<ContactPage />} />
       <Route path="login" element={<Login />} />
       <Route path="payment" element={<PaymentPage />} />

@@ -1,18 +1,46 @@
-import React, { useRef } from 'react';  // Import React for component creation
-import { Box, Typography, Button, Grid } from '@mui/material';  // Import MUI components for layout and styling
-import MovieCard from './MovieCard';  // Import the MovieCard component for displaying individual movie cards
-import { moviesData } from '../../data/moviespage/movieslist';  // Import movie data from your dataset
-import { useNavigate } from 'react-router-dom';  // Import useNavigate hook for routing
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';  // Import icon for "See All" button
+import React, { useEffect, useRef, useState } from 'react';
+import { Box, Typography, Button, Grid } from '@mui/material';
+import MovieCard from './MovieCard';
+import { useNavigate } from 'react-router-dom';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { useGetMoviesQuery } from '../../services/moviesApi';
+import { useActiveCity } from '../../context/ActiveCityContext';
+import LoadingSpinner from '../public/LoadingSpinner'; // Import the LoadingSpinner component
 
 const MoviesList: React.FC = () => {
-  const navigate = useNavigate();  // Hook for navigation
-  const scrollContainerRef = useRef<HTMLDivElement>(null);  // Ref for scroll container
+  const navigate = useNavigate();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [showButtons, setShowButtons] = useState(false);
+  const { activeCityId, activeCity } = useActiveCity(); // Assuming activeCity is provided in context
 
-  /**
-   * Handles scrolling of the movie list container.
-   * @param direction - 'left' or 'right' to indicate scroll direction.
-   */
+  const cityId = activeCityId ? activeCityId.toString() : '';
+
+  const { data, isLoading, error, refetch } = useGetMoviesQuery(cityId, {
+    skip: !activeCityId,
+  });
+
+  useEffect(() => {
+    if (activeCityId) {
+      refetch(); // Trigger refetch when activeCityId changes
+    }
+  }, [activeCityId, refetch]);
+
+  useEffect(() => {
+    const checkScrollButtonsVisibility = () => {
+      if (scrollContainerRef.current) {
+        const { scrollWidth, clientWidth } = scrollContainerRef.current;
+        setShowButtons(scrollWidth > clientWidth);
+      }
+    };
+
+    checkScrollButtonsVisibility(); // Check visibility initially
+    window.addEventListener('resize', checkScrollButtonsVisibility); // Recheck on resize
+
+    return () => {
+      window.removeEventListener('resize', checkScrollButtonsVisibility); // Clean up
+    };
+  }, [data]);
+
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
       const { scrollLeft, clientWidth } = scrollContainerRef.current;
@@ -24,132 +52,172 @@ const MoviesList: React.FC = () => {
     }
   };
 
-  /**
-   * Handles click events on movie cards, navigating to the movie details page.
-   * @param movieId - The ID of the movie to navigate to.
-   */
   const handleMovieClick = (movieId: string) => {
-    navigate(`/movie/${movieId}`);  // Navigate to movie details page
+    navigate(`/movie/${movieId}`);
   };
 
-  /**
-   * Handles click events on the "See All" button, navigating to the movies listing page.
-   */
   const handleSeeAllClick = () => {
-    navigate('/movies');  // Navigate to the movies listing page
+    navigate(`/v3/movies/city/${cityId}`);
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />; // Show the spinner while loading
+  }
+
+  if (error) {
+    if ((error as any).status === 404) {
+      return (
+        <Box sx={{ padding: '16px' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+              Movies In {activeCity}
+            </Typography>
+            <Button
+              variant="text"
+              sx={{ textTransform: 'none', color: 'teal', display: 'flex', alignItems: 'center' }}
+              onClick={handleSeeAllClick}
+            >
+              See All
+              <ArrowRightIcon sx={{ marginRight: '8px' }} />
+            </Button>
+          </Box>
+          <Typography>No movies found in {activeCity}</Typography>
+        </Box>
+      );
+    }
+    return <Typography>Error loading movies</Typography>;
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <Box sx={{ padding: '16px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+            Movies In {activeCity}
+          </Typography>
+          <Button
+            variant="text"
+            sx={{ textTransform: 'none', color: 'teal', display: 'flex', alignItems: 'center' }}
+            onClick={handleSeeAllClick}
+          >
+            See All
+            <ArrowRightIcon sx={{ marginRight: '8px' }} />
+          </Button>
+        </Box>
+        <Typography>No movies available</Typography>
+      </Box>
+    );
+  }
 
   return (
-    <Box sx={{ padding: '16px'  }}>  {/* Container for the movie list with padding */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
+    <Box sx={{ padding: '16px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
         <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-          Movies In Bengaluru  {/* Section title */}
+          Movies In {activeCity}
         </Typography>
         <Button
           variant="text"
           sx={{ textTransform: 'none', color: 'teal', display: 'flex', alignItems: 'center' }}
-          onClick={handleSeeAllClick}  // Add onClick handler to navigate
+          onClick={handleSeeAllClick}
         >
           See All
-          <ArrowRightIcon sx={{ marginRight: '8px' }} />  {/* Arrow icon for visual cue */}
+          <ArrowRightIcon sx={{ marginRight: '8px' }} />
         </Button>
       </Box>
 
-      {/* Mobile view - grid layout */}
       <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
         <Grid container spacing={2}>
-          {moviesData.map((movie, index) => (
-            <Grid item xs={6} key={index}> {/* Display two items per row on mobile view */}
+          {data.map((movie) => (
+            <Grid item xs={6} key={movie.id}>
               <MovieCard
-                movie={movie}  // Pass movie data to MovieCard
-                onClick={() => handleMovieClick(movie.id)}  // Pass click handler to MovieCard
-                sx={{ cursor: 'pointer', width: '100%' }}  // Optional: Custom style for cursor
+                movie={movie}
+                onClick={() => handleMovieClick(movie.id)}
+                sx={{ cursor: 'pointer', width: '100%' }}
               />
             </Grid>
           ))}
         </Grid>
       </Box>
 
-      {/* Desktop view - horizontal scrolling */}
       <Box
         sx={{
           position: 'relative',
           display: { xs: 'none', sm: 'flex' },
-          
           padding: '0 16px',
-          gap: '24px',  // Increased gap between cards
-          '&::-webkit-scrollbar': { display: 'none' },  // Hide scrollbar
+          gap: '24px',
+          '&::-webkit-scrollbar': { display: 'none' },
         }}
       >
         <Box
           ref={scrollContainerRef}
           sx={{
             display: 'flex',
-            overflowX: 'hidden',
-            gap: '24px',  // Increased gap between cards
-            flexWrap: 'nowrap',  // Ensure no wrapping
+            overflowX: 'auto',
+            gap: '24px',
+            flexWrap: 'nowrap',
           }}
         >
-          {moviesData.map((movie, index) => (
+          {data.map((movie) => (
             <MovieCard
-              key={index}
-              movie={movie}  // Pass movie data to MovieCard
-              onClick={() => handleMovieClick(movie.id)}  // Pass click handler to MovieCard
-              sx={{ cursor: 'pointer', flex: '0 0 auto', width: '200px' }}  // Increased card width
+              key={movie.id}
+              movie={movie}
+              onClick={() => handleMovieClick(movie.id)}
+              sx={{ cursor: 'pointer', flex: '0 0 auto', width: '200px' }}
             />
           ))}
         </Box>
-        {/* Centered navigation buttons */}
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-            px: 2,
-          }}
-        >
-          <Button
-            onClick={() => scroll('left')}  // Scroll left on click
+        {showButtons && (
+          <Box
             sx={{
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Semi-transparent background for visibility
-              color: 'white',  // Text color
-              borderRadius: '50%',
-              width: '40px',  // Size of button
-              height: '40px',  // Size of button
-              minWidth: '40px',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translateX(-50%)',
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' },  // Darker background on hover
+              justifyContent: 'space-between',
+              width: '100%',
+              px: 2,
             }}
           >
-            &lt;  {/* Left arrow for scrolling */}
-          </Button>
-          <Button
-            onClick={() => scroll('right')}  // Scroll right on click
-            sx={{
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Semi-transparent background for visibility
-              color: 'white',  // Text color
-              borderRadius: '50%',
-              width: '40px',  // Size of button
-              height: '40px',  // Size of button
-              minWidth: '40px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' },  // Darker background on hover
-            }}
-          >
-            &gt;  {/* Right arrow for scrolling */}
-          </Button>
-        </Box>
+            <Button
+              onClick={() => scroll('left')}
+              sx={{
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                color: 'white',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                minWidth: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' },
+              }}
+            >
+              &lt;
+            </Button>
+            <Button
+              onClick={() => scroll('right')}
+              sx={{
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                color: 'white',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                minWidth: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' },
+              }}
+            >
+              &gt;
+            </Button>
+          </Box>
+        )}
       </Box>
     </Box>
   );
 };
 
-export default MoviesList;  // Exporting MoviesList component for use in other parts of the application
+export default MoviesList;

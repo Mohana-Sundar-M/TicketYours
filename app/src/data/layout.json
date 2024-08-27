@@ -1,0 +1,852 @@
+{
+    "divisions": [
+        {
+            "name": "A",
+            "rows": [
+                {
+                    "seats": [
+                        {
+                            "division": "A",
+                            "row": 0,
+                            "column": 0,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 0,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 0,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 0,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 0,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 0,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 0,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 0,
+                            "column": 7,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 0,
+                            "column": 8,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 0,
+                            "column": 9,
+                            "isMarked": false
+                        }
+                    ]
+                },
+                {
+                    "seats": [
+                        {
+                            "division": "A",
+                            "row": 1,
+                            "column": 0,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 1,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 1,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 1,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 1,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 1,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 1,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 1,
+                            "column": 7,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 1,
+                            "column": 8,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 1,
+                            "column": 9,
+                            "isMarked": true
+                        }
+                    ]
+                },
+                {
+                    "seats": [
+                        {
+                            "division": "A",
+                            "row": 2,
+                            "column": 0,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 2,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 2,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 2,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 2,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 2,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 2,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 2,
+                            "column": 7,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 2,
+                            "column": 8,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 2,
+                            "column": 9,
+                            "isMarked": true
+                        }
+                    ]
+                },
+                {
+                    "seats": [
+                        {
+                            "division": "A",
+                            "row": 3,
+                            "column": 0,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 3,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 3,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 3,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 3,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 3,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 3,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 3,
+                            "column": 7,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 3,
+                            "column": 8,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 3,
+                            "column": 9,
+                            "isMarked": true
+                        }
+                    ]
+                },
+                {
+                    "seats": [
+                        {
+                            "division": "A",
+                            "row": 4,
+                            "column": 0,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 4,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 4,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 4,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 4,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 4,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 4,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "A",
+                            "row": 4,
+                            "column": 7,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 4,
+                            "column": 8,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "A",
+                            "row": 4,
+                            "column": 9,
+                            "isMarked": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "B",
+            "rows": [
+                {
+                    "seats": [
+                        {
+                            "division": "B",
+                            "row": 0,
+                            "column": 0,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 0,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 0,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 0,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 0,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 0,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 0,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 0,
+                            "column": 7,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 0,
+                            "column": 8,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 0,
+                            "column": 9,
+                            "isMarked": false
+                        }
+                    ]
+                },
+                {
+                    "seats": [
+                        {
+                            "division": "B",
+                            "row": 1,
+                            "column": 0,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 1,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 1,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 1,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 1,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 1,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 1,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 1,
+                            "column": 7,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 1,
+                            "column": 8,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 1,
+                            "column": 9,
+                            "isMarked": false
+                        }
+                    ]
+                },
+                {
+                    "seats": [
+                        {
+                            "division": "B",
+                            "row": 2,
+                            "column": 0,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 2,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 2,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 2,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 2,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 2,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 2,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 2,
+                            "column": 7,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 2,
+                            "column": 8,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 2,
+                            "column": 9,
+                            "isMarked": false
+                        }
+                    ]
+                },
+                {
+                    "seats": [
+                        {
+                            "division": "B",
+                            "row": 3,
+                            "column": 0,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 3,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 3,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 3,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 3,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 3,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 3,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 3,
+                            "column": 7,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 3,
+                            "column": 8,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 3,
+                            "column": 9,
+                            "isMarked": false
+                        }
+                    ]
+                },
+                {
+                    "seats": [
+                        {
+                            "division": "B",
+                            "row": 4,
+                            "column": 0,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 4,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 4,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 4,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 4,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 4,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 4,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 4,
+                            "column": 7,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 4,
+                            "column": 8,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 4,
+                            "column": 9,
+                            "isMarked": false
+                        }
+                    ]
+                },
+                {
+                    "seats": [
+                        {
+                            "division": "B",
+                            "row": 5,
+                            "column": 0,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 5,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 5,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 5,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 5,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "B",
+                            "row": 5,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 5,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 5,
+                            "column": 7,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 5,
+                            "column": 8,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "B",
+                            "row": 5,
+                            "column": 9,
+                            "isMarked": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "C",
+            "rows": [
+                {
+                    "seats": [
+                        {
+                            "division": "C",
+                            "row": 0,
+                            "column": 0,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "C",
+                            "row": 0,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "C",
+                            "row": 0,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "C",
+                            "row": 0,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "C",
+                            "row": 0,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "C",
+                            "row": 0,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "C",
+                            "row": 0,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "C",
+                            "row": 0,
+                            "column": 7,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "C",
+                            "row": 0,
+                            "column": 8,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "C",
+                            "row": 0,
+                            "column": 9,
+                            "isMarked": false
+                        }
+                    ]
+                },
+                {
+                    "seats": [
+                        {
+                            "division": "C",
+                            "row": 1,
+                            "column": 0,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "C",
+                            "row": 1,
+                            "column": 1,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "C",
+                            "row": 1,
+                            "column": 2,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "C",
+                            "row": 1,
+                            "column": 3,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "C",
+                            "row": 1,
+                            "column": 4,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "C",
+                            "row": 1,
+                            "column": 5,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "C",
+                            "row": 1,
+                            "column": 6,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "C",
+                            "row": 1,
+                            "column": 7,
+                            "isMarked": false
+                        },
+                        {
+                            "division": "C",
+                            "row": 1,
+                            "column": 8,
+                            "isMarked": true
+                        },
+                        {
+                            "division": "C",
+                            "row": 1,
+                            "column": 9,
+                            "isMarked": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "maxSeatsPerRow": 10
+}

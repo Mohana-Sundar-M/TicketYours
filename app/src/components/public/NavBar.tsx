@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Button, Modal,  } from '@mui/material';
+import { Box, AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Button, Modal } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import MovieIcon from '@mui/icons-material/Movie';
@@ -11,15 +11,14 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import logo from '../../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 import LocationChanger from '../homepage/LocationChanger';
+import { useActiveCity } from '../../context/ActiveCityContext'; // Import the context hook
 
 const Nav: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLocationChangerOpen, setIsLocationChangerOpen] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState('Bengaluru');
+  const { activeCityId, activeCity } = useActiveCity(); // Get active city from context
   const navigate = useNavigate();
-  
-
-
+  const cityId = activeCityId ? activeCityId.toString() : '';
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
       event.type === 'keydown' &&
@@ -39,16 +38,11 @@ const Nav: React.FC = () => {
     setIsLocationChangerOpen(true);
   };
 
-  const handleLocationClose = (location: string) => {
-    if (location) {
-      setSelectedLocation(location);
-    }
-    setIsLocationChangerOpen(false);
-  };
+  
 
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
-    { text: 'Movies', icon: <MovieIcon />, path: '/movies' },
+    { text: 'Movies', icon: <MovieIcon />, path:`/v3/movies/city/${cityId}` },
     { text: 'Theater', icon: <TheatersIcon />, path: '/theater-search' },
     { text: 'Profile', icon: <AccountCircleIcon />, path: '/profile' },
   ];
@@ -80,7 +74,7 @@ const Nav: React.FC = () => {
                 }
               }}
             >
-              {selectedLocation}
+              {activeCity || 'Select Location'} {/* Show active city from context */}
             </Button>
 
             <IconButton edge="end" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
@@ -144,7 +138,7 @@ const Nav: React.FC = () => {
           height: '100vh' 
         }}
       >
-        <LocationChanger onSelectLocation={handleLocationClose} onClose={() => setIsLocationChangerOpen(false)} />
+         <LocationChanger onClose={() => setIsLocationChangerOpen(false)} />
       </Modal>
     </Box>
   );

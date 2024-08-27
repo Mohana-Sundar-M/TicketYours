@@ -57,12 +57,12 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ selectedMovieId }) => {
                 <div className="grid grid-cols-2 gap-2 md:grid-cols-5 md:gap-4 mb-4">
                   {/* Display showtimes */}
                   {theater.showtimes.map((time, index) => (
-                    <button
-                      key={index}
-                      className="px-4 py-2 bg-gray-100 rounded-full text-green-600 text-base font-medium hover:bg-gray-200 md:px-3 md:py-2 md:text-sm"
-                    >
-                      {time}
-                    </button>
+                     <button
+                     key={index}
+                     className="px-4 py-2 bg-white border border-teal-500 rounded-lg text-teal-500 text-base font-semibold hover:bg-teal-50 md:px-3 md:py-2 md:text-sm"
+                   >
+                     {time}
+                   </button>
                   ))}
                 </div>
                 {theaterIndex < filteredTheaters.length - 1 && (

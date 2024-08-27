@@ -42,7 +42,7 @@ const HomePage: React.FC = () => {
           }}
         >
           <LocationChanger
-            onSelectLocation={handleLocationClose}
+            
             onClose={handleLocationClose}
           />
 </Modal>

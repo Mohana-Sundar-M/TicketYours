@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdArrowBack } from 'react-icons/md'; // Importing back icon from react-icons
+import ConfirmationPopup from './ConfirmationPopup'; // Import the ConfirmationPopup component
 
 const TopBar: React.FC<{ timeLeft: number }> = ({ timeLeft }) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // State to manage popup visibility
+
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -9,8 +12,7 @@ const TopBar: React.FC<{ timeLeft: number }> = ({ timeLeft }) => {
   };
 
   const handleBackClick = () => {
-    // Handle the back navigation logic here
-    
+    setIsPopupOpen(true); // Open confirmation popup
   };
 
   return (
@@ -24,6 +26,17 @@ const TopBar: React.FC<{ timeLeft: number }> = ({ timeLeft }) => {
       <span className="bg-red-500 text-white px-2 py-1 rounded ml-auto">
         {formatTime(timeLeft)}
       </span>
+
+      {/* Confirmation Popup */}
+      <ConfirmationPopup
+        isOpen={isPopupOpen}
+        onClose={() => setIsPopupOpen(false)}
+        onConfirm={() => {
+          setIsPopupOpen(false);
+          // Implement navigation logic here (e.g., navigate to home route)
+          window.location.href = '/'; // Replace with your routing logic
+        }}
+      />
     </div>
   );
 };

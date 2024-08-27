@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { FaArrowLeft } from 'react-icons/fa';
 
 /**
@@ -6,40 +7,26 @@ import { FaArrowLeft } from 'react-icons/fa';
  * It performs validation to ensure the email and mobile number are correctly formatted.
  */
 const ContactPage: React.FC = () => {
-  // State to manage email input and validation errors
   const [email, setEmail] = useState<string>('');
   const [mobile, setMobile] = useState<string>('');
   const [errors, setErrors] = useState<{ email: string; mobile: string }>({ email: '', mobile: '' });
 
-  /**
-   * Validates the format of the provided email address.
-   * @param email - The email address to validate.
-   * @returns True if the email address is valid, false otherwise.
-   */
+  const navigate = useNavigate(); // Initialize useNavigate
+
   const validateEmail = (email: string): boolean => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
   };
 
-  /**
-   * Validates the format of the provided mobile number.
-   * @param mobile - The mobile number to validate.
-   * @returns True if the mobile number is exactly 10 digits long, false otherwise.
-   */
   const validateMobile = (mobile: string): boolean => {
     const re = /^\d{10}$/;
     return re.test(String(mobile));
   };
 
-  /**
-   * Handles the click event for the 'Next' button.
-   * Validates the email and mobile number, sets errors if validation fails, or proceeds if valid.
-   */
   const handleNextClick = (): void => {
     let emailError = '';
     let mobileError = '';
 
-    // Validate email and mobile number
     if (!validateEmail(email)) {
       emailError = 'Invalid email address';
     }
@@ -48,13 +35,12 @@ const ContactPage: React.FC = () => {
       mobileError = 'Invalid mobile number. Must be 10 digits.';
     }
 
-    // Set validation errors or proceed with valid input
     if (emailError || mobileError) {
       setErrors({ email: emailError, mobile: mobileError });
     } else {
       setErrors({ email: '', mobile: '' });
-      // Handle successful validation (e.g., navigate to the next page)
-      console.log('Email and Mobile are valid');
+      // Navigate to Payment route on successful validation
+      navigate('/payment');
     }
   };
 
@@ -64,7 +50,7 @@ const ContactPage: React.FC = () => {
       <div className="bg-white p-4 shadow-md flex items-center">
         {/* Back button with an icon */}
         <button className="mr-4">
-          <FaArrowLeft className="w-6 h-6 " />
+          <FaArrowLeft className="w-6 h-6" />
         </button>
         {/* Page title */}
         <h1 className="text-xl font-bold">Contact details</h1>
