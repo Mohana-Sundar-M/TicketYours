@@ -7,7 +7,10 @@ import XIcon from "@mui/icons-material/X";
 
 const Footer = () => {
   return (
-    <Box className="bg-[#beede4] text-gray-800 p-8 sm:p-12">
+    <Box 
+      component="footer"
+      className="bg-[#beede4] text-gray-800 p-8 sm:p-12"
+    >
       <Box className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-8 sm:gap-16">
         <Box className="flex flex-col gap-2">
           <Typography variant="h6" className="text-[#61c4a9] font-bold">

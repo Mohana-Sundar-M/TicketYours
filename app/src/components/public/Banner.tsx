@@ -12,36 +12,32 @@ const Header: React.FC = () => {
 
   const handleNext = () => {
     setIsTransitioning(true);
-    setCurrentBanner((prev) => prev + 1);
+    setCurrentBanner((prev) => (prev + 1) % banners.length);
   };
 
   const handlePrevious = () => {
     setIsTransitioning(true);
-    setCurrentBanner((prev) =>
-      prev === 0 ? banners.length : prev - 1
-    );
+    setCurrentBanner((prev) => (prev - 1 + banners.length) % banners.length);
   };
 
   useEffect(() => {
-    const interval = setInterval(handleNext, 3000);
-    return () => clearInterval(interval);
+    const interval = setInterval(handleNext, 3000); // Change banner every 3 seconds
+    return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
 
   useEffect(() => {
     if (currentBanner === banners.length) {
-      // Temporary disabling transition to jump to the first image
       setTimeout(() => {
         setIsTransitioning(false);
         setCurrentBanner(0);
-      }, 800); // Duration matches the transition time
+      }, 800); // Match transition duration
     } else if (currentBanner < 0) {
-      // Temporary disabling transition to jump to the last image
       setTimeout(() => {
         setIsTransitioning(false);
         setCurrentBanner(banners.length - 1);
       }, 0);
     }
-  }, [currentBanner, banners.length]);
+  }, [currentBanner]);
 
   return (
     <div className="header-container">
@@ -61,7 +57,6 @@ const Header: React.FC = () => {
             alt={`Banner ${index}`}
           />
         ))}
-        {/* Duplicate the first image */}
         <img
           src={banners[0]}
           className="banner-image"
