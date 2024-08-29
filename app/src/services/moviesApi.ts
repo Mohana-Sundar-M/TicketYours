@@ -17,10 +17,12 @@ interface MoviesResponse {
 
 export const moviesApi = createApi({
   reducerPath: 'moviesApi',
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: baseUrl, // Use the base URL from the environment variable
+  }),
   endpoints: (builder) => ({
     getMovies: builder.query<Movie[], string>({
-      query: (cityId) => `v3/movies/city/${cityId}`,
+      query: (cityId) => `/v3/movies/city/${cityId}`, // Use relative path with base URL
       transformResponse: (response: MoviesResponse) => response.data,
     }),
   }),
