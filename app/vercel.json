@@ -1,0 +1,25 @@
+{
+    "rewrites": [
+      {
+        "source": "/v1/:path*",
+        "destination": "http://13.202.1.147:3000/v1/:path*"
+      },
+      {
+        "source": "/v3/:path*",
+        "destination": "http://13.202.1.147:3000/v3/:path*"
+      },
+      {
+        "source": "/v4/:path*",
+        "destination": "http://13.202.1.147:3000/v4/:path*"
+      },
+      {
+        "source": "/v5/:path*",
+        "destination": "http://13.202.1.147:3000/v5/:path*"
+      },
+      {
+        "source": "/v6/:path*",
+        "destination": "http://13.202.1.147:3000/v6/:path*"
+      }
+    ]
+  }
+  
