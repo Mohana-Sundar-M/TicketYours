@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiEndpoints from '../apiEndpoints'; // Import the apiEndpoints
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -22,7 +23,7 @@ export const moviesApi = createApi({
   }),
   endpoints: (builder) => ({
     getMovies: builder.query<Movie[], string>({
-      query: (cityId) => `/v3/movies/city/${cityId}`, // Use relative path with base URL
+      query: (cityId) => apiEndpoints.getMoviesByCity(cityId), // Use the endpoint from apiEndpoints
       transformResponse: (response: MoviesResponse) => response.data,
     }),
   }),

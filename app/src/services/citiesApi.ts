@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiEndpoints from '../apiEndpoints'; // Import the apiEndpoints
 
 // Define a type for the city
 export interface City {
@@ -20,7 +21,7 @@ export const citiesApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
   endpoints: (builder) => ({
     getCities: builder.query<FetchCitiesResponse, void>({
-      query: () => '/v1/cities',
+      query: () => apiEndpoints.getCities,  // Use the endpoint from apiEndpoints
     }),
   }),
 });

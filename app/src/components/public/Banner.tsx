@@ -11,13 +11,15 @@ const Header: React.FC = () => {
   ];
 
   const handleNext = () => {
+    if (currentBanner === banners.length) return;
     setIsTransitioning(true);
-    setCurrentBanner((prev) => (prev + 1) % banners.length);
+    setCurrentBanner((prev) => prev + 1);
   };
 
   const handlePrevious = () => {
+    if (currentBanner === 0) return;
     setIsTransitioning(true);
-    setCurrentBanner((prev) => (prev - 1 + banners.length) % banners.length);
+    setCurrentBanner((prev) => prev - 1);
   };
 
   useEffect(() => {
@@ -30,14 +32,9 @@ const Header: React.FC = () => {
       setTimeout(() => {
         setIsTransitioning(false);
         setCurrentBanner(0);
-      }, 800); // Match transition duration
-    } else if (currentBanner < 0) {
-      setTimeout(() => {
-        setIsTransitioning(false);
-        setCurrentBanner(banners.length - 1);
-      }, 0);
+      }, 800); // Match transition duration to prevent a sudden jump
     }
-  }, [currentBanner]);
+  }, [currentBanner, banners.length]);
 
   return (
     <div className="header-container">
@@ -47,7 +44,12 @@ const Header: React.FC = () => {
           transform: `translateX(-${currentBanner * 100}%)`,
           transition: isTransitioning ? 'transform 0.8s ease-in-out' : 'none',
         }}
-        onTransitionEnd={() => setIsTransitioning(true)}
+        onTransitionEnd={() => {
+          if (currentBanner === banners.length) {
+            setIsTransitioning(false);
+            setCurrentBanner(0);
+          }
+        }}
       >
         {banners.map((banner, index) => (
           <img
@@ -57,6 +59,7 @@ const Header: React.FC = () => {
             alt={`Banner ${index}`}
           />
         ))}
+        {/* Duplicate of the first banner to create the infinite loop effect */}
         <img
           src={banners[0]}
           className="banner-image"
