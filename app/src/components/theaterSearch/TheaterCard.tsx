@@ -1,90 +1,111 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
-import { Theater } from '../../data/types';
-import NowShowing from './NowShowing';
+import { useNavigate } from 'react-router-dom';
+import NowShowing from './NowShowing'; // Import updated NowShowing component
 import { FaMapMarkerAlt, FaDirections } from 'react-icons/fa';
 
+interface Movie {
+  id: number;
+  title: string;
+  image: string;
+}
+
+interface Theater {
+  id: number;
+  name: string;
+  location: string;
+  zipcode: string;
+  directionsLink: string | null;
+  images: string[];
+  movies: Movie[];
+}
+
 interface TheaterCardProps {
-  theater: Theater; // Prop type for the theater data
+  theater: Theater;
 }
 
 const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
-  const [isDropdownOpen, setDropdownOpen] = useState(false); // State to manage dropdown visibility
-  const navigate = useNavigate(); // Hook to programmatically navigate
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
 
-  // Toggle the dropdown open/close state
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  // Navigate to the theater details page
   const handleNavigate = () => {
     navigate(`/theater/${theater.id}`);
   };
 
-  
- 
-
   return (
-    <div
-      className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-4 w-full mx-auto"
-     
-    >
+    <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-4 w-full mx-auto" style={{ maxWidth: '75%' }}>
+      {/* Image Section */}
       <div className="relative w-full md:w-1/3">
-        <img 
-          src={theater.image} 
-          alt={theater.name} 
-          className="object-cover w-full h-32 md:h-full cursor-pointer"
-          onClick={handleNavigate} // Navigate when clicking the image
+        <img
+          src={theater.images[0] || ''}
+          alt={theater.name}
+          className="object-cover w-full h-full cursor-pointer"
+          onClick={handleNavigate}
         />
-        <div 
-          className="absolute bottom-0 w-full bg-black bg-opacity-50 text-white text-center py-2 text-lg font-bold md:hidden cursor-pointer"
-          onClick={handleNavigate} // Navigate when clicking the overlay
+        <div
+          className="absolute bottom-0 w-full bg-black bg-opacity-50 text-white text-center py-1 text-sm font-bold md:hidden cursor-pointer"
+          onClick={handleNavigate}
         >
           {theater.name}
         </div>
       </div>
-      <div className="flex flex-col justify-between p-4 w-full md:w-2/3">
-        <div className="flex flex-col md:flex-row justify-between">
-          <div className="hidden md:block">
-            <h2 
-              className="text-lg font-bold cursor-pointer"
-              onClick={handleNavigate} // Navigate when clicking the theater name
+
+      {/* Content Section */}
+      <div className="flex flex-col md:flex-row items-start justify-between p-3 w-full md:w-2/3" style={{ height: 'calc(100% - 1rem)' }}>
+        {/* Text and Details Section */}
+        <div className="flex flex-col md:w-2/3">
+          <h2
+            className="text-md font-bold cursor-pointer hidden md:block"
+            onClick={handleNavigate}
+          >
+            {theater.name}
+          </h2>
+          
+          <p className="text-gray-600 mt-1 text-xs hidden md:block ">{theater.location}</p>
+          <div className="flex items-center mt-4 hidden md:flex">
+            <FaMapMarkerAlt className="text-gray-600 h-3 w-3 mr-1" />
+            <p className="text-gray-600 text-s">{theater.zipcode}</p>
+          </div>
+          <div className="flex items-center hidden md:flex">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center text-blue-500 hover:text-blue-700 mt-1 text-s pt-1"
+              href={theater.directionsLink || '#'}
             >
-              {theater.name}
-            </h2>
-            <p className="text-gray-600 mt-2 text-xs">{theater.address}</p>
-            <div className="flex items-center mt-2 pt-7">
-              <FaMapMarkerAlt className="text-gray-600 h-4 w-4 mr-1" />
-              <p className="text-gray-600 text-xs">{theater.distance} km away</p>
-            </div>
-            <button className="flex items-center text-blue-500 hover:text-blue-700 mt-2 text-xs pt-2">
-              <FaDirections className="h-4 w-4 mr-1" />
+              <FaDirections className="h-3 w-3 mr-1" />
               Directions
-            </button>
-          </div>
-          <div className="hidden md:block mt-4 md:mt-0 md:ml-4 w-full md:w-1/2">
-            <NowShowing movies={theater.movies} /> {/* Show Now Showing component on desktop */}
+            </a>
           </div>
         </div>
-        <div className="block md:hidden">
-          <div className="flex items-center justify-between">
-            <p className="flex items-center text-gray-600 text-xs">
-              <FaMapMarkerAlt className="h-4 w-4 mr-1" />
-              {theater.distance} km away
-            </p>
-            <button className="flex items-center text-gray-600 text-xs" onClick={toggleDropdown}>
-              <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mr-1 transform ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-          </div>
-          {isDropdownOpen && (
-            <div className="mt-2 p-0 bg-gray-100 rounded-lg h-32 overflow-hidden h-auto">
-              <NowShowing movies={theater.movies} compact /> {/* Compact view of Now Showing on mobile */}
-            </div>
-          )}
+
+        {/* Now Showing Section */}
+        <div className="hidden md:block md:w-1/3 mt-2 md:mt-0">
+          <NowShowing cinemaHallId={theater.id.toString()} />
         </div>
+      </div>
+
+      {/* Mobile View */}
+      <div className="block md:hidden">
+        <div className="flex items-center justify-between p-2">
+          <p className="flex items-center text-gray-600 text-xs">
+            <FaMapMarkerAlt className="h-3 w-3 mr-1" />
+            {theater.zipcode}
+          </p>
+          <button className="flex items-center text-gray-600 text-xs" onClick={toggleDropdown}>
+            <svg xmlns="http://www.w3.org/2000/svg" className={`h-3 w-3 transform ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+        {isDropdownOpen && (
+          <div className="mt-2 p-2 bg-gray-100 rounded-lg">
+            <NowShowing cinemaHallId={theater.id.toString()} />
+          </div>
+        )}
       </div>
     </div>
   );

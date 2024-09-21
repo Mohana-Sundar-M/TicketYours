@@ -1,31 +1,39 @@
 import React, { useState } from 'react';
 import TheaterCard from './TheaterCard';
 import SearchBar from '../public/SearchBar';
-import { theaters } from '../../data/dummyData'; // Import dummy data for theaters
+import { useGetCinemahallsByCityQuery } from '../../services/cinemahallsApi'; 
+import { useActiveCity } from '../../context/ActiveCityContext'; 
+import LoadingSpinner from '../public/LoadingSpinner';
+import { CinemaHall } from '../../types/cinemahallsTypes'; // Import CinemaHall type
 
 const TheaterList: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState<string>(''); // State for search query
+  const { activeCityId } = useActiveCity(); 
+  const [searchQuery, setSearchQuery] = useState<string>(''); 
 
-  // Function to handle search input changes
+  const { data, isLoading, error } = useGetCinemahallsByCityQuery(activeCityId.toString());
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value.toLowerCase()); // Update search query in lowercase
+    setSearchQuery(event.target.value.toLowerCase());
   };
 
-  // Filter theaters based on search query
-  const filteredTheaters = theaters.filter(theater =>
-    theater.name.toLowerCase().includes(searchQuery) // Check if theater name includes search query
-  );
+  const filteredCinemahalls = data?.data?.filter((cinemahall: CinemaHall) =>
+    cinemahall.name.toLowerCase().includes(searchQuery)
+  ) || [];
 
   return (
-    <div className="container mx-auto p-4  ">
-      <SearchBar onSearchChange={handleSearchChange} /> {/* Search bar for filtering theaters */}
+    <div className="container mx-auto p-4">
+      <SearchBar onSearchChange={handleSearchChange} />
       <div className="mt-4">
-        {filteredTheaters.length > 0 ? (
-          filteredTheaters.map(theater => (
-            <TheaterCard key={theater.id} theater={theater} /> // Render a TheaterCard for each filtered theater
+        {isLoading ? (
+           <LoadingSpinner/>
+        ) : error ? (
+          <p>Error fetching cinema halls.</p>
+        ) : filteredCinemahalls.length > 0 ? (
+          filteredCinemahalls.map((cinemahall: CinemaHall) => (
+            <TheaterCard key={cinemahall.id} theater={cinemahall} />
           ))
         ) : (
-          <p>No theaters found</p> // Message when no theaters match the search query
+          <p>No cinema halls found</p>
         )}
       </div>
     </div>

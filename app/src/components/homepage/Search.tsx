@@ -13,8 +13,8 @@ import Typography from "@mui/material/Typography";
 import { useMediaQuery } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { useGetMoviesQuery } from '../../services/moviesApi';
+import { useGetCinemahallsByCityQuery } from '../../services/cinemahallsApi';
 import { useActiveCity } from '../../context/ActiveCityContext';
-import { theaters } from '../../data/dummyData';
 
 interface ModalProps {
   open: boolean;
@@ -30,23 +30,22 @@ const Search = ({ open, handleModal }: ModalProps) => {
   const navigate = useNavigate();
   const { activeCityId } = useActiveCity();
 
-  // Fetch movies data using the active city ID
-  const { data: moviesData = [], error, isLoading } = useGetMoviesQuery(activeCityId.toString());
+  // Fetch movies data
+  const { data: moviesData = [], error: moviesError, isLoading: moviesLoading } = useGetMoviesQuery(activeCityId.toString());
+
+  // Fetch theaters data
+  const { data: theatersResponse = { data: [] }, error: theatersError, isLoading: theatersLoading } = useGetCinemahallsByCityQuery(activeCityId.toString());
 
   useEffect(() => {
-    if (error && 'status' in error && error.status === 404) {
+    if (moviesError && 'status' in moviesError && moviesError.status === 404) {
       setNoMovies(true);
     } else {
       setNoMovies(false);
     }
-  }, [error, activeCityId]);
+  }, [moviesError, activeCityId]);
 
   const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
-  };
-
-  const handleSearch = () => {
-    // dispatch(searchThunk());
   };
 
   const handleMovies = () => {
@@ -59,14 +58,18 @@ const Search = ({ open, handleModal }: ModalProps) => {
     setSearch(""); // Reset search text
   };
 
-  // Filter the list based on the search query and selected category (movies or theaters)
-  const filteredMovies = moviesData.filter(movie =>
-    movie.title.toLowerCase().includes(search.toLowerCase())
+  // Safely filter the list based on the search query and selected category (movies or theaters)
+  const filteredMovies = (moviesData || []).filter((movie: any) =>
+    movie.title?.toLowerCase().includes(search.toLowerCase())
   );
 
-  const filteredTheaters = theaters.filter(theater =>
-    theater.name.toLowerCase().includes(search.toLowerCase())
+  const filteredTheaters = (theatersResponse.data || []).filter((theater: any) =>
+    theater.name?.toLowerCase().includes(search.toLowerCase())
   );
+
+  console.log('Movies Data:', moviesData);
+  console.log('Theaters Response:', theatersResponse);
+  console.log('Filtered Theaters:', filteredTheaters);
 
   // Handle click for movie or theater
   const handleClickMovie = (id: string) => {
@@ -74,7 +77,7 @@ const Search = ({ open, handleModal }: ModalProps) => {
   };
 
   const handleClickTheater = (id: number) => {
-    navigate(`/theater/${id.toString()}`);
+    navigate(`/theater/${id}`);
   };
 
   return (
@@ -120,7 +123,8 @@ const Search = ({ open, handleModal }: ModalProps) => {
           InputProps={{
             onKeyPress: (event) => {
               if (event.key === "Enter") {
-                handleSearch();
+                // Optional: Trigger search on Enter key press
+                // handleSearch();
               }
             },
             startAdornment: (
@@ -198,8 +202,9 @@ const Search = ({ open, handleModal }: ModalProps) => {
             gap: 2,
           }}
         >
-          {isLoading && <Typography variant="body1">Loading...</Typography>}
-          
+          {moviesLoading && <Typography variant="body1">Loading movies...</Typography>}
+          {theatersLoading && <Typography variant="body1">Loading theaters...</Typography>}
+
           {/* Movies Tab Content */}
           {isMovies && (
             <>
@@ -208,7 +213,7 @@ const Search = ({ open, handleModal }: ModalProps) => {
               ) : (
                 <>
                   {filteredMovies.length > 0 ? (
-                    filteredMovies.map((movie) => (
+                    filteredMovies.map((movie: any) => (
                       <Box
                         key={movie.id}
                         sx={{ display: 'flex', gap: 2, cursor: 'pointer', alignItems: 'center' }}
@@ -238,14 +243,14 @@ const Search = ({ open, handleModal }: ModalProps) => {
           {!isMovies && (
             <>
               {filteredTheaters.length > 0 ? (
-                filteredTheaters.map((theater) => (
+                filteredTheaters.map((theater: any) => (
                   <Box
                     key={theater.id}
                     sx={{ display: 'flex', gap: 2, cursor: 'pointer', alignItems: 'center' }}
                     onClick={() => handleClickTheater(theater.id)}
                   >
                     <img
-                      src={theater.image}
+                      src={theater.image || '/default-theater-image.jpg'}
                       alt={theater.name}
                       style={{ width: 70, height: 70, objectFit: 'contain' }}
                     />
