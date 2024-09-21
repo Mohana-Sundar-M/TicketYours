@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaSearch, FaMapMarkerAlt, FaInfoCircle } from 'react-icons/fa';
 import { useGetCinemahallsByCityAndMovieQuery } from '../../services/cinemahallsApi'; // API service for fetching cinema halls
 import { useActiveCity } from '../../context/ActiveCityContext'; // City context
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query'; // Import FetchBaseQueryError type
+
 
 interface TheaterCardProps {
   selectedMovieId: string;

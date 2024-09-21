@@ -3,7 +3,7 @@ import apiEndpoints from '../apiEndpoints'; // Import the apiEndpoints
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
-interface Movie {
+export interface Movie {
   id: string;
   title: string;
   genre: string;

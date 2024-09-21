@@ -1,11 +1,10 @@
 import React from 'react';
-import { BrowserRouter , Route, Routes } from 'react-router-dom';
+import { BrowserRouter  } from 'react-router-dom';
 import AppRoutes from './routes'; // Import your routes configuration
 import { Provider } from 'react-redux';
 import { store } from './stores';
 import { ActiveCityProvider } from './context/ActiveCityContext';
-import Theaters from '@mui/icons-material/Theaters';
-import Dashboard from './pages/Admin/Dashboard';
+
 
 
 const App: React.FC = () => {

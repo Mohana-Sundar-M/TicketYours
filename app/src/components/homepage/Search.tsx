@@ -34,7 +34,7 @@ const Search = ({ open, handleModal }: ModalProps) => {
   const { data: moviesData = [], error: moviesError, isLoading: moviesLoading } = useGetMoviesQuery(activeCityId.toString());
 
   // Fetch theaters data
-  const { data: theatersResponse = { data: [] }, error: theatersError, isLoading: theatersLoading } = useGetCinemahallsByCityQuery(activeCityId.toString());
+  const { data: theatersResponse = { data: [] }, isLoading: theatersLoading } = useGetCinemahallsByCityQuery(activeCityId.toString());
 
   useEffect(() => {
     if (moviesError && 'status' in moviesError && moviesError.status === 404) {
