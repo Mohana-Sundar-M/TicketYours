@@ -1,25 +1,23 @@
-import React from 'react';
-import { BrowserRouter  } from 'react-router-dom';
-import AppRoutes from './routes'; // Import your routes configuration
-import { Provider } from 'react-redux';
-import { store } from './stores';
-import { ActiveCityProvider } from './context/ActiveCityContext';
-
-
+import React from "react";
+import { useRoutes } from "react-router-dom";
+import { routes } from "./routes"; // Import your routes configuration
+import { Provider } from "react-redux";
+import { store } from "./stores";
+import { ActiveCityProvider } from "./context/ActiveCityContext";
 
 const App: React.FC = () => {
+  const content = useRoutes(routes);
+
   return (
-  <Provider store={store}>
+    <Provider store={store}>
       <ActiveCityProvider>
-    <BrowserRouter>
-      <div className=""> {/* Optional: Add a background color and ensure full height*/}
-        <AppRoutes /> {/* Render the routes defined in your AppRoutes component*/ }
-      </div>
-    </BrowserRouter>
-    </ActiveCityProvider>
+        <div className="">
+          {/* Optional: Add a background color and ensure full height*/}
+          {content}
+          {/* Render the routes defined in your AppRoutes component*/}
+        </div>
+      </ActiveCityProvider>
     </Provider>
- 
-   
   );
 };
 

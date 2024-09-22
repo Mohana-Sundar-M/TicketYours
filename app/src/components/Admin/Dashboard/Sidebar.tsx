@@ -1,40 +1,47 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTicketAlt, faFilm, faUsers, faClipboardList, faBullhorn, faChartLine, faCog, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOut } from "@fortawesome/free-solid-svg-icons";
+import { adminMenus } from "../../../menuList";
 
-interface SidebarProps {
-  selectedItem: string;
-  setSelectedItem: (item: string) => void;
-}
+const Sidebar: React.FC = () => {
+  
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [selectedItem, setSelectedItem] = useState<string>("Dashboard");
 
-const Sidebar: React.FC<SidebarProps> = ({ selectedItem, setSelectedItem }) => {
-  const menuItems = [
-    { icon: faHome, label: 'Dashboard' },
-    { icon: faFilm, label: 'Theaters' },
-    { icon: faTicketAlt, label: 'Movies' },
-    { icon: faTicketAlt, label: 'Tickets' },
-    { icon: faUsers, label: 'Customer Support' },
-    { icon: faClipboardList, label: 'Users' },
-    { icon: faBullhorn, label: 'Promotion' },
-    { icon: faChartLine, label: 'Analytics' },
-    { icon: faCog, label: 'Settings' },
-    { icon: faSignOut, label: 'Logout' },
-  ];
+  const handleSelectedItems = (route: string) => {
+    setSelectedItem(route);
+    navigate(route);
+  };
+
+  const handleLogout = () => {};
 
   return (
     <div className="fixed top-0 left-0 w-64 bg-gray-100 h-screen p-6 pt-10">
       <ul className="space-y-4">
-        {menuItems.map((item) => (
+        {adminMenus.map((item) => (
           <li
             key={item.label}
             className={`flex items-center p-2 rounded-md cursor-pointer ${
-              selectedItem === item.label ? 'bg-gray-300' : 'hover:bg-gray-200'
+              selectedItem === item.route ? "bg-gray-300" : "hover:bg-gray-200"
             }`}
-            onClick={() => setSelectedItem(item.label)}
+            onClick={() => handleSelectedItems(item.route)}
           >
             <FontAwesomeIcon icon={item.icon} className="mr-3" />
             {item.label}
           </li>
         ))}
+        <li
+          key={"Logout"}
+          className={`flex items-center p-2 rounded-md cursor-pointer ${
+            selectedItem === "Logout" ? "bg-gray-300" : "hover:bg-gray-200"
+          }`}
+          onClick={handleLogout}
+        >
+          <FontAwesomeIcon icon={faSignOut} className="mr-3" />
+          Logout
+        </li>
       </ul>
     </div>
   );
