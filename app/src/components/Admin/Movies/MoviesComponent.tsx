@@ -52,7 +52,7 @@ const MoviesComponent: React.FC = () => {
   return (
     <div className="lg:ml-64 p-4">
       {/* Search and Add New Movie */}
-      <div className="flex flex-col lg:flex-row justify-start items-center mb-4 space-y-4 lg:space-y-0">
+      <div className="flex flex-col lg:flex-row justify-between items-center mb-4 space-y-4 lg:space-y-0">
         <div className="flex items-center bg-gray-100 p-2 rounded-lg w-full lg:w-1/2">
           {/* Search Icon */}
           <FaSearch className="text-gray-500 mr-2" />
@@ -70,14 +70,14 @@ const MoviesComponent: React.FC = () => {
       </div>
 
       {/* Movie grid with reduced spacing */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-8">
         {filteredMovies.length > 0 ? (
           filteredMovies.map((movie) => (
             <div key={movie.id} className="flex flex-col items-center">
               <img
                 src={movie.image}
                 alt={movie.title}
-                className="w-full h-64 object-cover rounded-lg"
+                className="w-32 h-48 object-cover rounded-lg" // Reduced size for the movie card
               />
               <p className="mt-2 text-center font-semibold">{movie.title}</p>
               <p className="text-gray-600 text-sm">{movie.genre}</p>
