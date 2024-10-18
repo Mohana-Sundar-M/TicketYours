@@ -6,8 +6,6 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import CloseIcon from '@mui/icons-material/Close';
 import Nav from '../components/public/NavBar';
 
-
-// Define the filter types to match Filters component's expected structure
 type FiltersType = {
   languages: string[];
   genres: string[];
@@ -22,7 +20,6 @@ const MoviesPage: React.FC = () => {
     format: []
   });
 
-  // Handle filter changes
   const handleFilterChange = (newFilters: FiltersType) => {
     setFilters(newFilters);
   };
@@ -36,32 +33,36 @@ const MoviesPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-fit bg-gray-100 relative">
+    <div className="min-h-screen bg-gray-100 relative">
       <Nav />
       <Header />
 
       <div className="flex flex-col lg:flex-row px-4 lg:px-16 py-8 gap-8">
-        {/* Filters Sidebar (visible on large screens) */}
+        {/* Filters Sidebar for Desktop */}
         <div className="lg:w-64 hidden lg:block">
           <Filters onFilterChange={handleFilterChange} />
         </div>
 
         {/* Movies List Section */}
-        <div className={`flex-1 ${isFilterVisible ? 'lg:ml-64' : ''}`}>
+        <div className="flex-1">
           <MoviesList onMovieClick={handleMovieClick} filters={filters} />
         </div>
 
-        {/* Filter Toggle Button (visible on small screens) */}
+        {/* Filter Toggle Button for Mobile */}
         <div
-          className={`fixed bottom-4 right-4 bg-teal-500 text-white p-4 rounded-full shadow-lg cursor-pointer ${isFilterVisible ? 'hidden' : 'block'} lg:hidden`}
+          className={`fixed bottom-4 right-4 bg-teal-500 text-white p-4 rounded-full shadow-lg cursor-pointer ${
+            isFilterVisible ? 'hidden' : 'block'
+          } lg:hidden`}
           onClick={toggleFilterVisibility}
         >
           <FilterAltIcon />
         </div>
 
-        {/* Filters Drawer (visible on small screens) */}
+        {/* Filters Drawer for Mobile */}
         <div
-          className={`fixed top-0 right-0 bg-white shadow-lg p-4 h-full w-[25rem] lg:hidden transform ${isFilterVisible ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out overflow-auto`}
+          className={`fixed top-0 right-0 bg-white shadow-lg p-4 h-full w-[20rem] sm:w-[25rem] lg:hidden transform ${
+            isFilterVisible ? 'translate-x-0' : 'translate-x-full'
+          } transition-transform duration-300 ease-in-out overflow-auto`}
           style={{ zIndex: 1000 }}
         >
           <div className="flex justify-between items-center">
