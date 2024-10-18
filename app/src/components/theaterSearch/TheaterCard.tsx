@@ -32,17 +32,17 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
   };
 
   const handleNavigate = () => {
-    navigate(`/theater/${theater.id}`);
+    navigate(`/theater/${theater.id}`, { state: { theater } }); // Pass theater data via state
   };
 
   return (
-    <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-4 w-full mx-auto" style={{ maxWidth: '75%' }}>
+    <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-4 w-full mx-auto" style={{ maxWidth: '80%' }}>
       {/* Image Section */}
       <div className="relative w-full md:w-1/3">
         <img
           src={theater.images[0] || ''}
           alt={theater.name}
-          className="object-cover w-full h-full cursor-pointer"
+          className="object-cover w-full h-40 cursor-pointer" // Adjusted height here
           onClick={handleNavigate}
         />
         <div
@@ -63,7 +63,6 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
           >
             {theater.name}
           </h2>
-          
           <p className="text-gray-600 mt-1 text-xs hidden md:block ">{theater.location}</p>
           <div className="flex items-center mt-4 hidden md:flex">
             <FaMapMarkerAlt className="text-gray-600 h-3 w-3 mr-1" />

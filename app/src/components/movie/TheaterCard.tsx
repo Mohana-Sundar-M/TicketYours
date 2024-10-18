@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaSearch, FaMapMarkerAlt, FaInfoCircle } from 'react-icons/fa';
 import { useGetCinemahallsByCityAndMovieQuery } from '../../services/cinemahallsApi'; // API service for fetching cinema halls
 import { useActiveCity } from '../../context/ActiveCityContext'; // City context
+import LoadingSpinner from '../public/LoadingSpinner';
 
 
 interface TheaterCardProps {
@@ -28,7 +29,7 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ selectedMovieId }) => {
     theater.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner/>;
 
   // Check if error is of type FetchBaseQueryError and has status
   if (error && 'status' in error) {

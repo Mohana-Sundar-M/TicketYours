@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import SearchBar from '../public/SearchBar';
 import { useGetMoviesQuery } from '../../services/moviesApi';
 import { useActiveCity } from '../../context/ActiveCityContext';
+import LoadingSpinner from '../public/LoadingSpinner';
 
 type Movie = {
   id: string;
@@ -70,7 +71,7 @@ const MoviesList: React.FC<MoviesListProps> = ({ onMovieClick, filters }) => {
       </div>
 
       {isLoading ? (
-        <div className="text-center text-xl text-gray-500">Loading...</div>
+       <LoadingSpinner/>
       ) : (
         <>
           {error ? (

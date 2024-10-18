@@ -16,7 +16,7 @@ interface User {
 }
 
 const UsersComponent: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([
+  const [users] = useState<User[]>([
     { id: 1, name: 'Aditya Sharma', email: 'aditya@example.com', role: 'Admin', registered: '2023-01-01', lastLogin: '2023-06-01', status: 'Active' },
     { id: 2, name: 'Priya Gupta', email: 'priya@example.com', role: 'Theater Operator', registered: '2022-05-15', lastLogin: '2023-05-30', status: 'Active' },
     { id: 3, name: 'Raj Patel', email: 'raj@example.com', role: 'Customer', registered: '2021-09-01', lastLogin: '2023-04-20', status: 'Suspended' },

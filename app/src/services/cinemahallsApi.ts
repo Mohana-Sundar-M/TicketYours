@@ -13,10 +13,15 @@ export const cinemahallsApi = createApi({
     getCinemahallsByCityAndMovie: builder.query<any, { cityId: string, movieId: string }>({
       query: ({ cityId, movieId }) => apiEndpoints.getCinemahallsByCityAndMovie(cityId, movieId),
     }),
+    getScreensByCinemaHall: builder.query<any, string>({
+      // New API query to get all screens inside a specific cinema hall
+      query: (cinemaHallId) => apiEndpoints.getScreensByCinemaHall(cinemaHallId),
+    }),
   }),
 });
 
 export const { 
   useGetCinemahallsByCityQuery, 
-  useGetCinemahallsByCityAndMovieQuery 
+  useGetCinemahallsByCityAndMovieQuery,
+  useGetScreensByCinemaHallQuery // New hook for getting screens by cinema hall
 } = cinemahallsApi;

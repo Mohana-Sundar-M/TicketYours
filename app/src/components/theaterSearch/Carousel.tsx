@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { Movie } from '../../data/types';
+import { Movie } from '../../types/moviesTypes'; // Import your Movie type
 
 interface CarouselProps {
   movies: Movie[];
@@ -58,10 +58,10 @@ const Carousel: React.FC<CarouselProps> = ({ movies, message }) => {
           movies.map(movie => (
             <div
               key={movie.id}
-              className="flex-shrink-0 w-20 h-28 md:w-24 md:h-32 lg:w-32 lg:h-40"
+              className="flex-shrink-0 w-28 h-40 md:w-32 md:h-48 lg:w-40 lg:h-56" // Increased size here
             >
               <img
-                src={movie.image}
+                src={movie.posterUrl}  // Ensure this uses posterUrl from your type
                 alt={movie.title}
                 className="w-full h-full object-cover cursor-pointer transition-transform duration-300"
                 onClick={() => handleMovieClick(movie.id)}
