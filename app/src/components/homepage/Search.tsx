@@ -11,10 +11,10 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useMediaQuery } from "@mui/material";
-import { useNavigate } from 'react-router-dom';
-import { useGetMoviesQuery } from '../../services/moviesApi';
-import { useGetCinemahallsByCityQuery } from '../../services/cinemahallsApi';
-import { useActiveCity } from '../../context/ActiveCityContext';
+import { useNavigate } from "react-router-dom";
+import { useGetMoviesQuery } from "../../services/moviesApi";
+import { useGetCinemahallsByCityQuery } from "../../services/cinemahallsApi";
+import { useActiveCity } from "../../context/ActiveCityContext";
 
 interface ModalProps {
   open: boolean;
@@ -26,18 +26,25 @@ const Search = ({ open, handleModal }: ModalProps) => {
   const [isMovies, setIsMovies] = useState<boolean>(true);
   const [noMovies, setNoMovies] = useState<boolean>(false);
 
-  const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const navigate = useNavigate();
   const { activeCityId } = useActiveCity();
 
   // Fetch movies data
-  const { data: moviesData = [], error: moviesError, isLoading: moviesLoading } = useGetMoviesQuery(activeCityId.toString());
+  const {
+    data: moviesData = [],
+    error: moviesError,
+    isLoading: moviesLoading,
+  } = useGetMoviesQuery(activeCityId.toString());
 
   // Fetch theaters data
-  const { data: theatersResponse = { data: [] }, isLoading: theatersLoading } = useGetCinemahallsByCityQuery(activeCityId.toString());
+  const {
+    data: theatersResponse = { data: [] },
+    isLoading: theatersLoading,
+  } = useGetCinemahallsByCityQuery(activeCityId.toString());
 
   useEffect(() => {
-    if (moviesError && 'status' in moviesError && moviesError.status === 404) {
+    if (moviesError && "status" in moviesError && moviesError.status === 404) {
       setNoMovies(true);
     } else {
       setNoMovies(false);
@@ -67,17 +74,13 @@ const Search = ({ open, handleModal }: ModalProps) => {
     theater.name?.toLowerCase().includes(search.toLowerCase())
   );
 
-  console.log('Movies Data:', moviesData);
-  console.log('Theaters Response:', theatersResponse);
-  console.log('Filtered Theaters:', filteredTheaters);
-
   // Handle click for movie or theater
   const handleClickMovie = (id: string) => {
     navigate(`/movie/${id}`);
   };
 
-  const handleClickTheater = (id: number) => {
-    navigate(`/theater/${id}`);
+  const handleClickTheater = (theater: any) => {
+    navigate(`/theater/${theater.id}`, { state: { theater } });
   };
 
   return (
@@ -88,30 +91,30 @@ const Search = ({ open, handleModal }: ModalProps) => {
       maxWidth={isDesktop ? "lg" : "xs"}
       PaperProps={{
         sx: {
-          width: isDesktop ? '50%' : '100%',
-          height: isDesktop ? '80%' : '100%',
-          maxWidth: '100%',
-          maxHeight: '100%',
+          width: isDesktop ? "50%" : "100%",
+          height: isDesktop ? "80%" : "100%",
+          maxWidth: "100%",
+          maxHeight: "100%",
           margin: 0,
           padding: 0,
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
         },
       }}
     >
       <DialogTitle
         sx={{
-          display: 'flex',
-          alignItems: 'center',
+          display: "flex",
+          alignItems: "center",
           gap: 2,
           p: 2,
-          bgcolor: '#fff',
-          borderBottom: '1px solid #ddd',
+          bgcolor: "#fff",
+          borderBottom: "1px solid #ddd",
         }}
       >
         <ArrowBackIcon
           onClick={handleModal}
-          sx={{ cursor: 'pointer', color: '#48cfad', fontWeight: 'bold' }}
+          sx={{ cursor: "pointer", color: "#48cfad", fontWeight: "bold" }}
         />
         <TextField
           name="search"
@@ -124,7 +127,6 @@ const Search = ({ open, handleModal }: ModalProps) => {
             onKeyPress: (event) => {
               if (event.key === "Enter") {
                 // Optional: Trigger search on Enter key press
-                // handleSearch();
               }
             },
             startAdornment: (
@@ -134,19 +136,19 @@ const Search = ({ open, handleModal }: ModalProps) => {
             ),
           }}
           sx={{
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: '#48cfad !important',
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#48cfad !important",
               },
-              '&:hover fieldset': {
-                borderColor: '#48cfad !important',
+              "&:hover fieldset": {
+                borderColor: "#48cfad !important",
               },
-              '&.Mui-focused fieldset': {
-                borderColor: '#48cfad !important',
+              "&.Mui-focused fieldset": {
+                borderColor: "#48cfad !important",
               },
             },
-            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#48cfad !important',
+            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#48cfad !important",
             },
           }}
         />
@@ -154,24 +156,24 @@ const Search = ({ open, handleModal }: ModalProps) => {
       <DialogContent
         sx={{
           flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
           p: 2,
         }}
       >
-        <ButtonGroup aria-label="Basic button group" sx={{ width: '100%', mb: 2 }}>
+        <ButtonGroup aria-label="Basic button group" sx={{ width: "100%", mb: 2 }}>
           <Button
             sx={{
               flex: 1,
-              color: isMovies ? 'white' : '#48cfad',
-              borderColor: '#48cfad',
-              backgroundColor: isMovies ? '#48cfad' : 'transparent',
-              '&:hover': {
-                backgroundColor: isMovies ? '#48cfad' : 'transparent',
-                borderColor: '#48cfad',
+              color: isMovies ? "white" : "#48cfad",
+              borderColor: "#48cfad",
+              backgroundColor: isMovies ? "#48cfad" : "transparent",
+              "&:hover": {
+                backgroundColor: isMovies ? "#48cfad" : "transparent",
+                borderColor: "#48cfad",
               },
             }}
-            variant={isMovies ? 'contained' : 'outlined'}
+            variant={isMovies ? "contained" : "outlined"}
             onClick={handleMovies}
           >
             Movies
@@ -179,15 +181,15 @@ const Search = ({ open, handleModal }: ModalProps) => {
           <Button
             sx={{
               flex: 1,
-              color: !isMovies ? 'white' : '#48cfad',
-              borderColor: '#48cfad',
-              backgroundColor: !isMovies ? '#48cfad' : 'transparent',
-              '&:hover': {
-                backgroundColor: !isMovies ? '#48cfad' : 'transparent',
-                borderColor: '#48cfad',
+              color: !isMovies ? "white" : "#48cfad",
+              borderColor: "#48cfad",
+              backgroundColor: !isMovies ? "#48cfad" : "transparent",
+              "&:hover": {
+                backgroundColor: !isMovies ? "#48cfad" : "transparent",
+                borderColor: "#48cfad",
               },
             }}
-            variant={!isMovies ? 'contained' : 'outlined'}
+            variant={!isMovies ? "contained" : "outlined"}
             onClick={handleTheaters}
           >
             Theaters
@@ -195,10 +197,10 @@ const Search = ({ open, handleModal }: ModalProps) => {
         </ButtonGroup>
         <Box
           sx={{
-            overflowY: 'auto',
+            overflowY: "auto",
             flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
+            display: "flex",
+            flexDirection: "column",
             gap: 2,
           }}
         >
@@ -216,16 +218,16 @@ const Search = ({ open, handleModal }: ModalProps) => {
                     filteredMovies.map((movie: any) => (
                       <Box
                         key={movie.id}
-                        sx={{ display: 'flex', gap: 2, cursor: 'pointer', alignItems: 'center' }}
+                        sx={{ display: "flex", gap: 2, cursor: "pointer", alignItems: "center" }}
                         onClick={() => handleClickMovie(movie.id)}
                       >
                         <img
                           src={movie.posterUrl}
                           alt={movie.title}
-                          style={{ width: 70, height: 70, objectFit: 'contain' }}
+                          style={{ width: 70, height: 70, objectFit: "contain" }}
                         />
                         <Box>
-                          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                          <Typography variant="body1" sx={{ fontWeight: "bold" }}>
                             {movie.title}
                           </Typography>
                         </Box>
@@ -246,16 +248,16 @@ const Search = ({ open, handleModal }: ModalProps) => {
                 filteredTheaters.map((theater: any) => (
                   <Box
                     key={theater.id}
-                    sx={{ display: 'flex', gap: 2, cursor: 'pointer', alignItems: 'center' }}
-                    onClick={() => handleClickTheater(theater.id)}
+                    sx={{ display: "flex", gap: 2, cursor: "pointer", alignItems: "center" }}
+                    onClick={() => handleClickTheater(theater)}
                   >
                     <img
-                      src={theater.image || '/default-theater-image.jpg'}
+                      src={theater.image || "/default-theater-image.jpg"}
                       alt={theater.name}
-                      style={{ width: 70, height: 70, objectFit: 'contain' }}
+                      style={{ width: 70, height: 70, objectFit: "contain" }}
                     />
                     <Box>
-                      <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                      <Typography variant="body1" sx={{ fontWeight: "bold" }}>
                         {theater.name}
                       </Typography>
                     </Box>
