@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { FaTicketAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for routing
+import { useActiveCity } from '../../context/ActiveCityContext';
+
 
 const MyBookings: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState('tickets'); // State to manage the selected tab
   const navigate = useNavigate(); // Initialize useNavigate for navigation
+  const {activeCityId} = useActiveCity()
 
   // Function to navigate to the movies route
   const handleBookTicketsClick = () => {
-    navigate('/movies');
+    navigate(`/v3/movies/city/${activeCityId}`);
   };
 
   return (

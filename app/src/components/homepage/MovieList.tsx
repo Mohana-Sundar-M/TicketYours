@@ -60,54 +60,81 @@ const MoviesList: React.FC = () => {
     navigate(`/v3/movies/city/${cityId}`);
   };
 
+  // Validate data for required `id` attribute
+  const validMovies = data?.filter((movie) => movie.id) || [];
+
   if (isLoading) {
     return <LoadingSpinner />; // Show the spinner while loading
   }
 
-  if (error) {
-    if ((error as any).status === 404) {
-      return (
-        <Box sx={{ padding: '16px' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-              Movies In {activeCity}
-            </Typography>
-            <Button
-              variant="text"
-              sx={{ textTransform: 'none', color: 'teal', display: 'flex', alignItems: 'center' }}
-              onClick={handleSeeAllClick}
-            >
-              See All
-              <ArrowRightIcon sx={{ marginRight: '8px' }} />
-            </Button>
-          </Box>
-          <Typography>No movies found in {activeCity}</Typography>
-        </Box>
-      );
-    }
-    return <Typography>Error loading movies</Typography>;
-  }
-
-  if (!data || data.length === 0) {
+  if (error || !data) {
     return (
-      <Box sx={{ padding: '16px' }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-          <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-            Movies In {activeCity}
-          </Typography>
-          <Button
-            variant="text"
-            sx={{ textTransform: 'none', color: 'teal', display: 'flex', alignItems: 'center' }}
-            onClick={handleSeeAllClick}
-          >
-            See All
-            <ArrowRightIcon sx={{ marginRight: '8px' }} />
-          </Button>
-        </Box>
-        <Typography>No movies available</Typography>
+      <Box
+        sx={{
+          padding: { xs: '16px', sm: '32px' }, // Padding adjusts for mobile and desktop
+          textAlign: 'center',
+          mt: { xs: 4, sm: 8 }, // Space at the top for mobile and desktop
+          mb: { xs: 4, sm: 8 }, // Space at the bottom for mobile and desktop
+        }}
+      >
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 'bold',
+            color: 'gray',
+            fontSize: { xs: '1.25rem', sm: '1.5rem' }, // Responsive font size
+          }}
+        >
+          Something went wrong
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            color: 'gray',
+            mt: 2, // Space below the title
+            fontSize: { xs: '0.875rem', sm: '1rem' }, // Responsive font size
+          }}
+        >
+          Please try again later.
+        </Typography>
       </Box>
     );
   }
+  
+  if (validMovies.length === 0) {
+    return (
+      <Box
+        sx={{
+          padding: { xs: '16px', sm: '32px' },
+          textAlign: 'center',
+          mt: { xs: 4, sm: 8 },
+          mb: { xs: 4, sm: 8 },
+        }}
+      >
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 'bold',
+            color: 'gray',
+            fontSize: { xs: '1.25rem', sm: '1.5rem' },
+          }}
+        >
+          No movies available
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            color: 'gray',
+            mt: 2,
+            fontSize: { xs: '0.875rem', sm: '1rem' },
+          }}
+        >
+          Try adjusting your filters or check back later.
+        </Typography>
+      </Box>
+    );
+  }
+  
 
   return (
     <Box sx={{ padding: '16px' }}>
@@ -127,7 +154,7 @@ const MoviesList: React.FC = () => {
 
       <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
         <Grid container spacing={2}>
-          {data.map((movie) => (
+          {validMovies.map((movie) => (
             <Grid item xs={6} key={movie.id}>
               <MovieCard
                 movie={movie}
@@ -157,7 +184,7 @@ const MoviesList: React.FC = () => {
             flexWrap: 'nowrap',
           }}
         >
-          {data.map((movie) => (
+          {validMovies.map((movie) => (
             <MovieCard
               key={movie.id}
               movie={movie}

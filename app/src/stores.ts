@@ -3,7 +3,8 @@ import { citiesApi } from './services/citiesApi';
 import { moviesApi } from './services/moviesApi';
 import { cinemahallsApi } from './services/cinemahallsApi';
 import { showtimesApi } from './services/showtimesApi';
-import { theatreLayoutApi } from './services/theatreLayoutApi';  // New import
+import { theatreLayoutApi } from './services/theatreLayoutApi';
+import { otpApi } from './services/otpApi'; // Import the new OTP API
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     [moviesApi.reducerPath]: moviesApi.reducer,
     [cinemahallsApi.reducerPath]: cinemahallsApi.reducer,
     [showtimesApi.reducerPath]: showtimesApi.reducer,
-    [theatreLayoutApi.reducerPath]: theatreLayoutApi.reducer,  // Add theatreLayoutApi reducer
+    [theatreLayoutApi.reducerPath]: theatreLayoutApi.reducer,
+    [otpApi.reducerPath]: otpApi.reducer, // Add the OTP API reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -19,7 +21,8 @@ export const store = configureStore({
       moviesApi.middleware,
       cinemahallsApi.middleware,
       showtimesApi.middleware,
-      theatreLayoutApi.middleware  // Add theatreLayoutApi middleware
+      theatreLayoutApi.middleware,
+      otpApi.middleware // Add the OTP API middleware
     ),
 });
 

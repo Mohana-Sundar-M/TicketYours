@@ -14,17 +14,19 @@ import { useNavigate } from 'react-router-dom';
 import LocationChanger from './LocationChanger';
 import Search from './Search'; // Import the Search component
 import { useActiveCity } from '../../context/ActiveCityContext'; // Import the context hook
+import { useAuth } from '../../context/AuthContext'; // Import the AuthContext
 
 const NavBar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLocationChangerOpen, setIsLocationChangerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const {activeCityId, activeCity } = useActiveCity(); // Get active city state from context
+  const { activeCityId, activeCity } = useActiveCity(); // Get active city state from context
+  const { isLoggedIn } = useAuth(); // Get login status from AuthContext
   const navigate = useNavigate();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const cityId = activeCityId ? activeCityId.toString() : '';
-
+  console.log('IsLoggedIn :',isLoggedIn)
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (event.type === 'keydown' && ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')) {
       return;
@@ -55,7 +57,7 @@ const NavBar: React.FC = () => {
 
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
-    { text: 'Movies', icon: <MovieIcon />, path:`/v3/movies/city/${cityId}` },
+    { text: 'Movies', icon: <MovieIcon />, path: `/v3/movies/city/${cityId}` },
     { text: 'Theater', icon: <TheatersIcon />, path: '/theater-search' },
     { text: 'Profile', icon: <AccountCircleIcon />, path: '/profile' },
   ];
@@ -63,13 +65,7 @@ const NavBar: React.FC = () => {
   return (
     <Box>
       <AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 3, height: '80px', position: 'relative' }}>
-        <Toolbar sx={{ 
-          justifyContent: 'space-between', 
-          padding: isSmallScreen ? '8px 16px' : '8px 24px',
-          display: 'flex', 
-          alignItems: 'center',
-          flexWrap: 'nowrap' // Prevent wrapping of items
-        }}>
+        <Toolbar sx={{ justifyContent: 'space-between', padding: isSmallScreen ? '8px 16px' : '8px 24px', display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
           <Box component="a" href="/" sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
             <Box component="img" src={logo} alt="TY Logo" sx={{ height: 48, width: 'auto' }} />
           </Box>
@@ -85,15 +81,15 @@ const NavBar: React.FC = () => {
               <Button
                 startIcon={<LocationOnIcon />}
                 onClick={handleLocationClick}
-                sx={{ 
-                  color: 'black', 
-                  textTransform: 'none', 
+                sx={{
+                  color: 'black',
+                  textTransform: 'none',
                   marginRight: '32px',
                   padding: '12px 24px',
                   fontSize: '16px',
                   border: 'none', // Remove border
                   background: 'none', // Remove background
-                  
+
                   '&:hover': {
                     backgroundColor: 'transparent', // Ensure hover background is transparent
                   }
@@ -102,15 +98,16 @@ const NavBar: React.FC = () => {
                 {activeCity || 'Select Location'} {/* Use activeCity from context */}
               </Button>
             )}
-
-            {!isSmallScreen && (
+          
+            {/* Conditionally render the Sign In button based on login status */}
+            {!isLoggedIn && !isSmallScreen && (
               <Button
                 variant="contained"
                 onClick={handleSignInClick}
-                sx={{ 
-                  backgroundColor: '#48cfae', 
-                  color: 'white', 
-                  textTransform: 'none', 
+                sx={{
+                  backgroundColor: '#48cfae',
+                  color: 'white',
+                  textTransform: 'none',
                   marginRight: '24px',
                   padding: '12px 24px',
                   fontSize: '16px',
@@ -131,28 +128,13 @@ const NavBar: React.FC = () => {
 
         {isSmallScreen && (
           <>
-            <Box sx={{ 
-              position: 'absolute', 
-              top: '12.5px', 
-              right: '56px', // Adjust position as needed
-              display: 'flex', 
-              alignItems: 'center',
-              
-              zIndex: 1200 
-            }}>
+            <Box sx={{ position: 'absolute', top: '12.5px', right: '56px', display: 'flex', alignItems: 'center', zIndex: 1200 }}>
               <IconButton onClick={handleSearchClick} sx={{ color: 'black' }}>
                 <SearchIcon />
               </IconButton>
             </Box>
 
-            <Box sx={{ 
-              position: 'absolute', 
-              bottom: '8px', // Position at the bottom
-              left: '8px', // Adjust position as needed
-              display: 'flex', 
-              alignItems: 'center',
-              zIndex: 1200 
-            }}>
+            <Box sx={{ position: 'absolute', bottom: '8px', left: '8px', display: 'flex', alignItems: 'center', zIndex: 1200 }}>
               <Button
                 endIcon={<ChevronRightIcon />} // Right arrow icon
                 onClick={handleLocationClick}
@@ -163,7 +145,7 @@ const NavBar: React.FC = () => {
                   fontSize: '14px',
                   border: 'none', // Remove border
                   background: 'none', // Remove background
-                  marginLeft:'0.4rem',  
+                  marginLeft: '0.4rem',
                   '&:hover': {
                     backgroundColor: 'transparent', // Ensure hover background is transparent
                   }
@@ -187,16 +169,7 @@ const NavBar: React.FC = () => {
           },
         }}
       >
-        <Box
-          sx={{
-            width: 250,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-end',
-            padding: '16px',
-          }}
-          role="presentation"
-        >
+        <Box sx={{ width: 250, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', padding: '16px' }} role="presentation">
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
             <Typography variant="h6" sx={{ fontWeight: 'bold', marginRight: 'auto', color: 'black' }}>
               Menu
@@ -220,12 +193,12 @@ const NavBar: React.FC = () => {
       <Modal
         open={isLocationChangerOpen}
         onClose={() => setIsLocationChangerOpen(false)}
-        sx={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          width: '100vw', 
-          height: '100vh' 
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100vw',
+          height: '100vh'
         }}
       >
         <LocationChanger onClose={() => setIsLocationChangerOpen(false)} />

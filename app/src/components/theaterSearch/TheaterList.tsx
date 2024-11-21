@@ -24,17 +24,17 @@ const TheaterList: React.FC = () => {
     <div className="container mx-auto p-4">
       <SearchBar onSearchChange={handleSearchChange} />
       <div className="mt-4">
-        {isLoading ? (
-           <LoadingSpinner/>
-        ) : error ? (
-          <p>Error fetching cinema halls.</p>
-        ) : filteredCinemahalls.length > 0 ? (
-          filteredCinemahalls.map((cinemahall: CinemaHall) => (
-            <TheaterCard key={cinemahall.id} theater={cinemahall} />
-          ))
-        ) : (
-          <p>No cinema halls found</p>
-        )}
+      {isLoading ? (
+  <LoadingSpinner />
+) : error ? (
+  <p className="text-center text-gray-500 font-medium">Error fetching cinema halls.</p> // Styled error message
+) : filteredCinemahalls.length > 0 ? (
+  filteredCinemahalls.map((cinemahall: CinemaHall) => (
+    <TheaterCard key={cinemahall.id} theater={cinemahall} />
+  ))
+) : (
+  <p className="text-center text-gray-500 font-large text-xl pt-5">No cinema halls found</p> // Styled "No cinema halls" message
+)}
       </div>
     </div>
   );

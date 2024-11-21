@@ -1,46 +1,73 @@
 import React, { useState } from 'react';
 import { Box, Typography, TextField, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useRequestOtpMutation, useVerifyOtpMutation } from '../services/otpApi';
+import LoadingSpinner from '../components/public/LoadingSpinner';
 import Nav from '../components/public/NavBar';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-/**
- * Login component allows users to enter their mobile number, request an OTP, and log in with the OTP.
- * It uses MUI components for styling and layout.
- */
 const Login: React.FC = () => {
-  // State to manage the mobile number and OTP input values
+  const { setUser, setToken } = useAuth(); // Destructure from AuthContext
+  const navigate = useNavigate();
   const [mobileNumber, setMobileNumber] = useState<string>('');
   const [otp, setOtp] = useState<string>('');
+  const [otpSent, setOtpSent] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false); // To control loading state
+  const [mobileDisabled, setMobileDisabled] = useState<boolean>(false); // Control mobile field disable state
+  const [requestOtp] = useRequestOtpMutation();
+  const [verifyOtp] = useVerifyOtpMutation();
+  const [tk , setTk] = useState('')
 
-  const navigate = useNavigate(); // Initialize navigate
+  const handleGetOtp = async (): Promise<void> => {
+    setError(null); // Reset error message
+    setOtpSent(false); // Reset OTP sent status
+    setLoading(true); // Start loading
+    setMobileDisabled(true); // Disable mobile number field when OTP is requested
 
-  /**
-   * Handles the click event for the 'Get OTP' button.
-   * Logs the mobile number for OTP request (you would typically call an API here).
-   */
-  const handleGetOtp = (): void => {
-    console.log('Get OTP for', mobileNumber);
+    try {
+      const response = await requestOtp({ mobile: mobileNumber }).unwrap();
+      console.log('OTP requested:', response);
+      setTk(response.data);
+      setOtpSent(true); // Set OTP sent status to true
+    } catch (error: any) {
+      console.error('Error requesting OTP:', error.message || error);
+      setError('Something went wrong. Please try again later.');
+    } finally {
+      setLoading(false); // Stop loading
+      setMobileDisabled(false); // Enable mobile number field after OTP request (successful or failed)
+    }
   };
 
-  /**
-   * Handles the form submission event for logging in.
-   * Prevents default form submission behavior and logs the mobile number and OTP.
-   * @param e - The form submission event.
-   */
-  const handleLogin = (e: React.FormEvent): void => {
+  const handleLogin = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    console.log('Login with', mobileNumber, otp);
-    navigate('/'); // Navigate to the home route upon successful login
+    setLoading(true); // Start loading
+    setError(null); // Reset error message
+
+    try {
+      const response = await verifyOtp({ token: tk, otp }).unwrap();
+      console.log('Received token:', response.token); // Log token received
+      setUser('Logged-in User'); // Replace with actual user data if available
+      setToken(tk);
+      
+      navigate('/'); // Redirect after successful login
+    } catch (error: any) {
+      console.error('Error verifying OTP:', error.message || error);
+      if (error?.data?.message === 'otp/invalid-token') {
+        setError('Invalid OTP. Please try again.');
+      } else {
+        setError('Something went wrong. Please try again later.');
+      }
+    } finally {
+      setLoading(false); // Stop loading
+      setMobileDisabled(false); // Enable mobile number field again after verification attempt (success or error)
+    }
   };
 
   return (
     <Box>
-      {/* Navigation bar component */}
       <Nav />
-      
-      {/* Main content area with flexbox layout */}
-      <Box display="flex" justifyContent="center" alignItems="flex-start" minHeight="100vh" bgcolor="gray.100" pt={4}>
-        {/* Login form container */}
+      <Box display="flex" justifyContent="center" alignItems="flex-start" minHeight="100vh" pt={4}>
         <Box
           sx={{
             width: { xs: '94%', sm: '70%', md: '50%', lg: '40%' },
@@ -52,18 +79,70 @@ const Login: React.FC = () => {
             border: '2px solid #B2DFDB',
             backgroundColor: 'white',
             boxShadow: 3,
+            position: 'relative', // Allow positioning of the spinner inside this container
           }}
         >
-          {/* Page title */}
+          {/* Show Loading Spinner if the request is being processed */}
+          {loading && (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent background
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 10, // Ensure spinner is above the content
+              }}
+            >
+              <LoadingSpinner />
+            </Box>
+          )}
+
           <Typography variant="h4" align="center" mb={4} fontWeight="fontWeightBold">
             Login
           </Typography>
-          
-          {/* Login form */}
+
+          {/* Show OTP sent success message */}
+          {otpSent && (
+            <Box
+              mb={3}
+              p={2}
+              bgcolor="#e8f5e9"
+              borderRadius={1}
+              border="1px solid #4caf50"
+              display="flex"
+              justifyContent="center"
+            >
+              <Typography color="#388e3c" variant="body1">
+                OTP sent successfully! Please check your phone.
+              </Typography>
+            </Box>
+          )}
+
+          {/* Show error message */}
+          {error && (
+            <Box
+              mb={3}
+              p={2}
+              bgcolor="#ffebee"
+              borderRadius={1}
+              border="1px solid #f44336"
+              display="flex"
+              justifyContent="center"
+            >
+              <Typography color="#d32f2f" variant="body1">
+                {error}
+              </Typography>
+            </Box>
+          )}
+
           <form onSubmit={handleLogin}>
-            {/* Mobile number input field */}
             <Box mb={2}>
-              <Typography component="label" color="textPrimary" mb={0} display="block" htmlFor="mobileNumber">
+              <Typography component="label" mb={0} display="block" htmlFor="mobileNumber">
                 Mobile Number
               </Typography>
               <Box position="relative">
@@ -82,26 +161,24 @@ const Login: React.FC = () => {
                     },
                     '& .MuiOutlinedInput-root.Mui-focused': {
                       '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#26a69a', // Light teal color for focused border
+                        borderColor: '#26a69a',
                       },
                     },
-                    '& .MuiInputLabel-root.Mui-focused': {
-                      color: '#26a69a', // Light teal color for focused label
-                    },
                   }}
+                  disabled={mobileDisabled} // Disable the field if mobileDisabled is true
                 />
                 <Button
                   onClick={handleGetOtp}
-                  disabled={mobileNumber.length !== 10}
+                  disabled={mobileNumber.length !== 10 || mobileDisabled}
                   sx={{
                     position: 'absolute',
                     right: 8,
                     top: '56%',
                     transform: 'translateY(-50%)',
-                    padding: '4px 8px', // Reduced padding
+                    padding: '4px 8px',
                     borderRadius: 2,
                     textTransform: 'none',
-                    ...(mobileNumber.length === 10
+                    ...(mobileNumber.length === 10 && !mobileDisabled
                       ? {
                           bgcolor: '#26a69a',
                           color: 'white',
@@ -118,10 +195,9 @@ const Login: React.FC = () => {
                 </Button>
               </Box>
             </Box>
-            
-            {/* OTP input field */}
+
             <Box mb={4}>
-              <Typography component="label" color="textPrimary" mb={0} display="block" htmlFor="otp">
+              <Typography component="label" mb={0} display="block" htmlFor="otp">
                 Enter OTP
               </Typography>
               <TextField
@@ -139,23 +215,18 @@ const Login: React.FC = () => {
                   },
                   '& .MuiOutlinedInput-root.Mui-focused': {
                     '& .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#26a69a', // Light teal color for focused border
+                      borderColor: '#26a69a',
                     },
-                  },
-                  '& .MuiInputLabel-root.Mui-focused': {
-                    color: '#26a69a', // Light teal color for focused label
                   },
                 }}
               />
             </Box>
-            
-            {/* Submit button */}
             <Button
               type="submit"
               disabled={mobileNumber.length !== 10 || otp === ''}
               fullWidth
               sx={{
-                padding: '8px 12px', // Reduced padding
+                padding: '8px 12px',
                 borderRadius: 1,
                 textTransform: 'none',
                 ...(mobileNumber.length === 10 && otp !== ''

@@ -42,7 +42,7 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
         <img
           src={theater.images[0] || ''}
           alt={theater.name}
-          className="object-cover w-full h-40 cursor-pointer" // Adjusted height here
+          className="object-cover w-full h-full cursor-pointer" // Adjusted height here
           onClick={handleNavigate}
         />
         <div

@@ -4,7 +4,7 @@ import { FaUser } from 'react-icons/fa';
 
 const ProfileHead: React.FC = () => {
   return (
-    <div className="min-w-full flex flex-col items-center justify-start bg-gray-100">
+    <div className="min-w-full flex flex-col items-center justify-start bg-gray-100 border-t-2 ">
       
       <div className="flex flex-col p-6 bg-white w-full min-h-44 border-b-2">
         <div className="flex flex-col items-center md:pl-24 md:flex-row">

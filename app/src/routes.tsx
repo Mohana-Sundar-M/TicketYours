@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import MoviesPage from './pages/MoviesPage';
 import ContactPage from './pages/ContactPage';
 import Login from './pages/Login';
@@ -11,8 +11,11 @@ import TheaterSearch from './pages/TheaterSearch';
 import HomePage from './pages/HomePage';
 import SeatBooking from './pages/SeatBooking';
 import Dashboard from './pages/Admin/Dashboard';
+import { useAuth } from './context/AuthContext'; // Import the useAuth hook
 
 const AppRoutes: React.FC = () => {
+  const { isLoggedIn } = useAuth(); // Get the login status from the context
+
   return (
     <Routes>
       <Route index element={<HomePage />} />  {/* Default route */}
@@ -20,10 +23,12 @@ const AppRoutes: React.FC = () => {
       <Route path="booking" element={<SeatBooking />} />
       <Route path="admin" element={<Dashboard />} />
       <Route path="contact" element={<ContactPage />} />
-      <Route path="login" element={<Login />} />
+      {/* Only show /login if the user is not logged in */}
+      <Route path="login" element={isLoggedIn ? <Navigate to="/" /> : <Login />} />
       <Route path="payment" element={<PaymentPage />} />
       <Route path="movie/:id" element={<Movie />} />
-      <Route path="profile/*" element={<Profile />} />
+      {/* Redirect to login if user is not logged in */}
+      <Route path="profile/*" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
       <Route path="theater/:id" element={<Theater />} />
       <Route path="theater-search" element={<TheaterSearch />} />
     </Routes>

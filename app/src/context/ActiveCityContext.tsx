@@ -21,8 +21,8 @@ export const ActiveCityProvider: React.FC<{ children: ReactNode }> = ({ children
       setActiveCityId(Number(storedCityId));
     } else {
       // Default values if nothing is found in localStorage
-      setActiveCity('Bengaluru');
-      setActiveCityId(0);
+      setActiveCity('Bengalur');
+      setActiveCityId(1);
     }
   }, []);
 
