@@ -1,7 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/movie/Header'; 
-import DateAndFilters from '../components/movie/DateAndFilters';
+import DateAndFilters from '../components/theater/DateNavigation';
+import Filters from '../components/movie/DateAndFilters';
 import NavBar from '../components/public/NavBar2';
 import { useGetMovieDetailsQuery } from '../services/moviesApi';
 import type { Movie } from '../types/moviesTypes'; 
@@ -31,6 +32,7 @@ const Movie: React.FC = () => {
       <NavBar />
       <Header movie={movie as unknown as Movie} /> {/* Ensure correct typing */}
       <DateAndFilters />
+      <Filters/>
       <TheaterCard selectedMovieId={movie.id.toString()} /> {/* Pass the ID as string */}
     </div>
   );

@@ -12,26 +12,28 @@ const NowShowing: React.FC<NowShowingProps> = ({ cinemaHallId }) => {
   // Use the API query hook to fetch movies by cinema hall
   const { data: moviesData, isLoading, error } = useGetMoviesByCinemaHallQuery(cinemaHallId);
 
-  // Improved styling for the 'No movies available' message
-  const renderCarousel = (message: string) => (
-    <div className="flex items-center justify-center h-48 bg-gray-100 rounded-md">
-      <p className="text-lg font-semibold text-gray-700">{message}</p>
-    </div>
-  );
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="flex items-center justify-center h-48">
+          <LoadingSpinner />
+        </div>
+      );
+    }
+    if (!moviesData || error || moviesData.length === 0) {
+      return (
+        <div className="flex items-center justify-center h-48 bg-gray-100 rounded-md">
+          <p className="text-lg font-semibold text-gray-700">No movies available</p>
+        </div>
+      );
+    }
+    return <Carousel movies={moviesData as unknown as Movie[]} />;
+  };
 
   return (
     <div className="mt-4">
-      <h3 className="text-lg font-bold mb-2">Now Showing</h3> {/* Increased font size */}
-      {isLoading && <LoadingSpinner/>}
-      {!isLoading && !error && moviesData ? (
-        moviesData.length > 0 ? (
-          <Carousel movies={moviesData as unknown as Movie[]} /> // Ensure moviesData is treated as Movie[]
-        ) : (
-          renderCarousel('No movies available')
-        )
-      ) : (
-        renderCarousel('No movies available')
-      )}
+      <h3 className="text-lg font-bold mb-2">Now Showing</h3>
+      {renderContent()}
     </div>
   );
 };

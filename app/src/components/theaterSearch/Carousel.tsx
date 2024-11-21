@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { Movie } from '../../types/moviesTypes'; // Import your Movie type
+import { Movie } from '../../types/moviesTypes';
 
 interface CarouselProps {
   movies: Movie[];
-  message?: string; // Optional message to display if no movies
+  message?: string;
 }
 
 const Carousel: React.FC<CarouselProps> = ({ movies, message }) => {
@@ -35,22 +35,22 @@ const Carousel: React.FC<CarouselProps> = ({ movies, message }) => {
   };
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center w-full">
       {/* Left scroll button */}
       <button
-        className="absolute left-2 md:left-4 z-10 bg-white rounded-full shadow-md p-2 transform -translate-y-1/2 top-1/2"
+        className="absolute left-2 md:left-4 z-10 bg-white rounded-full shadow-md p-2 md:p-3 transform -translate-y-1/2 top-1/2"
         onClick={scrollLeft}
         aria-label="Scroll left"
       >
-        <FaChevronLeft />
+        <FaChevronLeft className="text-sm md:text-lg" />
       </button>
 
       {/* Carousel container */}
       <div
-        className="flex overflow-x-auto space-x-4 px-4 scrollbar-hide"
+        className="flex overflow-x-auto space-x-4 px-2 md:px-4 scrollbar-hide"
         ref={scrollRef}
         style={{
-          maxWidth: 'calc(100% - 4rem)', // Adjust to fit button widths
+          maxWidth: '100%', // Full width of the container
           scrollBehavior: 'smooth',
         }}
       >
@@ -58,18 +58,18 @@ const Carousel: React.FC<CarouselProps> = ({ movies, message }) => {
           movies.map(movie => (
             <div
               key={movie.id}
-              className="flex-shrink-0 w-28 h-40 md:w-32 md:h-48 lg:w-40 lg:h-56" // Increased size here
+              className="flex-shrink-0 w-24 h-36 sm:w-28 sm:h-40 md:w-32 md:h-48 lg:w-36 lg:h-52"
             >
               <img
-                src={movie.posterUrl}  // Ensure this uses posterUrl from your type
+                src={movie.posterUrl}
                 alt={movie.title}
-                className="w-full h-full object-cover cursor-pointer transition-transform duration-300"
+                className="w-full h-full object-cover cursor-pointer transition-transform duration-300 hover:scale-105"
                 onClick={() => handleMovieClick(movie.id)}
               />
             </div>
           ))
         ) : (
-          <div className="flex items-center justify-center w-full h-32 md:h-40 lg:h-48 bg-gray-100 text-gray-600">
+          <div className="flex items-center justify-center w-full h-36 md:h-48 bg-gray-100 text-gray-600">
             {message || 'No movies available'}
           </div>
         )}
@@ -77,11 +77,11 @@ const Carousel: React.FC<CarouselProps> = ({ movies, message }) => {
 
       {/* Right scroll button */}
       <button
-        className="absolute right-2 md:right-4 z-10 bg-white rounded-full shadow-md p-2 transform -translate-y-1/2 top-1/2"
+        className="absolute right-2 md:right-4 z-10 bg-white rounded-full shadow-md p-2 md:p-3 transform -translate-y-1/2 top-1/2"
         onClick={scrollRight}
         aria-label="Scroll right"
       >
-        <FaChevronRight />
+        <FaChevronRight className="text-sm md:text-lg" />
       </button>
     </div>
   );
