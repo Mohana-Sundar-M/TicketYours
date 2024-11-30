@@ -6,6 +6,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { useGetMoviesQuery } from '../../services/moviesApi';
 import { useActiveCity } from '../../context/ActiveCityContext';
 import LoadingSpinner from '../public/LoadingSpinner'; // Import the LoadingSpinner component
+import ErrorMessage from '../mobileHomePage/ErrorMessage';
 
 const MoviesList: React.FC = () => {
   const navigate = useNavigate();
@@ -103,35 +104,7 @@ const MoviesList: React.FC = () => {
   
   if (validMovies.length === 0) {
     return (
-      <Box
-        sx={{
-          padding: { xs: '16px', sm: '32px' },
-          textAlign: 'center',
-          mt: { xs: 4, sm: 8 },
-          mb: { xs: 4, sm: 8 },
-        }}
-      >
-        <Typography
-          variant="h5"
-          sx={{
-            fontWeight: 'bold',
-            color: 'gray',
-            fontSize: { xs: '1.25rem', sm: '1.5rem' },
-          }}
-        >
-          No movies available
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            color: 'gray',
-            mt: 2,
-            fontSize: { xs: '0.875rem', sm: '1rem' },
-          }}
-        >
-          Try adjusting your filters or check back later.
-        </Typography>
-      </Box>
+      <ErrorMessage/>
     );
   }
   

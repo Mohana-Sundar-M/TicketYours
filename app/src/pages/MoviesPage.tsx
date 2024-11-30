@@ -5,6 +5,9 @@ import MoviesList from '../components/moviesPage/MoviesList';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import CloseIcon from '@mui/icons-material/Close';
 import Nav from '../components/public/NavBar';
+import BottomNavBar from '../components/public/BottomNavBar';
+import BannerCarousel from '../components/mobileHomePage/BannerCarousel';
+import { useMediaQuery } from '@mui/material';
 
 type FiltersType = {
   languages: string[];
@@ -17,8 +20,11 @@ const MoviesPage: React.FC = () => {
   const [filters, setFilters] = useState<FiltersType>({
     languages: [],
     genres: [],
-    format: []
+    format: [],
   });
+
+  // Media query to check if the screen size is mobile (<=768px)
+  const isMobileView = useMediaQuery('(max-width: 768px)');
 
   const handleFilterChange = (newFilters: FiltersType) => {
     setFilters(newFilters);
@@ -29,13 +35,18 @@ const MoviesPage: React.FC = () => {
   };
 
   const toggleFilterVisibility = () => {
-    setIsFilterVisible(prev => !prev);
+    setIsFilterVisible((prev) => !prev);
   };
 
   return (
     <div className="min-h-screen bg-gray-100 relative">
       <Nav />
-      <Header />
+      {
+        !isMobileView&&<Header/>
+      }{
+        isMobileView&&<BannerCarousel /> 
+      }
+      
 
       <div className="flex flex-col lg:flex-row px-4 lg:px-16 py-8 gap-8">
         {/* Filters Sidebar for Desktop */}
@@ -72,6 +83,9 @@ const MoviesPage: React.FC = () => {
           <Filters onFilterChange={handleFilterChange} />
         </div>
       </div>
+
+      {/* Conditionally render BottomNavBar only on mobile view */}
+      {isMobileView && <BottomNavBar />}
     </div>
   );
 };

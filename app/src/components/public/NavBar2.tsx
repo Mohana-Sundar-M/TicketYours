@@ -7,6 +7,11 @@ import { useNavigate } from 'react-router-dom'; // Hook for navigation
 const NavBar: React.FC = () => {
   const navigate = useNavigate(); // Initialize useNavigate for routing
 
+  // Back button click handler to always navigate to the home page
+  const handleBackClick = () => {
+    navigate('/'); // Navigate to the home page (or default page)
+  };
+
   return (
     <Box sx={{ borderBottomWidth: 1 }}>
       {/* AppBar with a logo and back button */}
@@ -17,7 +22,7 @@ const NavBar: React.FC = () => {
             edge="start"
             color="inherit"
             aria-label="back"
-            onClick={() => navigate(-1)} // Navigate to the previous page
+            onClick={handleBackClick} // Call back click handler
           >
             <ArrowBackIcon sx={{ fontSize: 32, color: 'black' }} />
           </IconButton>

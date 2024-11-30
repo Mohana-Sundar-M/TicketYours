@@ -11,10 +11,12 @@ import FeedBack from "../components/profile/FeedBack"; // Component for feedback
 
 import "../css/Profile.css"; // Custom CSS for the profile page
 import Nav from "../components/public/NavBar"; // Navigation bar component
-
+import BottomNavBar from "../components/public/BottomNavBar";
+import { useMediaQuery } from "@mui/material";
 //This Page is a Profile Page It shows all the deatils about the user
 
 const Profile: React.FC = () => {
+  const isMobileView = useMediaQuery('(max-width: 768px)');
   const [activeComponent, setActiveComponent] = useState<string | null>(null); // State to track the active menu item
   const navigate = useNavigate(); // Hook to navigate programmatically
 
@@ -64,6 +66,10 @@ const Profile: React.FC = () => {
           </Routes>
         </div>
       </div>
+      {
+        isMobileView &&<BottomNavBar/>
+      }
+      
     </div>
   );
 };

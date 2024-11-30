@@ -38,11 +38,9 @@ const Nav: React.FC = () => {
     setIsLocationChangerOpen(true);
   };
 
-  
-
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
-    { text: 'Movies', icon: <MovieIcon />, path:`/v3/movies/city/${cityId}` },
+    { text: 'Movies', icon: <MovieIcon />, path: `/v3/movies/city/${cityId}` },
     { text: 'Theater', icon: <TheatersIcon />, path: '/theater-search' },
     { text: 'Profile', icon: <AccountCircleIcon />, path: '/profile' },
   ];
@@ -71,13 +69,22 @@ const Nav: React.FC = () => {
 
                 '&:hover': {
                   backgroundColor: 'transparent',
-                }
+                },
               }}
             >
               {activeCity || 'Select Location'} {/* Show active city from context */}
             </Button>
 
-            <IconButton edge="end" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
+            {/* Menu Icon: Only visible on desktop view */}
+            <IconButton
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleDrawer(true)}
+              sx={{
+                display: { xs: 'none', md: 'flex' }, // Hide on mobile (xs) and show on desktop (md+)
+              }}
+            >
               <MenuIcon sx={{ fontSize: 32, color: 'black' }} />
             </IconButton>
           </Box>
@@ -130,15 +137,15 @@ const Nav: React.FC = () => {
       <Modal
         open={isLocationChangerOpen}
         onClose={() => setIsLocationChangerOpen(false)}
-        sx={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          width: '100vw', 
-          height: '100vh' 
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100vw',
+          height: '100vh',
         }}
       >
-         <LocationChanger onClose={() => setIsLocationChangerOpen(false)} />
+        <LocationChanger onClose={() => setIsLocationChangerOpen(false)} />
       </Modal>
     </Box>
   );

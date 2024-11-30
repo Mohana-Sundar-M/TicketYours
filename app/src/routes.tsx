@@ -8,17 +8,17 @@ import Movie from './pages/Movie';
 import Profile from './pages/Profile';
 import Theater from './pages/Theater';
 import TheaterSearch from './pages/TheaterSearch';
-import HomePage from './pages/HomePage';
 import SeatBooking from './pages/SeatBooking';
 import Dashboard from './pages/Admin/Dashboard';
 import { useAuth } from './context/AuthContext'; // Import the useAuth hook
+import MainHomePage from './pages/MainHomePage';
 
 const AppRoutes: React.FC = () => {
   const { isLoggedIn } = useAuth(); // Get the login status from the context
 
   return (
     <Routes>
-      <Route index element={<HomePage />} />  {/* Default route */}
+      <Route index element={<MainHomePage/>} />  {/* Default route */}
       <Route path="/v3/movies/city/:cityId" element={<MoviesPage />} />
       <Route path="booking" element={<SeatBooking />} />
       <Route path="admin" element={<Dashboard />} />

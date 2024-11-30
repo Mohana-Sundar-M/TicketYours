@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useRequestOtpMutation, useVerifyOtpMutation } from '../services/otpApi';
 import LoadingSpinner from '../components/public/LoadingSpinner';
-import Nav from '../components/public/NavBar';
+import Nav from '../components/public/NavBar2';
 
 const Login: React.FC = () => {
   const { setUser, setToken } = useAuth(); // Destructure from AuthContext
