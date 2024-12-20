@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import image from '../../assets/theater-no.jpg'
 interface HeaderProps {
   name: string;             // Name of the theater
   images: string[];         // Array of image URLs
@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ name, images, address, directionsLink }
       <div className="flex flex-col md:flex-row">
         <div className="flex-shrink-0">
           <img
-            src={images[0]}
+            src={images[0]||image}
             alt={name}
             className="w-full md:w-96 h-48 md:h-64 object-cover rounded-lg cursor-pointer"
             onClick={() => setPopupImage(images[0])}

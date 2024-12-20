@@ -15,7 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { useGetMoviesQuery } from "../../services/moviesApi";
 import { useGetCinemahallsByCityQuery } from "../../services/cinemahallsApi";
 import { useActiveCity } from "../../context/ActiveCityContext";
-
+import ErrorMessage from "../mobileHomePage/ErrorMessage";
+import image from '../../assets/theater-no.jpg'
 interface ModalProps {
   open: boolean;
   handleModal: () => void;
@@ -234,7 +235,7 @@ const Search = ({ open, handleModal }: ModalProps) => {
                       </Box>
                     ))
                   ) : (
-                    <Typography variant="body1">No movies match your search</Typography>
+                    <ErrorMessage/>
                   )}
                 </>
               )}
@@ -248,13 +249,21 @@ const Search = ({ open, handleModal }: ModalProps) => {
                 filteredTheaters.map((theater: any) => (
                   <Box
                     key={theater.id}
-                    sx={{ display: "flex", gap: 2, cursor: "pointer", alignItems: "center" }}
+                    sx={{
+                      display: "flex",
+                      gap: 2,
+                      cursor: "pointer",
+                      alignItems: "center",
+                      borderBottom: "1px solid #ddd",
+                      boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
+                      paddingBottom: 1,
+                    }}
                     onClick={() => handleClickTheater(theater)}
                   >
                     <img
-                      src={theater.image || "/default-theater-image.jpg"}
+                      src={theater.image || image}
                       alt={theater.name}
-                      style={{ width: 70, height: 70, objectFit: "contain" }}
+                      style={{ width: 110, height: 110, objectFit: "contain",}}
                     />
                     <Box>
                       <Typography variant="body1" sx={{ fontWeight: "bold" }}>

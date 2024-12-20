@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import '../../css/BannerCarousel.css';
 
 const BannerCarousel: React.FC = () => {
   const swiperRef = useRef<any>(null); // Create a ref to store the swiper instance
@@ -15,24 +16,39 @@ const BannerCarousel: React.FC = () => {
 
   // Navigate to the previous slide
   const handlePrevClick = () => {
-    swiperRef.current.swiper.slidePrev(); // Use Swiper's API to go to the previous slide
+    swiperRef.current.swiper.slidePrev();
   };
 
   // Navigate to the next slide
   const handleNextClick = () => {
-    swiperRef.current.swiper.slideNext(); // Use Swiper's API to go to the next slide
+    swiperRef.current.swiper.slideNext();
   };
+
+  // Autoplay functionality using useEffect and setInterval
+  useEffect(() => {
+    const interval = setInterval(() => {
+      swiperRef.current.swiper.slideNext();
+    }, 3000); // Change this interval value to control the autoplay speed
+
+    // Cleanup interval on component unmount to prevent memory leaks
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '30vh' }}>
       {/* Swiper Component */}
       <Swiper
         ref={swiperRef} // Attach the swiperRef to the Swiper component
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
         pagination={{ clickable: true }}
         loop={true}
         style={{ width: '100%', height: '100%' }}
         modules={[Pagination]}
+        speed={800} // Set speed of the transition (in ms)
+        autoplay={{ delay: 3000, disableOnInteraction: false }} // Autoplay with 3 seconds interval
+        effect="slide" // Add smooth transition effect
+        onSlideChange={() => console.log('Slide changed!')} // Optional: logging slide changes
       >
         {banners.map((banner) => (
           <SwiperSlide key={banner.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -43,6 +59,7 @@ const BannerCarousel: React.FC = () => {
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover', // Ensures the image covers the slide without leaving spaces
+                transition: 'transform 0.8s ease-in-out', // Smooth transition on the image as well
               }}
             />
           </SwiperSlide>
@@ -59,8 +76,8 @@ const BannerCarousel: React.FC = () => {
           transform: 'translateY(-50%)',
           backgroundColor: 'rgba(0, 0, 0, 0.6)',
           color: '#fff',
-          width: '40px', // Increased size
-          height: '40px', // Increased size
+          width: '40px',
+          height: '40px',
           borderRadius: '50%',
           display: 'flex',
           justifyContent: 'center',
@@ -82,8 +99,8 @@ const BannerCarousel: React.FC = () => {
           transform: 'translateY(-50%)',
           backgroundColor: 'rgba(0, 0, 0, 0.6)',
           color: '#fff',
-          width: '40px', // Increased size
-          height: '40px', // Increased size
+          width: '40px',
+          height: '40px',
           borderRadius: '50%',
           display: 'flex',
           justifyContent: 'center',

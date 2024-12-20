@@ -17,7 +17,7 @@ const Login: React.FC = () => {
   const [mobileDisabled, setMobileDisabled] = useState<boolean>(false); // Control mobile field disable state
   const [requestOtp] = useRequestOtpMutation();
   const [verifyOtp] = useVerifyOtpMutation();
-  const [tk , setTk] = useState('')
+  const [tk, setTk] = useState('');
 
   const handleGetOtp = async (): Promise<void> => {
     setError(null); // Reset error message
@@ -49,7 +49,7 @@ const Login: React.FC = () => {
       console.log('Received token:', response.token); // Log token received
       setUser('Logged-in User'); // Replace with actual user data if available
       setToken(tk);
-      
+
       navigate('/'); // Redirect after successful login
     } catch (error: any) {
       console.error('Error verifying OTP:', error.message || error);
@@ -145,66 +145,11 @@ const Login: React.FC = () => {
               <Typography component="label" mb={0} display="block" htmlFor="mobileNumber">
                 Mobile Number
               </Typography>
-              <Box position="relative">
-                <TextField
-                  id="mobileNumber"
-                  type="text"
-                  value={mobileNumber}
-                  onChange={(e) => setMobileNumber(e.target.value)}
-                  fullWidth
-                  variant="outlined"
-                  margin="normal"
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      borderRadius: 2,
-                      height: 40,
-                    },
-                    '& .MuiOutlinedInput-root.Mui-focused': {
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#26a69a',
-                      },
-                    },
-                  }}
-                  disabled={mobileDisabled} // Disable the field if mobileDisabled is true
-                />
-                <Button
-                  onClick={handleGetOtp}
-                  disabled={mobileNumber.length !== 10 || mobileDisabled}
-                  sx={{
-                    position: 'absolute',
-                    right: 8,
-                    top: '56%',
-                    transform: 'translateY(-50%)',
-                    padding: '4px 8px',
-                    borderRadius: 2,
-                    textTransform: 'none',
-                    ...(mobileNumber.length === 10 && !mobileDisabled
-                      ? {
-                          bgcolor: '#26a69a',
-                          color: 'white',
-                          '&:hover': { bgcolor: '#1e857b' },
-                        }
-                      : {
-                          bgcolor: '#e0e0e0',
-                          color: '#9e9e9e',
-                          cursor: 'not-allowed',
-                        }),
-                  }}
-                >
-                  Get OTP
-                </Button>
-              </Box>
-            </Box>
-
-            <Box mb={4}>
-              <Typography component="label" mb={0} display="block" htmlFor="otp">
-                Enter OTP
-              </Typography>
               <TextField
-                id="otp"
+                id="mobileNumber"
                 type="text"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
+                value={mobileNumber}
+                onChange={(e) => setMobileNumber(e.target.value)}
                 fullWidth
                 variant="outlined"
                 margin="normal"
@@ -219,31 +164,90 @@ const Login: React.FC = () => {
                     },
                   },
                 }}
+                disabled={mobileDisabled} // Disable the field if mobileDisabled is true
               />
             </Box>
-            <Button
-              type="submit"
-              disabled={mobileNumber.length !== 10 || otp === ''}
-              fullWidth
-              sx={{
-                padding: '8px 12px',
-                borderRadius: 1,
-                textTransform: 'none',
-                ...(mobileNumber.length === 10 && otp !== ''
-                  ? {
-                      bgcolor: '#26a69a',
-                      color: 'white',
-                      '&:hover': { bgcolor: '#1e857b' },
-                    }
-                  : {
-                      bgcolor: '#e0e0e0',
-                      color: '#9e9e9e',
-                      cursor: 'not-allowed',
-                    }),
-              }}
-            >
-              Login
-            </Button>
+
+            <Box mb={4}>
+              <Button
+                onClick={handleGetOtp}
+                disabled={mobileNumber.length !== 10 || mobileDisabled}
+                fullWidth
+                sx={{
+                  padding: '10px 16px',
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontSize: '1rem',
+                  ...(mobileNumber.length === 10 && !mobileDisabled
+                    ? {
+                        bgcolor: '#26a69a',
+                        color: 'white',
+                        '&:hover': { bgcolor: '#1e857b' },
+                      }
+                    : {
+                        bgcolor: '#e0e0e0',
+                        color: '#9e9e9e',
+                        cursor: 'not-allowed',
+                      }),
+                }}
+              >
+                Get OTP
+              </Button>
+            </Box>
+
+            {/* Show OTP field and Login button only after OTP is sent */}
+            {otpSent && (
+              <>
+                <Box mb={4}>
+                  <Typography component="label" mb={0} display="block" htmlFor="otp">
+                    Enter OTP
+                  </Typography>
+                  <TextField
+                    id="otp"
+                    type="text"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    fullWidth
+                    variant="outlined"
+                    margin="normal"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 2,
+                        height: 40,
+                      },
+                      '& .MuiOutlinedInput-root.Mui-focused': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: '#26a69a',
+                        },
+                      },
+                    }}
+                  />
+                </Box>
+                <Button
+                  type="submit"
+                  disabled={mobileNumber.length !== 10 || otp === ''}
+                  fullWidth
+                  sx={{
+                    padding: '8px 12px',
+                    borderRadius: 1,
+                    textTransform: 'none',
+                    ...(mobileNumber.length === 10 && otp !== ''
+                      ? {
+                          bgcolor: '#26a69a',
+                          color: 'white',
+                          '&:hover': { bgcolor: '#1e857b' },
+                        }
+                      : {
+                          bgcolor: '#e0e0e0',
+                          color: '#9e9e9e',
+                          cursor: 'not-allowed',
+                        }),
+                  }}
+                >
+                  Login
+                </Button>
+              </>
+            )}
           </form>
         </Box>
       </Box>

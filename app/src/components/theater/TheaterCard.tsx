@@ -2,7 +2,7 @@ import React from 'react';
 import { useGetMoviesByCinemaHallQuery } from '../../services/moviesApi';
 import MovieCard from './MovieCard';
 import { Movie } from '../../types/moviesTypes'; // Ensure this import is correct
-
+import image from '../../assets/popcorn.png'
 interface TheaterCardProps {
   cinemaHallId: string; // Pass the cinema hall ID as a prop
 }
@@ -16,7 +16,13 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ cinemaHallId }) => {
   
   // Combined error and no movies message
   const noMoviesMessage = (
-    <div className="text-center">
+    <div className="text-center ">
+      
+      <img
+        src={image}// Replace with the actual image path
+        alt="No movies available"
+        className="w-64 h-64 mx-auto mb-4" // Adjust image size and margin as needed
+      />
       <p className="text-gray-600 font-semibold">No movies currently running in this theater.</p>
       <p className="text-gray-500">Please try again later or check back for updates!</p>
     </div>

@@ -7,8 +7,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const BottomNavBar: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // Get the current location
+  const location = useLocation();
   const [activePath, setActivePath] = useState<string>('/'); // Default active path is Home ('/')
+  const [lastScrollY, setLastScrollY] = useState<number>(0); // Keep track of the last scroll position
+  const [visible, setVisible] = useState<boolean>(true); // State to manage visibility of navbar
 
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
@@ -23,13 +25,36 @@ const BottomNavBar: React.FC = () => {
     setActivePath(path); // Set the active path on navigation
   };
 
-  // Update the active path when location changes (to reflect the active button)
+  // Update the active path when location changes
   useEffect(() => {
-    setActivePath(location.pathname); // Update active path based on current location
+    setActivePath(location.pathname);
   }, [location]);
 
+  // Track scroll direction to hide or show the navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY) {
+        setVisible(false); // Hide navbar when scrolling down
+      } else {
+        setVisible(true); // Show navbar when scrolling up
+      }
+      setLastScrollY(window.scrollY); // Update the last scroll position
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollY]);
+
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-lg z-50 flex justify-around items-center py-3 px-4 rounded-tl-2xl rounded-tr-2xl border-t border-gray-300">
+    <nav
+      className={`fixed bottom-0 left-0 right-0 bg-white shadow-lg z-50 flex justify-around items-center py-3 px-4 rounded-tl-2xl rounded-tr-2xl border-t border-gray-300 transition-transform duration-300 ${
+        visible ? 'translate-y-0' : 'translate-y-full' // Hide or show the navbar
+      }`}
+    >
       {menuItems.map((item) => (
         <button
           key={item.text}

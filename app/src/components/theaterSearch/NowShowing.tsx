@@ -22,7 +22,8 @@ const NowShowing: React.FC<NowShowingProps> = ({ cinemaHallId }) => {
     }
     if (!moviesData || error || moviesData.length === 0) {
       return (
-        <div className="flex items-center justify-center h-48 bg-gray-100 rounded-md">
+        <div className="flex flex-col items-center justify-center h-48 rounded-md p-4 ">
+          
           <p className="text-lg font-semibold text-gray-700">No movies available</p>
         </div>
       );

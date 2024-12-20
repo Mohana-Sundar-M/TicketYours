@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NowShowing from './NowShowing'; // Import updated NowShowing component
-import { FaMapMarkerAlt, FaDirections } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaDirections, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import altImage from '../../assets/theater-no.jpg';
 
 interface Movie {
   id: number;
@@ -36,13 +37,16 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-4 w-full mx-auto" style={{ maxWidth: '80%' }}>
+    <div
+      className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-4 mx-auto"
+      style={{ width: '90%' }} // Card width set to 75%
+    >
       {/* Image Section */}
       <div className="relative w-full md:w-1/3">
         <img
-          src={theater.images[0] || ''}
-          alt={theater.name}
-          className="object-cover w-full h-full cursor-pointer" // Adjusted height here
+          src={theater.images[0] || altImage}
+          alt={altImage}
+          className="object-cover w-full h-40 md:h-64 cursor-pointer"
           onClick={handleNavigate}
         />
         <div
@@ -54,7 +58,10 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
       </div>
 
       {/* Content Section */}
-      <div className="flex flex-col md:flex-row items-start justify-between p-3 w-full md:w-2/3" style={{ height: 'calc(100% - 1rem)' }}>
+      <div
+        className="flex flex-col md:flex-row items-start justify-between p-3 w-full md:w-2/3"
+        style={{ height: 'calc(100% - 1rem)' }}
+      >
         {/* Text and Details Section */}
         <div className="flex flex-col md:w-2/3">
           <h2
@@ -63,7 +70,9 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
           >
             {theater.name}
           </h2>
-          <p className="text-gray-600 mt-1 text-xs hidden md:block ">{theater.location}</p>
+          <p className="text-gray-600 mt-1 text-xs hidden md:block">
+            {theater.location}
+          </p>
           <div className="flex items-center mt-4 hidden md:flex">
             <FaMapMarkerAlt className="text-gray-600 h-3 w-3 mr-1" />
             <p className="text-gray-600 text-s">{theater.zipcode}</p>
@@ -82,26 +91,28 @@ const TheaterCard: React.FC<TheaterCardProps> = ({ theater }) => {
         </div>
 
         {/* Now Showing Section */}
-        <div className="hidden md:block md:w-1/3 mt-2 md:mt-0">
+        <div className="hidden md:block md:w-2/3 mt-2 md:mt-0"> {/* Adjust width here for desktop */}
           <NowShowing cinemaHallId={theater.id.toString()} />
         </div>
       </div>
 
       {/* Mobile View */}
-      <div className="block md:hidden">
-        <div className="flex items-center justify-between p-2">
-          <p className="flex items-center text-gray-600 text-xs">
-            <FaMapMarkerAlt className="h-3 w-3 mr-1" />
-            {theater.zipcode}
-          </p>
-          <button className="flex items-center text-gray-600 text-xs" onClick={toggleDropdown}>
-            <svg xmlns="http://www.w3.org/2000/svg" className={`h-3 w-3 transform ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
+      <div className="block md:hidden w-full">
+        <div
+          className="flex items-center justify-between p-4 bg-gray-100 cursor-pointer rounded-t-lg"
+          onClick={toggleDropdown}
+        >
+          <div className="flex items-center text-gray-800 text-sm font-bold">
+            <p className="mr-2">Movies</p>
+          </div>
+          {isDropdownOpen ? (
+            <FaChevronUp className="h-5 w-5 text-gray-600" />
+          ) : (
+            <FaChevronDown className="h-5 w-5 text-gray-600" />
+          )}
         </div>
         {isDropdownOpen && (
-          <div className="mt-2 p-2 bg-gray-100 rounded-lg">
+          <div className="p-4 bg-gray-50 border-t border-gray-300 rounded-b-lg">
             <NowShowing cinemaHallId={theater.id.toString()} />
           </div>
         )}

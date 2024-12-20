@@ -70,35 +70,7 @@ const MoviesList: React.FC = () => {
 
   if (error || !data) {
     return (
-      <Box
-        sx={{
-          padding: { xs: '16px', sm: '32px' }, // Padding adjusts for mobile and desktop
-          textAlign: 'center',
-          mt: { xs: 4, sm: 8 }, // Space at the top for mobile and desktop
-          mb: { xs: 4, sm: 8 }, // Space at the bottom for mobile and desktop
-        }}
-      >
-        <Typography
-          variant="h5"
-          sx={{
-            fontWeight: 'bold',
-            color: 'gray',
-            fontSize: { xs: '1.25rem', sm: '1.5rem' }, // Responsive font size
-          }}
-        >
-          Something went wrong
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            color: 'gray',
-            mt: 2, // Space below the title
-            fontSize: { xs: '0.875rem', sm: '1rem' }, // Responsive font size
-          }}
-        >
-          Please try again later.
-        </Typography>
-      </Box>
+      <ErrorMessage/>
     );
   }
   

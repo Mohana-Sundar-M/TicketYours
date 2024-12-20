@@ -1,0 +1,43 @@
+/* Container for the carousel */
+.banner-carousel-container {
+  width: 100%;
+  height: 30vh;
+  overflow: hidden; /* Hide overflow content to create the sliding effect */
+  position: relative;
+}
+
+/* The wrapper that contains all the banners */
+.banner-carousel {
+  display: flex;
+  width: 300%; /* 100% per slide multiplied by number of slides */
+  animation: slide 3s linear infinite; /* Animation for smooth sliding */
+}
+
+/* Style for each slide */
+.banner-slide {
+  width: 100%; /* Each slide takes up 100% of the container width */
+  height: 100%;
+}
+
+/* Make the image fill the entire slide */
+.banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Keyframes for the sliding animation */
+@keyframes slide {
+  0% {
+    transform: translateX(0); /* Start at the first slide */
+  }
+  33.33% {
+    transform: translateX(-100%); /* Move to the second slide */
+  }
+  66.66% {
+    transform: translateX(-200%); /* Move to the third slide */
+  }
+  100% {
+    transform: translateX(0); /* Reset to the first slide */
+  }
+}
